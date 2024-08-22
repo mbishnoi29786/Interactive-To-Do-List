@@ -106,3 +106,10 @@ input{
 .input-group.error input {
     border-color: rgb(206, 67, 67);
 }
+
+.errorRegistration
+{
+    color: rgb(242, 18, 18);
+    text-align: center;
+    padding-bottom: 10px;
+}

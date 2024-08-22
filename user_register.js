@@ -3,12 +3,17 @@ const username = document.querySelector('#username');
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
 const cpassword = document.querySelector('#cpassword');
-
-form.addEventListener('submit',(e)=>{
+const inputGroup = document.querySelector('.input-group');
+form.addEventListener('submit',(e)=>
+{
+    e.preventDefault();
     
-    if(!validateInputs()){
-        e.preventDefault();
+    if(validateInputs() && registerUser())
+    {
+        window.location.href = './index.html'; 
     }
+    
+    
 })
 
 function validateInputs()
@@ -19,47 +24,58 @@ function validateInputs()
     const cpasswordVal = cpassword.value.trim();
     let success = true
 
-    if(usernameVal===''){
+    if(usernameVal==='')
+    {
         success=false;
         setError(username,'Username is required')
     }
-    else{
+    else
+    {
         setSuccess(username)
     }
 
-    if(emailVal===''){
+    if(emailVal==='')
+    {
         success = false;
         setError(email,'Email is required')
     }
-    else if(!validateEmail(emailVal)){
+    else if(!validateEmail(emailVal))
+    {
         success = false;
         setError(email,'Please enter a valid email')
     }
-    else{
+    else
+    {
         setSuccess(email)
     }
 
-    if(passwordVal === ''){
+    if(passwordVal === '')
+    {
         success= false;
         setError(password,'Password is required')
     }
-    else if(passwordVal.length<8){
+    else if(passwordVal.length<8)
+    {
         success = false;
         setError(password,'Password must be atleast 8 characters long')
     }
-    else{
+    else
+    {
         setSuccess(password)
     }
 
-    if(cpasswordVal === ''){
+    if(cpasswordVal === '')
+    {
         success = false;
         setError(cpassword,'Confirm password is required')
     }
-    else if(cpasswordVal!==passwordVal){
+    else if(cpasswordVal!==passwordVal)
+    {
         success = false;
         setError(cpassword,'Password does not match')
     }
-    else{
+    else
+    {
         setSuccess(cpassword)
     }
 
@@ -96,3 +112,34 @@ const validateEmail = (email) =>
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
     };
+
+function registerUser()
+{
+    const usernameVal = username.value.trim()
+    const emailVal = email.value.trim();
+    const passwordVal = password.value.trim();
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const emailExits = users.some(user => user.email === emailVal);
+    if (emailExits)
+    {
+
+        setError(inputGroup, 'A user with this email already exists!')
+        return false;
+    }
+    else
+    {
+        const user =
+        {
+            username : usernameVal,
+            email: emailVal,
+            password: passwordVal,
+            isLogin: true
+        }
+        
+        users.push(user);
+        localStorage.setItem('users', JSON.stringify(users))
+        alert('User Registered Successfully!!');
+    }
+    return true;
+}
