@@ -1,7 +1,5 @@
 # Interactive-To-Do-List
 
-# Interactive To-Do List
-
 ## Overview
 
 Welcome to the **Interactive To-Do List** project! This project is designed to help users manage their daily tasks efficiently through a user-friendly interface. The project is built using HTML, CSS, and JavaScript and aims to provide a seamless experience with features like task addition, deletion, completion tracking, and more.
