@@ -1,8 +1,16 @@
 /* Include the padding and border in an element's total width and height */
-*   {
+    * 
+    {
         box-sizing: border-box;
+        font-family: Georgia, 'Times New Roman', Times, serif ;
+        margin: 0;
+        padding: 0;
     }   
     
+    body
+    {
+      background: #FFFDF2;
+    }
   /* Remove margins and padding from the list */
     ul 
     {
@@ -37,8 +45,8 @@
   /* When clicked on, add a background color and strike out text */
     ul li.checked 
     {
-        background: #888;
-        color: #fff;
+        background: #000000;
+        color: #FFFDF2;
         text-decoration: line-through;
     }
 
@@ -113,7 +121,7 @@
         font-size: 16px;
         cursor: pointer;
         transition: 0.3s;
-    border-radius: 0;
+        border-radius: 0;
     }
 
     .addTaskBtn:hover 

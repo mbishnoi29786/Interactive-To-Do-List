@@ -1,0 +1,2 @@
+Background color : Biege #FFFDF2 or Black: #000000
+Font : Georgia, 'Times New Roman', Times, serif 

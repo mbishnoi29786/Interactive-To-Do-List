@@ -1,0 +1,108 @@
+
+
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body Styling */
+body {
+    background: #FFFDF2;
+    background-attachment: fixed;
+    font-family: Georgia, 'Times New Roman', Times, serif ; 
+}
+
+/* Header Styling */
+.header {
+    background-color: #f44336;
+    padding: 30px 40px;
+    color: white;
+    text-align: center;
+    border-radius: 0;
+}
+
+/* Form Container Styling */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px); /* Adjust for header height */
+}
+
+/* Form Styling */
+#form {
+    width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Form Header */
+h1 {
+    text-align: center;
+    color: #f44336;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Button Styling */
+#form button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+#form button:hover {
+    background-color: #e31b1a;
+}
+
+/* Input Group Styling */
+input{
+    font-family: Georgia, 'Times New Roman', Times, serif ;
+}
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #f44336;
+}
+
+/* Error Styling */
+.input-group .error {
+    color: rgb(242, 18, 18);
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.input-group.success input {
+    border-color: #0cc477;
+}
+
+.input-group.error input {
+    border-color: rgb(206, 67, 67);
+}
