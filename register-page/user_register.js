@@ -7,13 +7,11 @@ const inputGroup = document.querySelector('.input-group');
 form.addEventListener('submit',(e)=>
 {
     e.preventDefault();
-    
+
     if(validateInputs() && registerUser())
     {
-        window.location.href = './index.html'; 
+        window.location.href = '../main-page/index.html'; 
     }
-    
-    
 })
 
 function validateInputs()
@@ -121,10 +119,16 @@ function registerUser()
 
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const emailExits = users.some(user => user.email === emailVal);
+    const usernameExists = users.some(user => user.username === usernameVal);
     if (emailExits)
     {
 
-        setError(inputGroup, 'A user with this email already exists!')
+        setError(inputGroup, 'Email already exists!')
+        return false;
+    }
+    else if(usernameExists)
+    {
+        setError(inputGroup, 'Username already exists!');
         return false;
     }
     else
