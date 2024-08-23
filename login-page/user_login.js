@@ -1,5 +1,4 @@
 const form = document.querySelector('#form')
-const username = document.querySelector('#username');
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
 const inputGroup = document.querySelector('.input-group');
@@ -9,27 +8,15 @@ form.addEventListener('submit',(e)=>
 
     if(validateInputs() && registerUser())
     {
-        window.location.href = './index.html'; 
+        window.location.href = '../main-page/index.html'; 
     }
 })
 
 function validateInputs()
 {
-    const usernameVal = username.value.trim()
     const emailVal = email.value.trim();
     const passwordVal = password.value.trim();
-    const cpasswordVal = cpassword.value.trim();
     let success = true
-
-    if(usernameVal==='')
-    {
-        success=false;
-        setError(username,'Username is required')
-    }
-    else
-    {
-        setSuccess(username)
-    }
 
     if(emailVal==='')
     {
@@ -97,22 +84,29 @@ const validateEmail = (email) =>
 
 function registerUser()
 {
-    const usernameVal = username.value.trim()
     const emailVal = email.value.trim();
     const passwordVal = password.value.trim();
 
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    const emailExits = users.some(user => user.email === emailVal);
-    const usernameExists = users.some(user => user.username === usernameVal);
-    if (emailExits)
-    {
+    console.log(users);
+    
+    const user = users.find(user => user.email === emailVal)
 
-        setError(inputGroup, 'A user with this email already exists!');
+    if (!user)
+    {
+        setError(inputGroup, 'No user Found!!');
         return false;
+    }
+    else if(user.password !== passwordVal)
+    {
+        setError(inputGroup, 'Wrong Password!!');
+        return false
     }
     else
     {
-        
+        sessionStorage.setItem('loggedInUser', JSON.stringify(user));
+        return true;
     }
-    return true;
+
+    
 }

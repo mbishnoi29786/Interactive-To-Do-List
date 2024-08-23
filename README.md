@@ -38,6 +38,14 @@ To run this project locally, follow these steps:
    ```bash
    git clone https://github.com/mbishnoi29786/Interactive-To-Do-List.git
 
+2. **Navigate to the project directory:**
+   ```bash
+   cd Interactive-To-Do-List
+   
+3. **Navigate to register-page directory:**
+   ```bash
+   cd register-page
+
 
 ## Contributing
 

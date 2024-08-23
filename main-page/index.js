@@ -1,3 +1,15 @@
+window.addEventListener('load', function(){
+    const user = JSON.parse(sessionStorage.getItem('loggedInUser'));
+    if (!user)
+    {
+        window.location.href = '../login-page/user_login.html';
+    }
+    else
+    {
+        console.log(user);
+    }
+})
+
 // Create a "close" button and append it to each list item
 let myNodelist = document.getElementsByTagName("LI");
 
