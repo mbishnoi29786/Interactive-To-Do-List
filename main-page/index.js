@@ -1,12 +1,20 @@
+let USER;
+
 window.addEventListener('load', function(){
-    const user = JSON.parse(sessionStorage.getItem('loggedInUser'));
-    if (!user)
+    USER = JSON.parse(sessionStorage.getItem('loggedInUser'));
+    if (!USER)
     {
         window.location.href = '../login-page/user_login.html';
     }
     else
     {
-        console.log(user);
+        try {
+            let tasks = JSON.parse(localStorage.getItem(`${USER.email}`)) || [];
+        console.log(tasks);
+        console.log(USER);
+        } catch (error) {
+            console.log(`Error: ${error}`);
+        }
     }
 })
 
@@ -59,6 +67,7 @@ function newElement()
     }
     else 
     {
+        addTask(inputValue);
         document.getElementById("myUL").appendChild(li);
     }
 
@@ -79,3 +88,16 @@ function newElement()
         }
     }
 }   
+
+function addTask(inputValue)
+{   
+    let tasks = JSON.parse(localStorage.getItem(`${USER.email}`)) || [];
+    tasks.push(inputValue)
+    localStorage.setItem(USER.email, tasks);
+}
+
+function removeTask(inputValue) {
+    let tasks = JSON.parse(localStorage.getItem(`${USER.email}`)) || [];
+    tasks = tasks.filter(task => task !== inputValue);
+    localStorage.setItem(USER.email, JSON.stringify(tasks));
+}
