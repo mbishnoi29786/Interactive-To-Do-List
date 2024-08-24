@@ -2,19 +2,14 @@ let USER;
 
 window.addEventListener('load', function(){
     USER = JSON.parse(sessionStorage.getItem('loggedInUser'));
+    console.log(USER);
     if (!USER)
     {
         window.location.href = '../login-page/user_login.html';
     }
     else
     {
-        try {
-            let tasks = JSON.parse(localStorage.getItem(`${USER.email}`)) || [];
-        console.log(tasks);
-        console.log(USER);
-        } catch (error) {
-            console.log(`Error: ${error}`);
-        }
+        console.log(`this is runnig`);
     }
 })
 
@@ -91,13 +86,14 @@ function newElement()
 
 function addTask(inputValue)
 {   
-    let tasks = JSON.parse(localStorage.getItem(`${USER.email}`)) || [];
+    let tasks = JSON.parse(localStorage.getItem(`${'loggedInUser'}`)) || [];
+    console.log(tasks);
     tasks.push(inputValue)
-    localStorage.setItem(USER.email, tasks);
+    localStorage.setItem(USER, tasks);
 }
 
 function removeTask(inputValue) {
-    let tasks = JSON.parse(localStorage.getItem(`${USER.email}`)) || [];
+    let tasks = JSON.parse(localStorage.getItem(`${USER}`)) || [];
     tasks = tasks.filter(task => task !== inputValue);
     localStorage.setItem(USER.email, JSON.stringify(tasks));
 }

@@ -104,7 +104,7 @@ function registerUser()
     }
     else
     {
-        sessionStorage.setItem('loggedInUser', JSON.stringify(user));
+        sessionStorage.setItem('loggedInUser', JSON.stringify(user.email));
         return true;
     }
 
