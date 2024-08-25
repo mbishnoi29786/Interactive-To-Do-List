@@ -142,7 +142,7 @@ function registerUser()
         }
         
         users.push(user);
-        localStorage.setItem('users', JSON.stringify(users))
+        localStorage.setItem('users', JSON.stringify(users));
         alert('User Registered Successfully!!');
     }
     return true;

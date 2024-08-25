@@ -9,7 +9,8 @@ window.addEventListener('load', function(){
     }
     else
     {
-        console.log(`this is runnig`);
+        const users = JSON.parse(sessionStorage.getItem(USER)) || []
+        console.log(users);
     }
 })
 
@@ -86,10 +87,13 @@ function newElement()
 
 function addTask(inputValue)
 {   
-    let tasks = JSON.parse(localStorage.getItem(`${'loggedInUser'}`)) || [];
-    console.log(tasks);
-    tasks.push(inputValue)
-    localStorage.setItem(USER, tasks);
+    let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser')) || {};
+    console.log(loggedInUser);
+    let loggedInUserTasks = JSON.parse(localStorage.getItem(loggedInUser)) || {};
+    console.log(loggedInUserTasks);
+    loggedInUserTasks = {...loggedInUser, task : `${inputValue}`}
+    console.log(loggedInUserTasks);
+    localStorage.setItem(loggedInUser, JSON.stringify(loggedInUserTasks));
 }
 
 function removeTask(inputValue) {
