@@ -89,11 +89,12 @@ function addTask(inputValue)
 {   
     let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser')) || {};
     console.log(loggedInUser);
-    let loggedInUserTasks = JSON.parse(localStorage.getItem(loggedInUser)) || {};
+    let loggedInUserTasks = JSON.parse(localStorage.getItem(`${loggedInUser}`)) || {};
     console.log(loggedInUserTasks);
-    loggedInUserTasks = {...loggedInUser, task : `${inputValue}`}
+    console.log(inputValue);
+    loggedInUserTasks = {...loggedInUserTasks, task1 : `${inputValue}`};
     console.log(loggedInUserTasks);
-    localStorage.setItem(loggedInUser, JSON.stringify(loggedInUserTasks));
+    localStorage.setItem(`${loggedInUser}`, JSON.stringify(loggedInUserTasks));
 }
 
 function removeTask(inputValue) {
@@ -101,3 +102,6 @@ function removeTask(inputValue) {
     tasks = tasks.filter(task => task !== inputValue);
     localStorage.setItem(USER.email, JSON.stringify(tasks));
 }
+
+
+// {"0":"a","1":"b","2":"c","3":"@","4":"g","5":"m","6":"a","7":"i","8":"l","9":".","10":"c","11":"o","12":"m","task1":"abc"}
