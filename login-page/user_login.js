@@ -8,7 +8,7 @@ form.addEventListener('submit',(e)=>
 
     if(validateInputs() && registerUser())
     {
-        window.location.href = '../main-page/index.html'; 
+        window.location.href = '../main-page/trial-code/index.html'; 
     }
 })
 
