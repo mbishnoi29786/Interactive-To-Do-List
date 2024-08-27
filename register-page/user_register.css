@@ -1,21 +1,24 @@
 
 
 /* General Styles */
-* {
+* 
+{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 /* Body Styling */
-body {
+body 
+{
     background: #FFFDF2;
     background-attachment: fixed;
     font-family: Georgia, 'Times New Roman', Times, serif ; 
 }
 
 /* Header Styling */
-.header {
+.header 
+{
     background-color: #f44336;
     padding: 30px 40px;
     color: white;
@@ -24,7 +27,8 @@ body {
 }
 
 /* Form Container Styling */
-.container {
+.container 
+{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,7 +36,8 @@ body {
 }
 
 /* Form Styling */
-#form {
+#form 
+{
     width: 400px;
     background-color: #fff;
     border-radius: 5px;
@@ -41,7 +46,8 @@ body {
 }
 
 /* Form Header */
-h1 {
+h1 
+{
     text-align: center;
     color: #f44336;
     font-size: 24px;
@@ -49,7 +55,8 @@ h1 {
 }
 
 /* Button Styling */
-#form button {
+#form button 
+{
     background-color: #f44336;
     color: white;
     border: none;
@@ -60,51 +67,61 @@ h1 {
     width: 100%;
     transition: background-color 0.3s;
     font-family: Georgia, 'Times New Roman', Times, serif ;
+    margin-bottom: 10px;
 }
 
-#form button:hover {
+#form button:hover 
+{
     background-color: #e31b1a;
 }
 
 /* Input Group Styling */
-input{
+input
+{
     font-family: Georgia, 'Times New Roman', Times, serif ;
 }
-.input-group {
+.input-group 
+{
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
 }
 
-.input-group label {
+.input-group label 
+{
     font-size: 16px;
     margin-bottom: 5px;
 }
 
-.input-group input {
+.input-group input 
+{
     border-radius: 5px;
     font-size: 16px;
     padding: 10px;
     border: 1px solid #ddd;
 }
 
-.input-group input:focus {
+.input-group input:focus 
+{
     outline: none;
     border-color: #f44336;
 }
 
 /* Error Styling */
-.input-group .error {
+.input-group .error 
+{
     color: rgb(242, 18, 18);
     font-size: 14px;
     margin-top: 5px;
 }
 
-.input-group.success input {
+.input-group.success input 
+{
     border-color: #0cc477;
 }
 
-.input-group.error input {
+.input-group.error input 
+{
     border-color: rgb(206, 67, 67);
 }
 
@@ -113,4 +130,31 @@ input{
     color: rgb(242, 18, 18);
     text-align: center;
     padding-bottom: 10px;
+}
+
+a 
+{
+    color: #0000ee;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    &:before 
+    {
+    background-color: #0000ee;
+    content: '';
+    height: 2px;
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s ease-in-out;
+    width: 100%;
+    }
+    &:hover 
+    {
+    &:before 
+    {
+        width: 0;
+    }
+    }
 }

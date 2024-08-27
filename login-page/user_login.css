@@ -59,6 +59,8 @@ h1 {
     font-size: 18px;
     width: 100%;
     transition: background-color 0.3s;
+    margin-bottom: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif ;
 }
 
 #form button:hover {
@@ -113,3 +115,34 @@ input{
     text-align: center;
     padding-bottom: 10px;
 }
+
+
+a 
+{
+    color: #0000ee;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    &:before 
+    {
+    background-color: #0000ee;
+    content: '';
+    height: 2px;
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s ease-in-out;
+    width: 100%;
+    }
+    &:hover 
+    {
+    &:before 
+    {
+        width: 0;
+    }
+    }
+}
+
+
+
