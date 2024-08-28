@@ -3,21 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive To-DO list</title>
+    <title>Interactive To-Do List</title>
     <script src="./index.js" defer></script>
     <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <div id="myDIV" class="header">
+    <div id="header" class="header">
         <div id="displayUsername"></div>
-        <span id="logOutBtn">Logout</span>
         <h2>My To Do List</h2>
-        <input type="text" id="myInput" placeholder="Title...">
-        <span class="addTaskBtn">Add</span>
+        <span id="logOutBtn">Logout</span>
     </div>
-    
-    <ul id="myUL">
-        <!-- Tasks will appear here -->
-    </ul>
+
+    <div id="content">
+        <div id="addListContainer">
+            <input type="text" id="listNameInput" placeholder="New To-Do List Name...">
+            <span id="addListBtn">Add To-Do List</span>
+        </div>
+
+        <div id="listsContainer">
+            <!-- To-Do list cards will be dynamically added here -->
+        </div>
+    </div>
 </body>
 </html>

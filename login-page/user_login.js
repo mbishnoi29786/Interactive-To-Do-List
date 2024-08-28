@@ -8,7 +8,7 @@ form.addEventListener('submit',(e)=>
 
     if(validateInputs() && registerUser())
     {
-        window.location.href = '../main-page/trial-code/index.html'; 
+        window.location.href = '../main-page/index.html'; 
     }
 })
 
@@ -66,11 +66,11 @@ function setError(element,message)
 function setSuccess(element)
 {
     const inputGroup = element.parentElement;
-    const errorElement = inputGroup.querySelector('.error')
+    const errorElement = inputGroup.querySelector('.error');
 
     errorElement.innerText = '';
-    inputGroup.classList.add('success')
-    inputGroup.classList.remove('error')
+    inputGroup.classList.add('success');
+    inputGroup.classList.remove('error');
 }
 
 const validateEmail = (email) => 
@@ -108,5 +108,4 @@ function registerUser()
         return true;
     }
 
-    
 }
