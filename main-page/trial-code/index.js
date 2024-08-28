@@ -30,6 +30,18 @@ function createListCard(list) {
     let card = document.createElement('div');
     card.className = 'todo-card';
 
+    // Close button
+    let span = document.createElement('SPAN');
+    span.className = 'close closeList';
+    span.textContent = '\u00D7';
+    span.addEventListener('click', function() 
+    {
+    let taskText = this.parentElement.textContent.slice(0, -1).trim(); //  remove the correct task
+    this.parentElement.remove();
+    removeList(list); // Remove task from storage
+    });
+    card.appendChild(span);
+
     // List title
     let h3 = document.createElement('h3');
     h3.textContent = list.name;
@@ -49,8 +61,8 @@ function createListCard(list) {
             alert("Write a task!");
         } else {
             list.tasks.push(input.value.trim());
-            updateListsInStorage();
             displayTasks(list.tasks, ul);
+            updateListsInStorage();
             input.value = '';
         }
     });
@@ -77,15 +89,16 @@ function displayTasks(tasks, ul) {
         ul.appendChild(li);
 
         // Mark task as completed
-        li.addEventListener('click', function() {
+        li.addEventListener('click', function() 
+        {
             li.classList.toggle('checked');
-
         });
         // Close button
         let span = document.createElement('SPAN');
         span.className = 'close';
         span.textContent = '\u00D7';
-        span.addEventListener('click', function() {
+        span.addEventListener('click', function() 
+        {
         let taskText = this.parentElement.textContent.slice(0, -1).trim(); //  remove the correct task
         this.parentElement.remove();
         removeTask(taskText); // Remove task from storage
@@ -117,11 +130,13 @@ function updateListsInStorage() {
         let tasks = Array.from(card.querySelectorAll('.task-list li')).map(li => li.textContent.replace('×', '').trim());
         return { name, tasks };
     });
+    console.log(userLists);
     localStorage.setItem(USER, JSON.stringify(userLists));
 }
 
 // Update lists in localStorage
-function removeTask(taskToRemove) {
+function removeTask(taskToRemove) 
+{
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
     
     // Update the correct list and remove the task
@@ -130,6 +145,17 @@ function removeTask(taskToRemove) {
     });
 
     localStorage.setItem(USER, JSON.stringify(userLists));
+    updateListsInStorage();
+}
+
+function removeList(list)
+{
+    let allLists = JSON.parse(localStorage.getItem(USER)) || [];
+
+    // Update all the lists and remove the list clicked
+    allLists.filter(allLists => allLists.name !== list.name);
+
+    localStorage.setItem(USER, JSON.stringify(allLists));
     updateListsInStorage();
 }
 

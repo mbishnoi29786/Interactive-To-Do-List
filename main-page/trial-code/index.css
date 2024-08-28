@@ -81,8 +81,8 @@ body
   /* Lists Container */
 #listsContainer 
 {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
 }
 
@@ -94,6 +94,7 @@ body
     border: 2px solid #f44336;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .todo-card h3 
@@ -157,7 +158,7 @@ body
 
 .task-list li.checked 
 {
-    background: #000000;
+    background: #14A76C;
     color: #FFFDF2;
     text-decoration: line-through;
 }
@@ -179,4 +180,9 @@ body
 {
     background-color: #f44336;
     color: white;
+}
+
+.closeList
+{
+    border-radius: 0% 10% 0% 0%;
 }
