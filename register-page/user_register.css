@@ -148,13 +148,13 @@ a
     left: 50%;
     transform: translateX(-50%);
     transition: width 0.3s ease-in-out;
-    width: 100%;
+    width: 0%;
     }
     &:hover 
     {
     &:before 
     {
-        width: 0;
+        width: 100%;
     }
     }
 }
