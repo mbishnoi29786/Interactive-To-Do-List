@@ -47,27 +47,55 @@ function createListCard(list) {
     h3.textContent = list.name;
     card.appendChild(h3);
 
-    // Task input and button
+    // Task input and button and priority dropdown
     let input = document.createElement('input');
     input.type = 'text';
     input.placeholder = 'Add a new task...';
     input.className = 'task-input';
 
+    let prioritySelect = document.createElement('select');
+    prioritySelect.className = 'priority-select';
+    let priorityLevel = ['Low', 'Medium', 'High'];
+    priorityLevel.forEach(priority => 
+    {
+        let option = document.createElement('option');
+        option.value = priority;
+        option.textContent = priority;
+        prioritySelect.appendChild(option);
+    })
+
     let addTaskBtn = document.createElement('span');
     addTaskBtn.className = 'addTaskBtn';
     addTaskBtn.textContent = 'Add';
-    addTaskBtn.addEventListener('click', function() {
+    addTaskBtn.addEventListener('click', function() 
+    {
+        let taskExist = list.tasks.find(tasks => tasks === input.value.trim());
+        console.log(taskExist);
         if (input.value.trim() === '') {
             alert("Write a task!");
-        } else {
-            list.tasks.push(input.value.trim());
+        } 
+        else if (taskExist)
+        {
+            alert("Task Already Exists!!");
+        }
+        else 
+        {
+            let taskName = input.value.trim();
+            let priority = prioritySelect.value;
+            list.tasks.push(
+            {
+                taskName: input.value.trim(), 
+                priority: prioritySelect.value
+            });
+            console.log(list);
+            updateListsInStorage(list.name, list.tasks);
             displayTasks(list.tasks, ul);
-            updateListsInStorage();
             input.value = '';
         }
     });
 
     card.appendChild(input);
+    card.appendChild(prioritySelect);
     card.appendChild(addTaskBtn);
 
     // Task list
@@ -83,9 +111,14 @@ function createListCard(list) {
 function displayTasks(tasks, ul) {
     console.log(tasks, ul);
     ul.innerHTML = '';
+
+    // sort task priority wise
+    const priorityOrder = {'Low' : 1, 'Medium': 2, 'High': 3};
+    tasks.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+
     tasks.forEach(task => {
         let li = document.createElement('li');
-        li.textContent = task;
+        li.textContent = `${task.taskName} (${task.priority})`;
         ul.appendChild(li);
 
         // Mark task as completed
@@ -116,7 +149,7 @@ addListBtn.addEventListener('click', function() {
         alert("Please enter a name for the to-do list!");
     } else {
         let userLists = JSON.parse(localStorage.getItem(USER)) || [];
-        userLists.push({ name: listName, tasks: [] });
+        userLists.push({ name: listName, tasks: []  });
         localStorage.setItem(USER, JSON.stringify(userLists));
         displayLists(userLists);
         listNameInput.value = '';
@@ -124,14 +157,18 @@ addListBtn.addEventListener('click', function() {
 });
 
 // Update lists in localStorage
-function updateListsInStorage() {
-    let userLists = Array.from(document.querySelectorAll('.todo-card')).map(card => {
-        let name = card.querySelector('h3').textContent;
-        let tasks = Array.from(card.querySelectorAll('.task-list li')).map(li => li.textContent.replace('×', '').trim());
-        return { name, tasks };
-    });
-    console.log(userLists);
-    localStorage.setItem(USER, JSON.stringify(userLists));
+function updateListsInStorage(listName, allTasks) 
+{
+    // let userLists = Array.from(document.querySelectorAll('.todo-card')).map(card => {
+    //     let name = card.querySelector('h3').textContent;
+    //     let tasks = Array.from(card.querySelectorAll('.task-list li')).map(li => li.textContent.replace('×', '').trim());
+    //     return { name, tasks };
+    // });
+    let allLists = JSON.parse(localStorage.getItem(USER)) || [];
+    let listToUpdate = allLists.find(lists => lists.name === listName);
+    listToUpdate.tasks.push(allTasks)
+    console.log(listToUpdate);
+    localStorage.setItem(USER, JSON.stringify(listToUpdate));
 }
 
 // Update lists in localStorage

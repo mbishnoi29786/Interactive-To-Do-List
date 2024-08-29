@@ -57,12 +57,15 @@ function createListCard(list) {
     addTaskBtn.className = 'addTaskBtn';
     addTaskBtn.textContent = 'Add';
     addTaskBtn.addEventListener('click', function() {
-        if (input.value.trim() === '') {
+        if (input.value.trim() === '') 
+        {
             alert("Write a task!");
-        } else {
+        } 
+        else 
+        {
             list.tasks.push(input.value.trim());
-            displayTasks(list.tasks, ul);
             updateListsInStorage();
+            displayTasks(list.tasks, ul);
             input.value = '';
         }
     });
