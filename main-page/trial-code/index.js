@@ -10,11 +10,14 @@ window.addEventListener('load', function() {
         document.getElementById('displayUsername').textContent = `Hello, ${user.username}!`;
         const userLists = JSON.parse(localStorage.getItem(USER)) || [];
         displayLists(userLists); // Function to display user's to-do lists
+        console.log(userLists);
+        
     }
 });
 
 // Display user's to-do lists
-function displayLists(lists) {
+function displayLists(lists) 
+{
     const listsContainer = document.getElementById('listsContainer');
     listsContainer.innerHTML = '';
     lists.forEach(list => {
@@ -80,8 +83,6 @@ function createListCard(list) {
         }
         else 
         {
-            let taskName = input.value.trim();
-            let priority = prioritySelect.value;
             list.tasks.push(
             {
                 taskName: input.value.trim(), 
@@ -109,7 +110,7 @@ function createListCard(list) {
 
 // Display tasks in a given list
 function displayTasks(tasks, ul) {
-    console.log(tasks, ul);
+    // console.log(tasks, ul);
     ul.innerHTML = '';
 
     // sort task priority wise
@@ -157,18 +158,13 @@ addListBtn.addEventListener('click', function() {
 });
 
 // Update lists in localStorage
-function updateListsInStorage(listName, allTasks) 
+function updateListsInStorage(listName, listTasks) 
 {
-    // let userLists = Array.from(document.querySelectorAll('.todo-card')).map(card => {
-    //     let name = card.querySelector('h3').textContent;
-    //     let tasks = Array.from(card.querySelectorAll('.task-list li')).map(li => li.textContent.replace('×', '').trim());
-    //     return { name, tasks };
-    // });
+    
     let allLists = JSON.parse(localStorage.getItem(USER)) || [];
-    let listToUpdate = allLists.find(lists => lists.name === listName);
-    listToUpdate.tasks.push(allTasks)
-    console.log(listToUpdate);
-    localStorage.setItem(USER, JSON.stringify(listToUpdate));
+    allLists.find(lists => lists.name === listName);
+    console.log(allLists);
+    // localStorage.setItem(USER, JSON.stringify(allLists));
 }
 
 // Update lists in localStorage

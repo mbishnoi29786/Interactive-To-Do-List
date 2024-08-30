@@ -14,7 +14,8 @@ window.addEventListener('load', function() {
 });
 
 // Display user's to-do lists
-function displayLists(lists) {
+function displayLists(lists) 
+{
     const listsContainer = document.getElementById('listsContainer');
     listsContainer.innerHTML = '';
     lists.forEach(list => {
