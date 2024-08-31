@@ -82,7 +82,7 @@ body
 #listsContainer 
 {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
@@ -106,7 +106,7 @@ body
   /* Style the input for tasks */
 .task-input 
 {
-    width: 75%;
+    width: 55%;
     padding: 10px;
     font-size: 16px;
     margin-bottom: 10px;
@@ -118,13 +118,15 @@ body
 {
     display: inline-block;
     padding: 10px;
-    width: 25%;
+    width: 31%;
     background: #d9d9d9;
     color: #555;
     text-align: center;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
+    top: 0px;
+    height: 40px;
 }
 
 .addTaskBtn:hover 
@@ -186,3 +188,16 @@ body
 {
     border-radius: 0% 10% 0% 0%;
 }
+
+.priority-select
+{
+    position: relative;
+    height: 40px;
+    padding: 8px 10px;
+    background-color: #fff;
+    border-left: none;
+    border-right: none;
+    cursor: pointer;
+    width: 14%;
+}
+
