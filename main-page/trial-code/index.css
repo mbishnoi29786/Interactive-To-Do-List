@@ -87,45 +87,54 @@ body
 }
 
   /* Card Style for To-Do Lists */
+.create-task-div
+{
+    position: relative;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+}
 .todo-card 
 {
     background: #ffffff;
-    padding: 20px;
-    border: 2px solid #f44336;
+    padding: 30px;
+    border: 2px solid #3E362E;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     position: relative;
 }
 
 .todo-card h3 
 {
-    margin-bottom: 10px;
-    color: #f44336;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 3px;
+    color: #121212;
+    border-bottom: 2px solid #121212;
+    font-size:  xx-large;
 }
 
   /* Style the input for tasks */
 .task-input 
 {
-    width: 55%;
+    height: 40px;
+    font-size: medium;
     padding: 10px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    height: 38px;
+    border-right: none;
 }
+
 
 .addTaskBtn 
 {
     display: inline-block;
     padding: 10px;
-    width: 31%;
     background: #d9d9d9;
     color: #555;
     text-align: center;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
-    top: 0px;
     height: 40px;
 }
 
@@ -138,7 +147,7 @@ body
 .task-list 
 {
     list-style-type: none;
-    padding: 0;
+    padding-top: 20px;
 }
 
 .task-list li 
@@ -149,7 +158,7 @@ body
     background: #eee;
     font-size: 18px;
     transition: 0.2s;
-    margin-bottom: 5px;
+    margin: 5px;
     border-radius: 5px;
 }
 
@@ -189,14 +198,18 @@ body
     border-radius: 0% 10% 0% 0%;
 }
 
+.deadline-input
+{
+    height: 40px;
+    border: 2px solid black;
+    padding: 10px;
+}
 
 .time-left
 {
     position: absolute;
-    right: 40px;
-    height: 25px;
-    padding-top: 4px;
-    width: 150px;
+    right: 50px;
     text-align: center;
     border-radius: 5px;
+    padding: 3px 5px 3px 5px;
 }

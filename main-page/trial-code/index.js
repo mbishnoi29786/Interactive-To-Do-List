@@ -30,6 +30,10 @@ function createListCard(list) {
     // Create card element
     let card = document.createElement('div');
     card.className = 'todo-card';
+    card.setAttribute('draggable', true);
+
+    let createTaskDiv = document.createElement('div');
+    createTaskDiv.className = 'create-task-div';
 
     // Close button
     let spanClose = document.createElement('SPAN');
@@ -63,13 +67,24 @@ function createListCard(list) {
         let deadlineValue = new Date(deadlineInput.value);
         let now = new Date();
 
-        if (input.value.trim() === '') {
+        if (input.value.trim() === '') 
+        {
             alert("Write a task!");
-        } else if (taskExist) {
+        } 
+        else if (taskExist) 
+        {
             alert("Task Already Exists!!");
-        } else if (deadlineValue <= now) {
+        }
+        else if (isNaN(deadlineValue))
+        {
+            alert("Enter a dealine!!");
+        } 
+        else if (deadlineValue <= now) 
+        {
             alert("Deadline must be in the future!");
-        } else {
+        } 
+        else 
+        {
             list.tasks.push({
                 taskName: input.value.trim(),
                 deadline: deadlineInput.value,
@@ -82,9 +97,10 @@ function createListCard(list) {
         }
     });
 
-    card.appendChild(input);
-    card.appendChild(deadlineInput);
-    card.appendChild(addTaskBtn);
+    createTaskDiv.appendChild(input);
+    createTaskDiv.appendChild(deadlineInput);
+    createTaskDiv.appendChild(addTaskBtn);
+    card.appendChild(createTaskDiv);
 
     // Task list
     let ul = document.createElement('ul');
@@ -95,12 +111,12 @@ function createListCard(list) {
     listsContainer.appendChild(card);
 }
 
-// Display tasks in a given list
 function displayTasks(tasks, ul, listName) {
     ul.innerHTML = '';
 
     tasks.forEach(task => {
         let li = document.createElement('li');
+        li.setAttribute('draggable', true);
         li.textContent = `${task.taskName}`;
         if (task.completed) {
             li.classList.add('checked');
@@ -110,7 +126,7 @@ function displayTasks(tasks, ul, listName) {
         li.addEventListener('click', function() {
             task.completed = !task.completed;
             li.classList.toggle('checked');
-            updateListsInStorage(listName, tasks);
+            updateTaskStatus(listName, task.taskName, task.completed);
         });
 
         // Close button
@@ -172,11 +188,16 @@ addListBtn.addEventListener('click', function() {
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
     let listExist = userLists.find(lists => lists.name === listName);
 
-    if (listName === '') {
+    if (listName === '') 
+    {
         alert("Please enter a name for the to-do list!");
-    } else if (listExist) {
+    } 
+    else if (listExist) 
+    {
         alert("Two Lists cannot have the same name!");
-    } else {
+    } 
+    else 
+    {
         userLists.push({ name: listName, tasks: [] });
         localStorage.setItem(USER, JSON.stringify(userLists));
         displayLists(userLists);
@@ -191,6 +212,19 @@ function updateListsInStorage(listName, listTasks) {
     localStorage.setItem(USER, JSON.stringify(userLists));
 }
 
+// Update task status in localstorage
+function updateTaskStatus (listName, taskName, taskStatus)
+{
+    
+    let userLists = JSON.parse(localStorage.getItem(USER)) || [];
+    let taskExists = userLists.find(lists => lists.name === listName).tasks.find(task => task.taskName === taskName);
+    if (taskExists)
+    {
+        userLists.find(lists => lists.name === listName).tasks.find(task => task.taskName === taskName).completed = taskStatus;
+        localStorage.setItem(USER, JSON.stringify(userLists));
+    }
+}
+
 // Remove task from a list
 function removeTask(taskToRemove, listName) {
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
@@ -203,8 +237,9 @@ function removeTask(taskToRemove, listName) {
     });
 
     localStorage.setItem(USER, JSON.stringify(updatedLists));
-    displayLists(updatedLists); // Re-display the updated list
+    displayLists(updatedLists); // Re-display the updated lists
 }
+
 
 // Remove a list
 function removeList(listToRemove) {
