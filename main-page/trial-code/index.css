@@ -49,22 +49,26 @@ body
   /* Add List Container */
 #addListContainer 
 {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
     margin-bottom: 20px;
 }
 
 #listNameInput 
 {
-    width: 75%;
     padding: 10px;
     font-size: 16px;
+    border-right: none;
+    border-top: none;
+    border-left: none;
+    border-bottom: 2px solid black;
+    background-color: transparent;
+
 }
 
 #addListBtn 
 {
     padding: 10px;
-    width: 25%;
     background: #d9d9d9;
     color: #555;
     text-align: center;
@@ -93,25 +97,34 @@ body
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     padding-bottom: 10px;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid rgba(000, 000, 000, 0.1);
 }
 .todo-card 
 {
-    background: #ffffff;
     padding: 30px;
-    border: 2px solid #3E362E;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    border-bottom: 2px solid rgba(000, 000, 000, 0.1);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
     position: relative;
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
+}
+
+.todo-card:nth-child(odd)
+{
+    border-right: 2px solid rgba(000, 000, 000, 0.1);
+}
+
+.todo-card:hover
+{
+    opacity: 1;
 }
 
 .todo-card h3 
 {
-    text-align: center;
     margin-bottom: 20px;
     padding-bottom: 3px;
     color: #121212;
-    border-bottom: 2px solid #121212;
+    border-bottom: 2px solid rgba(000, 000, 000, 0.1);
     font-size:  xx-large;
 }
 
@@ -122,6 +135,10 @@ body
     font-size: medium;
     padding: 10px;
     border-right: none;
+    border-top: none;
+    border-left: none;
+    border-bottom: 2px solid black;
+    background-color: transparent;
 }
 
 
@@ -185,12 +202,14 @@ body
     position: absolute;
     right: 0;
     top: 0;
+    opacity: 50%;
 }
 
 .close:hover 
 {
     background-color: #f44336;
     color: white;
+    opacity: 100%;
 }
 
 .closeList
@@ -201,8 +220,10 @@ body
 .deadline-input
 {
     height: 40px;
-    border: 2px solid black;
+    border: none;
+    border-bottom: 2px solid black;
     padding: 10px;
+    color-scheme: dark;
 }
 
 .time-left
@@ -212,4 +233,12 @@ body
     text-align: center;
     border-radius: 5px;
     padding: 3px 5px 3px 5px;
+}
+
+@media only screen and (width <= 1200px) 
+{
+    body 
+    {
+        width: fit-content;;
+    }
 }

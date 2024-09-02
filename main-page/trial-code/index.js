@@ -30,7 +30,8 @@ function createListCard(list) {
     // Create card element
     let card = document.createElement('div');
     card.className = 'todo-card';
-    card.setAttribute('draggable', true);
+
+
 
     let createTaskDiv = document.createElement('div');
     createTaskDiv.className = 'create-task-div';
@@ -111,6 +112,7 @@ function createListCard(list) {
     listsContainer.appendChild(card);
 }
 
+
 function displayTasks(tasks, ul, listName) {
     ul.innerHTML = '';
 
@@ -144,7 +146,7 @@ function displayTasks(tasks, ul, listName) {
 
         // Calculate time left
         let deadline = new Date(task.deadline);
-        updateTimeLeft(spanTimeLeft, deadline);
+        startTimer(spanTimeLeft, deadline);
 
         li.appendChild(spanTimeLeft);
         li.appendChild(spanClose);
@@ -152,33 +154,56 @@ function displayTasks(tasks, ul, listName) {
 
         // Set an interval to update time left every minute
         setInterval(() => {
-            updateTimeLeft(spanTimeLeft, deadline);
+            startTimer(spanTimeLeft, deadline);
         }, 60000);
     });
 }
 
-// Update time left span with the time remaining
-function updateTimeLeft(span, deadline) {
-    let now = new Date();
-    let timeLeft = deadline - now;
+// Initialize the timer
+function startTimer(spanTimeLeft, deadline) {
 
-    if (timeLeft <= 0) {
-        span.textContent = 'Deadline passed';
-        span.style.backgroundColor = 'red';
-    } else {
-        let hours = Math.floor(timeLeft / (1000 * 60 * 60));
+    // Start the interval
+        let intervalId = setInterval(updateTimeLeft, 60000); // Default to updating every minute initially
+
+    // Function to update time left display
+    function updateTimeLeft() {
+        let now = new Date();
+        let timeLeft = deadline - now;
+
+        if (timeLeft <= 0) {
+            spanTimeLeft.textContent = 'Deadline passed';
+            spanTimeLeft.style.backgroundColor = 'red';
+            clearInterval(intervalId); // Stop updating
+            return;
+        }
+
+        let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        span.textContent = `${hours}h ${minutes}m left`;
+        let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        if (hours < 2) {
-            span.style.backgroundColor = 'red';
-        } else if (hours < 24) {
-            span.style.backgroundColor = 'orange';
+        if (days > 0) {
+            spanTimeLeft.textContent = `${days}d ${hours}h left`;
+            spanTimeLeft.style.backgroundColor = 'green';
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(updateTimeLeft, 3600000); // Update every hour
+        } else if (hours > 0) {
+            spanTimeLeft.textContent = `${hours}h ${minutes}m left`;
+            spanTimeLeft.style.backgroundColor = hours < 2 ? 'orange' : 'green';
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(updateTimeLeft, 60000); // Update every minute
         } else {
-            span.style.backgroundColor = 'green';
+            spanTimeLeft.textContent = `${minutes}m ${seconds}s left`;
+            spanTimeLeft.style.backgroundColor = minutes < 1 ? 'red' : 'orange';
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(updateTimeLeft, 1000); // Update every second
         }
     }
+
+    // Initial update
+    updateTimeLeft();
 }
+
 
 // Handle adding a new to-do list
 const addListBtn = document.getElementById('addListBtn');
