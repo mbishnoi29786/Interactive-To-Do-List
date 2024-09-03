@@ -10,6 +10,7 @@
 body 
 {
     background: #FFFDF2;
+    min-width: 100%;
 }
 
   /* Header styling */
@@ -86,7 +87,7 @@ body
 #listsContainer 
 {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
@@ -141,6 +142,14 @@ body
     background-color: transparent;
 }
 
+.deadline-input
+{
+    height: 40px;
+    border: none;
+    border-bottom: 2px solid black;
+    padding: 10px;
+    color-scheme: dark;
+}
 
 .addTaskBtn 
 {
@@ -170,18 +179,14 @@ body
 .task-list li 
 {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     position: relative;
     cursor: pointer;
-    padding: 12px 16px 12px 16px;
     background: #eee;
     font-size: 18px;
     transition: 0.2s;
     margin: 5px;
     border-radius: 5px;
-    flex-grow: 1;
-
 }
 
 .task-list li:hover 
@@ -196,22 +201,42 @@ body
     text-decoration: line-through;
 }
 
+.task-text
+{
+    flex: 5;
+    padding: 11px 16px 11px 16px;
+}
+
+.time-left
+{
+    flex: 1;
+    margin-right: 5px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 3px 5px 3px 5px;
+}
+
 .close 
 {
+    text-align: center;
+    flex: 0.4;
     cursor: pointer;
-    padding: 11px 16px 11px 16px;
+    padding: 12px 16px 12px 16px;
     color: #000;
     font-weight: bold;
     font-size: 20px;  
     transition: 0.3s;
     opacity: 50%;
+    height: 100%;
+    width: 100%;
 }
 
 .close:hover 
 {
-    background-color: #f44336;
-    color: white;
+    color: #f44336;
+    font-size: x-large;
     opacity: 100%;
+    /* flex-grow: 0.8; */
 }
 
 .closeList
@@ -228,20 +253,11 @@ body
     opacity: 50%;;
 }
 
-.deadline-input
+.closeList:hover
 {
-    height: 40px;
-    border: none;
-    border-bottom: 2px solid black;
-    padding: 10px;
-    color-scheme: dark;
-}
-
-.time-left
-{
-    text-align: left;
-    border-radius: 5px;
-    padding: 3px 5px 3px 5px;
+    color: #f44336;
+    font-size: xx-large;
+    opacity: 100%;
 }
 
 @media only screen and (width <= 2000px) 

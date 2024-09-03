@@ -38,7 +38,7 @@ function createListCard(list) {
 
     // Close button
     let spanClose = document.createElement('SPAN');
-    spanClose.className = 'close closeList';
+    spanClose.className = 'closeList';
     spanClose.textContent = '\u00D7';
     spanClose.addEventListener('click', function() {
         removeList(list); // Remove list from storage
@@ -117,9 +117,15 @@ function displayTasks(tasks, ul, listName) {
     ul.innerHTML = '';
 
     tasks.forEach(task => {
+
         let li = document.createElement('li');
         li.setAttribute('draggable', true);
-        li.textContent = `${task.taskName}`;
+
+        let taskText = document.createElement('SPAN');
+        taskText.className = 'task-text';
+        taskText.textContent = `${task.taskName}`;
+        li.appendChild(taskText);
+
         if (task.completed) {
             li.classList.add('checked');
         }
@@ -131,6 +137,14 @@ function displayTasks(tasks, ul, listName) {
             updateTaskStatus(listName, task.taskName, task.completed);
         });
 
+        // Time left display
+        let spanTimeLeft = document.createElement('SPAN');
+        spanTimeLeft.className = 'time-left';
+
+        // Calculate time left
+        let deadline = new Date(task.deadline);
+        startTimer(spanTimeLeft, deadline);
+
         // Close button
         let spanClose = document.createElement('SPAN');
         spanClose.className = 'close';
@@ -139,14 +153,6 @@ function displayTasks(tasks, ul, listName) {
             removeTask(task.taskName, listName);
             li.remove();
         });
-
-        // Time left display
-        let spanTimeLeft = document.createElement('SPAN');
-        spanTimeLeft.className = 'time-left';
-
-        // Calculate time left
-        let deadline = new Date(task.deadline);
-        startTimer(spanTimeLeft, deadline);
 
         li.appendChild(spanTimeLeft);
         li.appendChild(spanClose);
@@ -167,7 +173,8 @@ function startTimer(spanTimeLeft, deadline) {
 
         if (timeLeft <= 0) {
             spanTimeLeft.textContent = 'Deadline passed';
-            spanTimeLeft.style.backgroundColor = 'red';
+            spanTimeLeft.style.backgroundColor = 'black';
+            spanTimeLeft.style.color = 'red';
             clearInterval(intervalId); // Stop updating
             return;
         }
