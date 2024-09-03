@@ -151,11 +151,6 @@ function displayTasks(tasks, ul, listName) {
         li.appendChild(spanTimeLeft);
         li.appendChild(spanClose);
         ul.appendChild(li);
-
-        // Set an interval to update time left every minute
-        setInterval(() => {
-            startTimer(spanTimeLeft, deadline);
-        }, 60000);
     });
 }
 

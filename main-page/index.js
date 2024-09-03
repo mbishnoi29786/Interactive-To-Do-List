@@ -1,28 +1,13 @@
 let USER;
 
-window.addEventListener('load', function() 
-{
+window.addEventListener('load', function() {
     USER = JSON.parse(sessionStorage.getItem('loggedInUser'));
-    if (!USER) 
-    {
+    if (!USER) {
         window.location.href = '../../login-page/user_login.html';
-    } 
-    else 
-    {
+    } else {
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const user = users.find(user => user.email === USER);
-        
-        if (user) 
-        {
-            document.getElementById('displayUsername').textContent = `Hello, ${user.username}!`;
-        } 
-        else 
-        {
-            alert('User not found.');
-            window.location.href = '../../login-page/user_login.html';
-            return;
-        }
-        
+        document.getElementById('displayUsername').textContent = `Hello, ${user.username}!`;
         const userLists = JSON.parse(localStorage.getItem(USER)) || [];
         displayLists(userLists); // Function to display user's to-do lists
         console.log(userLists);
@@ -30,53 +15,59 @@ window.addEventListener('load', function()
 });
 
 // Display user's to-do lists
-function displayLists(lists) 
-{
+function displayLists(lists) {
     const listsContainer = document.getElementById('listsContainer');
     listsContainer.innerHTML = '';
-    lists.forEach(list => 
-    {
-        list.tasks = list.tasks || []; // Ensure tasks is an array
+    lists.forEach(list => {
         createListCard(list);
     });
 }
 
 // Create a new to-do list card
-function createListCard(list) 
-{
+function createListCard(list) {
     const listsContainer = document.getElementById('listsContainer');
 
     // Create card element
     let card = document.createElement('div');
     card.className = 'todo-card';
 
+
+
+    let createTaskDiv = document.createElement('div');
+    createTaskDiv.className = 'create-task-div';
+
     // Close button
-    let span = document.createElement('SPAN');
-    span.className = 'close closeList';
-    span.textContent = '\u00D7';
-    span.addEventListener('click', function() 
-    {
-        removeList(list); // Remove task from storage
+    let spanClose = document.createElement('SPAN');
+    spanClose.className = 'close closeList';
+    spanClose.textContent = '\u00D7';
+    spanClose.addEventListener('click', function() {
+        removeList(list); // Remove list from storage
     });
-    card.appendChild(span);
+    card.appendChild(spanClose);
 
     // List title
     let h3 = document.createElement('h3');
     h3.textContent = list.name;
     card.appendChild(h3);
 
-    // Task input and button 
+    // Task input, button, and deadline input
     let input = document.createElement('input');
     input.type = 'text';
     input.placeholder = 'Add a new task...';
     input.className = 'task-input';
 
+    let deadlineInput = document.createElement('input');
+    deadlineInput.type = 'datetime-local';
+    deadlineInput.className = 'deadline-input';
+
     let addTaskBtn = document.createElement('span');
     addTaskBtn.className = 'addTaskBtn';
     addTaskBtn.textContent = 'Add';
-    addTaskBtn.addEventListener('click', function() 
-    {
+    addTaskBtn.addEventListener('click', function() {
         let taskExist = list.tasks.find(tasks => tasks.taskName === input.value.trim());
+        let deadlineValue = new Date(deadlineInput.value);
+        let now = new Date();
+
         if (input.value.trim() === '') 
         {
             alert("Write a task!");
@@ -84,21 +75,33 @@ function createListCard(list)
         else if (taskExist) 
         {
             alert("Task Already Exists!!");
+        }
+        else if (isNaN(deadlineValue))
+        {
+            alert("Enter a dealine!!");
+        } 
+        else if (deadlineValue <= now) 
+        {
+            alert("Deadline must be in the future!");
         } 
         else 
         {
             list.tasks.push({
-                taskName: input.value.trim(), 
+                taskName: input.value.trim(),
+                deadline: deadlineInput.value,
+                completed: false
             });
-            console.log(list);
             updateListsInStorage(list.name, list.tasks);
             displayTasks(list.tasks, ul, list.name);
             input.value = '';
+            deadlineInput.value = '';
         }
     });
 
-    card.appendChild(input);
-    card.appendChild(addTaskBtn);
+    createTaskDiv.appendChild(input);
+    createTaskDiv.appendChild(deadlineInput);
+    createTaskDiv.appendChild(addTaskBtn);
+    card.appendChild(createTaskDiv);
 
     // Task list
     let ul = document.createElement('ul');
@@ -109,34 +112,98 @@ function createListCard(list)
     listsContainer.appendChild(card);
 }
 
-// Display tasks in a given list
-function displayTasks(tasks, ul, listName) 
-{
+
+function displayTasks(tasks, ul, listName) {
     ul.innerHTML = '';
 
     tasks.forEach(task => {
         let li = document.createElement('li');
+        li.setAttribute('draggable', true);
         li.textContent = `${task.taskName}`;
-        ul.appendChild(li);
+        if (task.completed) {
+            li.classList.add('checked');
+        }
 
         // Mark task as completed
-        li.addEventListener('click', function() 
-        {
+        li.addEventListener('click', function() {
+            task.completed = !task.completed;
             li.classList.toggle('checked');
+            updateTaskStatus(listName, task.taskName, task.completed);
         });
 
         // Close button
-        let span = document.createElement('SPAN');
-        span.className = 'close';
-        span.textContent = '\u00D7';
-        span.addEventListener('click', function() 
-        {
-            removeTask(task.taskName, listName); // Remove task from storage
+        let spanClose = document.createElement('SPAN');
+        spanClose.className = 'close';
+        spanClose.textContent = '\u00D7';
+        spanClose.addEventListener('click', function() {
+            removeTask(task.taskName, listName);
             li.remove();
         });
-        li.appendChild(span);
+
+        // Time left display
+        let spanTimeLeft = document.createElement('SPAN');
+        spanTimeLeft.className = 'time-left';
+
+        // Calculate time left
+        let deadline = new Date(task.deadline);
+        startTimer(spanTimeLeft, deadline);
+
+        li.appendChild(spanTimeLeft);
+        li.appendChild(spanClose);
+        ul.appendChild(li);
+
+        // Set an interval to update time left every minute
+        setInterval(() => {
+            startTimer(spanTimeLeft, deadline);
+        }, 60000);
     });
 }
+
+// Initialize the timer
+function startTimer(spanTimeLeft, deadline) {
+
+    // Start the interval
+        let intervalId = setInterval(updateTimeLeft, 60000); // Default to updating every minute initially
+
+    // Function to update time left display
+    function updateTimeLeft() {
+        let now = new Date();
+        let timeLeft = deadline - now;
+
+        if (timeLeft <= 0) {
+            spanTimeLeft.textContent = 'Deadline passed';
+            spanTimeLeft.style.backgroundColor = 'red';
+            clearInterval(intervalId); // Stop updating
+            return;
+        }
+
+        let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        if (days > 0) {
+            spanTimeLeft.textContent = `${days}d ${hours}h left`;
+            spanTimeLeft.style.backgroundColor = 'green';
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(updateTimeLeft, 3600000); // Update every hour
+        } else if (hours > 0) {
+            spanTimeLeft.textContent = `${hours}h ${minutes}m left`;
+            spanTimeLeft.style.backgroundColor = hours < 2 ? 'orange' : 'green';
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(updateTimeLeft, 60000); // Update every minute
+        } else {
+            spanTimeLeft.textContent = `${minutes}m ${seconds}s left`;
+            spanTimeLeft.style.backgroundColor = minutes < 1 ? 'red' : 'orange';
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(updateTimeLeft, 1000); // Update every second
+        }
+    }
+
+    // Initial update
+    updateTimeLeft();
+}
+
 
 // Handle adding a new to-do list
 const addListBtn = document.getElementById('addListBtn');
@@ -152,7 +219,7 @@ addListBtn.addEventListener('click', function() {
     } 
     else if (listExist) 
     {
-        alert("Two Lists cannot have the same name!!");
+        alert("Two Lists cannot have the same name!");
     } 
     else 
     {
@@ -164,46 +231,47 @@ addListBtn.addEventListener('click', function() {
 });
 
 // Update lists in localStorage
-function updateListsInStorage(listName, listTasks) 
-{
+function updateListsInStorage(listName, listTasks) {
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
-    let list = userLists.find(lists => lists.name === listName);
-    if (list) 
+    userLists.find(lists => lists.name === listName).tasks = listTasks;
+    localStorage.setItem(USER, JSON.stringify(userLists));
+}
+
+// Update task status in localstorage
+function updateTaskStatus (listName, taskName, taskStatus)
+{
+    
+    let userLists = JSON.parse(localStorage.getItem(USER)) || [];
+    let taskExists = userLists.find(lists => lists.name === listName).tasks.find(task => task.taskName === taskName);
+    if (taskExists)
     {
-        list.tasks = listTasks;
+        userLists.find(lists => lists.name === listName).tasks.find(task => task.taskName === taskName).completed = taskStatus;
         localStorage.setItem(USER, JSON.stringify(userLists));
     }
 }
 
 // Remove task from a list
-function removeTask(taskToRemove, listName) 
-{
+function removeTask(taskToRemove, listName) {
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
 
-    // Find the correct list and remove the task
-    let updatedLists = userLists.map(list => 
-    {
-        if (list.name === listName) 
-        {
+    let updatedLists = userLists.map(list => {
+        if (list.name === listName) {
             list.tasks = list.tasks.filter(task => task.taskName !== taskToRemove);
         }
         return list;
     });
 
-    // Update localStorage with the new list of tasks
     localStorage.setItem(USER, JSON.stringify(updatedLists));
-    displayLists(updatedLists); // Re-display the updated list
+    displayLists(updatedLists); // Re-display the updated lists
 }
 
-// Remove an entire list
-function removeList(listToRemove) 
-{
+
+// Remove a list
+function removeList(listToRemove) {
     let allLists = JSON.parse(localStorage.getItem(USER)) || [];
 
-    // Filter out the list to be removed
     allLists = allLists.filter(list => list.name !== listToRemove.name);
 
-    // Update localStorage with the remaining lists
     localStorage.setItem(USER, JSON.stringify(allLists));
     displayLists(allLists); // Re-display the updated lists
 }

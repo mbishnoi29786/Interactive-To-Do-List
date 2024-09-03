@@ -105,8 +105,8 @@ body
     border-bottom: 2px solid rgba(000, 000, 000, 0.1);
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
     position: relative;
-    opacity: 0.7;
-    transition: opacity 0.5s ease;
+    opacity: 0.6;
+    transition: opacity 0.8s ease;
 }
 
 .todo-card:nth-child(odd)
@@ -169,6 +169,9 @@ body
 
 .task-list li 
 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
     cursor: pointer;
     padding: 12px 16px 12px 16px;
@@ -177,6 +180,8 @@ body
     transition: 0.2s;
     margin: 5px;
     border-radius: 5px;
+    flex-grow: 1;
+
 }
 
 .task-list li:hover 
@@ -199,9 +204,6 @@ body
     font-weight: bold;
     font-size: 20px;  
     transition: 0.3s;
-    position: absolute;
-    right: 0;
-    top: 0;
     opacity: 50%;
 }
 
@@ -214,7 +216,16 @@ body
 
 .closeList
 {
-    border-radius: 0% 10% 0% 0%;
+    cursor: pointer;
+    padding: 11px 16px 11px 16px;
+    color: #000;
+    font-weight: bold;
+    font-size: 20px;  
+    transition: 0.3s;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 50%;;
 }
 
 .deadline-input
@@ -228,14 +239,12 @@ body
 
 .time-left
 {
-    position: absolute;
-    right: 50px;
-    text-align: center;
+    text-align: left;
     border-radius: 5px;
     padding: 3px 5px 3px 5px;
 }
 
-@media only screen and (width <= 1200px) 
+@media only screen and (width <= 2000px) 
 {
     body 
     {
