@@ -103,17 +103,18 @@ body
 .todo-card 
 {
     padding: 30px;
-    border-bottom: 2px solid rgba(000, 000, 000, 0.1);
+    border-bottom: 2px solid rgba(000, 000, 000, 1);
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
     position: relative;
-    opacity: 0.6;
+    opacity: 0.8;
+    padding: 50px 200px;
     transition: opacity 0.8s ease;
 }
 
-.todo-card:nth-child(odd)
+/* .todo-card:nth-child(odd)
 {
-    border-right: 2px solid rgba(000, 000, 000, 0.1);
-}
+    border-right: 2px solid rgba(000, 000, 000, 1);
+} */
 
 .todo-card:hover
 {

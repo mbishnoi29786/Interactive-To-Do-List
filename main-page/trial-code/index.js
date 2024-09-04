@@ -173,7 +173,6 @@ function startTimer(spanTimeLeft, deadline) {
 
         if (timeLeft <= 0) {
             spanTimeLeft.textContent = 'Deadline passed';
-            spanTimeLeft.style.backgroundColor = 'black';
             spanTimeLeft.style.color = 'red';
             clearInterval(intervalId); // Stop updating
             return;
@@ -186,17 +185,17 @@ function startTimer(spanTimeLeft, deadline) {
 
         if (days > 0) {
             spanTimeLeft.textContent = `${days}d ${hours}h left`;
-            spanTimeLeft.style.backgroundColor = 'green';
+            spanTimeLeft.style.color = 'green';
             if (intervalId) clearInterval(intervalId);
             intervalId = setInterval(updateTimeLeft, 3600000); // Update every hour
         } else if (hours > 0) {
             spanTimeLeft.textContent = `${hours}h ${minutes}m left`;
-            spanTimeLeft.style.backgroundColor = hours < 2 ? 'orange' : 'green';
+            spanTimeLeft.style.color = hours < 2 ? 'orange' : 'green';
             if (intervalId) clearInterval(intervalId);
             intervalId = setInterval(updateTimeLeft, 60000); // Update every minute
         } else {
             spanTimeLeft.textContent = `${minutes}m ${seconds}s left`;
-            spanTimeLeft.style.backgroundColor = minutes < 1 ? 'red' : 'orange';
+            spanTimeLeft.style.color = minutes < 1 ? 'red' : 'orange';
             if (intervalId) clearInterval(intervalId);
             intervalId = setInterval(updateTimeLeft, 1000); // Update every second
         }

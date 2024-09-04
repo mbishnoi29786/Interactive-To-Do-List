@@ -38,7 +38,7 @@ function createListCard(list) {
 
     // Close button
     let spanClose = document.createElement('SPAN');
-    spanClose.className = 'close closeList';
+    spanClose.className = 'closeList';
     spanClose.textContent = '\u00D7';
     spanClose.addEventListener('click', function() {
         removeList(list); // Remove list from storage
@@ -117,9 +117,15 @@ function displayTasks(tasks, ul, listName) {
     ul.innerHTML = '';
 
     tasks.forEach(task => {
+
         let li = document.createElement('li');
         li.setAttribute('draggable', true);
-        li.textContent = `${task.taskName}`;
+
+        let taskText = document.createElement('SPAN');
+        taskText.className = 'task-text';
+        taskText.textContent = `${task.taskName}`;
+        li.appendChild(taskText);
+
         if (task.completed) {
             li.classList.add('checked');
         }
@@ -131,6 +137,14 @@ function displayTasks(tasks, ul, listName) {
             updateTaskStatus(listName, task.taskName, task.completed);
         });
 
+        // Time left display
+        let spanTimeLeft = document.createElement('SPAN');
+        spanTimeLeft.className = 'time-left';
+
+        // Calculate time left
+        let deadline = new Date(task.deadline);
+        startTimer(spanTimeLeft, deadline);
+
         // Close button
         let spanClose = document.createElement('SPAN');
         spanClose.className = 'close';
@@ -140,22 +154,9 @@ function displayTasks(tasks, ul, listName) {
             li.remove();
         });
 
-        // Time left display
-        let spanTimeLeft = document.createElement('SPAN');
-        spanTimeLeft.className = 'time-left';
-
-        // Calculate time left
-        let deadline = new Date(task.deadline);
-        startTimer(spanTimeLeft, deadline);
-
         li.appendChild(spanTimeLeft);
         li.appendChild(spanClose);
         ul.appendChild(li);
-
-        // Set an interval to update time left every minute
-        setInterval(() => {
-            startTimer(spanTimeLeft, deadline);
-        }, 60000);
     });
 }
 
@@ -172,7 +173,7 @@ function startTimer(spanTimeLeft, deadline) {
 
         if (timeLeft <= 0) {
             spanTimeLeft.textContent = 'Deadline passed';
-            spanTimeLeft.style.backgroundColor = 'red';
+            spanTimeLeft.style.color = 'red';
             clearInterval(intervalId); // Stop updating
             return;
         }
@@ -184,17 +185,17 @@ function startTimer(spanTimeLeft, deadline) {
 
         if (days > 0) {
             spanTimeLeft.textContent = `${days}d ${hours}h left`;
-            spanTimeLeft.style.backgroundColor = 'green';
+            spanTimeLeft.style.color = 'green';
             if (intervalId) clearInterval(intervalId);
             intervalId = setInterval(updateTimeLeft, 3600000); // Update every hour
         } else if (hours > 0) {
             spanTimeLeft.textContent = `${hours}h ${minutes}m left`;
-            spanTimeLeft.style.backgroundColor = hours < 2 ? 'orange' : 'green';
+            spanTimeLeft.style.color = hours < 2 ? 'orange' : 'green';
             if (intervalId) clearInterval(intervalId);
             intervalId = setInterval(updateTimeLeft, 60000); // Update every minute
         } else {
             spanTimeLeft.textContent = `${minutes}m ${seconds}s left`;
-            spanTimeLeft.style.backgroundColor = minutes < 1 ? 'red' : 'orange';
+            spanTimeLeft.style.color = minutes < 1 ? 'red' : 'orange';
             if (intervalId) clearInterval(intervalId);
             intervalId = setInterval(updateTimeLeft, 1000); // Update every second
         }
