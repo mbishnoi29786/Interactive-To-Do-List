@@ -173,7 +173,7 @@ function startTimer(spanTimeLeft, deadline) {
 
         if (timeLeft <= 0) {
             spanTimeLeft.textContent = 'Deadline passed';
-            spanTimeLeft.style.color = 'red';
+            spanTimeLeft.style.color = '#f44336';
             clearInterval(intervalId); // Stop updating
             return;
         }
