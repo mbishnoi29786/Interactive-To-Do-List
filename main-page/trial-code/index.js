@@ -121,6 +121,12 @@ function displayTasks(tasks, ul, listName) {
         let li = document.createElement('li');
         li.setAttribute('draggable', true);
 
+        let dragIcon = document.createElement('img');
+        dragIcon.src = '../../pictures/draggable-dots-icon.png';
+        dragIcon.setAttribute('alt', 'drag' );
+        dragIcon.className = 'drag-icon';
+        li.appendChild(dragIcon);
+
         let taskText = document.createElement('SPAN');
         taskText.className = 'task-text';
         taskText.textContent = `${task.taskName}`;
