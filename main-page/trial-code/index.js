@@ -120,12 +120,19 @@ function displayTasks(tasks, ul, listName) {
 
         let li = document.createElement('li');
         li.setAttribute('draggable', true);
+        li.className = 'task';
+
+        let dragIconSpan = document.createElement('SPAN');
+        dragIconSpan.className = 'drag-icon-span';
 
         let dragIcon = document.createElement('img');
         dragIcon.src = '../../pictures/draggable-dots-icon.png';
+        dragIcon.setAttribute('draggable', false);
         dragIcon.setAttribute('alt', 'drag' );
         dragIcon.className = 'drag-icon';
-        li.appendChild(dragIcon);
+
+        dragIconSpan.appendChild(dragIcon);
+        li.appendChild(dragIconSpan);
 
         let taskText = document.createElement('SPAN');
         taskText.className = 'task-text';
@@ -289,3 +296,5 @@ logOutButton.addEventListener('click', function() {
     sessionStorage.setItem('loggedInUser', JSON.stringify(null));
     window.location.href = "../../login-page/user_login.html";
 });
+
+
