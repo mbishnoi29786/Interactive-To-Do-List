@@ -96,7 +96,11 @@ body
 
 #listsContainer .search-div .search-input
 {
-
+    height: 30px;
+    width: 40vw;
+    border: none;
+    border-bottom: 2px solid rgba(000, 000, 000, 1);
+    background-color: transparent;
 }
 
 .todo-card 
