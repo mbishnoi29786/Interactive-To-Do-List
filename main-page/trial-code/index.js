@@ -27,11 +27,19 @@ function displayLists(lists) {
 function createListCard(list) {
     const listsContainer = document.getElementById('listsContainer');
 
+    let searchDiv = document.createElement('div');
+    searchDiv.className = 'search-div';
+
+    let searchInput = document.createElement('input');
+    searchInput.setAttribute('type', 'text');
+    searchInput.className = 'search-input';
+
+    searchDiv.appendChild(searchInput);
+    listsContainer.appendChild(searchDiv);
+
     // Create card element
     let card = document.createElement('div');
     card.className = 'todo-card';
-
-
 
     let createTaskDiv = document.createElement('div');
     createTaskDiv.className = 'create-task-div';
