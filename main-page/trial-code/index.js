@@ -32,18 +32,23 @@ document.querySelector('.search-input').addEventListener('input', filterTasks);
 function filterTasks()
 {
     let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
-    console.log(searchKeyword);
+
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
+
+    // Filtered lists to include only those with matching tasks
     let filteredList = userLists.map(list => {
+
+         // Filtered tasks in each list to include only those that match the search keyword
         let filteredTask = list.tasks.filter(task => 
             task.taskName.toLowerCase().includes(searchKeyword));
     
+        // to return the list only if there are matching tasks
         return {
             ...list,
             tasks : filteredTask
         }
 
-    }).filter(list => list.tasks.length > 0);
+    }).filter(list => list.tasks.length > 0); // Excluded lists with no matching tasks
 
     displayLists(filteredList);
 }
