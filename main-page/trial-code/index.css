@@ -87,20 +87,23 @@ body
     gap: 20px;
 }
 
-#listsContainer .search-div
+.search-div
 {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: left;
+    padding-left: 20px;
 }
 
-#listsContainer .search-div .search-input
+.search-div .search-input
 {
-    height: 30px;
-    width: 40vw;
     border: none;
     border-bottom: 2px solid rgba(000, 000, 000, 1);
     background-color: transparent;
+    outline: none;
+    cursor: auto;
+    color: white;
+    font-size: small;
 }
 
 .todo-card 

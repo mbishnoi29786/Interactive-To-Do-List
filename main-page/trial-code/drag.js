@@ -3,8 +3,7 @@ setTimeout(()=>
 {
     const taskLists = document.querySelectorAll('.task');
     const todoContainers = document.querySelectorAll('.task-list');
-    console.log(taskLists);
-    console.log(todoContainers);
+    
     taskLists.forEach(taskList => 
     {
         taskList.addEventListener('dragstart', () => 

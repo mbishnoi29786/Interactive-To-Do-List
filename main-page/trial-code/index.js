@@ -14,10 +14,33 @@ window.addEventListener('load', function() {
     }
 });
 
+// search functionality
+const sidebar = document.getElementById('sideBar');
+
+let searchDiv = document.createElement('div');
+searchDiv.className = 'search-div';
+
+let searchInput = document.createElement('input');
+searchInput.setAttribute('type', 'text');
+searchInput.className = 'search-input';
+
+searchDiv.appendChild(searchInput);
+sidebar.appendChild(searchDiv);
+
+document.querySelector('.search-div').addEventListener('input', filterTasks);
+
+function filterTasks()
+{
+    let searchKeyword = document.querySelector('.search-div').value.toLowerCase();
+    const userLists = JSON.parse(localStorage.getItem(USER)) || [];
+    
+}
+
 // Display user's to-do lists
 function displayLists(lists) {
     const listsContainer = document.getElementById('listsContainer');
-    listsContainer.innerHTML = '';
+
+    // listsContainer.innerHTML = '';
     lists.forEach(list => {
         createListCard(list);
     });
@@ -26,16 +49,6 @@ function displayLists(lists) {
 // Create a new to-do list card
 function createListCard(list) {
     const listsContainer = document.getElementById('listsContainer');
-
-    let searchDiv = document.createElement('div');
-    searchDiv.className = 'search-div';
-
-    let searchInput = document.createElement('input');
-    searchInput.setAttribute('type', 'text');
-    searchInput.className = 'search-input';
-
-    searchDiv.appendChild(searchInput);
-    listsContainer.appendChild(searchDiv);
 
     // Create card element
     let card = document.createElement('div');
