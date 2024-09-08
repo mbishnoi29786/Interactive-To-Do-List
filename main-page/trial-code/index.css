@@ -1,18 +1,18 @@
-*
+html, body
 {
     margin: 0;
     padding: 0;
+    width: 100vw;
+    display: flex;
+    overflow: hidden;
+    color: rgba(255, 255, 255);
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-body
-{
-    display: flex;
-    color: rgba(255, 255, 255);
-}
 .sideBar
 {
     width: 15%;
+    height: 100vh;
     background-color: rgba(038, 038, 038);
     display: flex;
     flex-direction: column;
@@ -20,7 +20,7 @@ body
 
 .sideBar h2
 {
-    
+    margin: 0;
     color: #000;
     background-color: #f44336;
     padding: 10px;
@@ -34,6 +34,8 @@ body
 #content
 {
     width: 85%;
+    height: 100vh;
+    overflow: scroll;
     background-color: rgba(030, 030, 030);
     display: flex;
     justify-content: center;
@@ -286,3 +288,4 @@ body
     font-size: xx-large;
     opacity: 100%;
 }
+

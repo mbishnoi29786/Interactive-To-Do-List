@@ -27,20 +27,32 @@ searchInput.className = 'search-input';
 searchDiv.appendChild(searchInput);
 sidebar.appendChild(searchDiv);
 
-document.querySelector('.search-div').addEventListener('input', filterTasks);
+document.querySelector('.search-input').addEventListener('input', filterTasks);
 
 function filterTasks()
 {
-    let searchKeyword = document.querySelector('.search-div').value.toLowerCase();
+    let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
+    console.log(searchKeyword);
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
+    let filteredList = userLists.map(list => {
+        let filteredTask = list.tasks.filter(task => 
+            task.taskName.toLowerCase().includes(searchKeyword));
     
+        return {
+            ...list,
+            tasks : filteredTask
+        }
+
+    }).filter(list => list.tasks.length > 0);
+
+    displayLists(filteredList);
 }
 
 // Display user's to-do lists
 function displayLists(lists) {
     const listsContainer = document.getElementById('listsContainer');
 
-    // listsContainer.innerHTML = '';
+    listsContainer.innerHTML = '';
     lists.forEach(list => {
         createListCard(list);
     });
