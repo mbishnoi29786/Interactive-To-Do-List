@@ -35,6 +35,7 @@ html, body
 {
     width: 85%;
     height: 100vh;
+    margin: 0;
     overflow: scroll;
     background-color: rgba(030, 030, 030);
     display: flex;
