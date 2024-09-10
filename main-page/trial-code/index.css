@@ -213,9 +213,15 @@ html, body
     width: 18px;
     padding-left: 5px;
     cursor: move;
-    
+    -webkit-filter: invert(.90);
+    filter: invert(.90);
 }
 
+.task-list .drag-icon:hover
+{
+    -webkit-filter: invert(.00);
+    filter: invert(.00);
+}
 .task-list li 
 {
     display: flex;
@@ -233,6 +239,11 @@ html, body
     border-radius: 5px;
     background: #fff;
     color: #000;
+
+    .drag-icon
+    {
+        filter: invert(.00);
+    }
 }
 
 .task-list li.checked 
