@@ -1,3 +1,4 @@
+
 let USER;
 
 window.addEventListener('load', function() {
@@ -14,44 +15,9 @@ window.addEventListener('load', function() {
     }
 });
 
-// search functionality
 const sidebar = document.getElementById('sideBar');
 
-let searchDiv = document.createElement('div');
-searchDiv.className = 'search-div';
 
-let searchInput = document.createElement('input');
-searchInput.setAttribute('type', 'text');
-searchInput.className = 'search-input';
-
-searchDiv.appendChild(searchInput);
-sidebar.appendChild(searchDiv);
-
-document.querySelector('.search-input').addEventListener('input', filterTasks);
-
-function filterTasks()
-{
-    let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
-
-    const userLists = JSON.parse(localStorage.getItem(USER)) || [];
-
-    // Filtered lists to include only those with matching tasks
-    let filteredList = userLists.map(list => {
-
-         // Filtered tasks in each list to include only those that match the search keyword
-        let filteredTask = list.tasks.filter(task => 
-            task.taskName.toLowerCase().includes(searchKeyword));
-    
-        // to return the list only if there are matching tasks
-        return {
-            ...list,
-            tasks : filteredTask
-        }
-
-    }).filter(list => list.tasks.length > 0); // Excluded lists with no matching tasks
-
-    displayLists(filteredList);
-}
 
 // Display user's to-do lists
 function displayLists(lists) {

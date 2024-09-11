@@ -26,6 +26,11 @@ html, body
     padding: 10px;
 }
 
+.sideBar .search-span
+{
+    font-size: 3rem;
+}
+
 #displayUsername
 {
     padding: 20px;
@@ -217,11 +222,6 @@ html, body
     filter: invert(.90);
 }
 
-.task-list .drag-icon:hover
-{
-    -webkit-filter: invert(.00);
-    filter: invert(.00);
-}
 .task-list li 
 {
     display: flex;

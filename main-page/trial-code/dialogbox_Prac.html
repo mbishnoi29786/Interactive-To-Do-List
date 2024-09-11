@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dialogue box</title>
     <style>
+        html , body
+        {
+            margin: 0;
+            /* padding: 0; */
+        }
         .container
         {
             width: 100%;
@@ -37,14 +42,14 @@
             text-align: center;
             padding: 0 30px 30px;
             color: #333;
-            visibility: hidden;
+            display: none;
             transition: transform 0.4s, top 0.4s;
         }
         .open-popup
         {
+            display: block;
             top: 50%;
             transform: translate(-50%, -50%) scale(1);
-            visibility: visible;
         }
         .popup img
         {
