@@ -26,14 +26,28 @@ html, body
     padding: 10px;
 }
 
-.sideBar .search-span
-{
-    font-size: 3rem;
-}
-
 #displayUsername
 {
     padding: 20px;
+    font-size: 1.5rem;
+}
+
+.sideBar .search-div
+{
+    display: flex;
+    gap: 2px;
+}
+
+.sideBar .search-span 
+{
+    font-size: 1.2rem;
+}
+
+.sideBar .search-icon
+{   
+    padding-top: 2px;
+    height: 20px;
+    filter: invert();
 }
 
 #content

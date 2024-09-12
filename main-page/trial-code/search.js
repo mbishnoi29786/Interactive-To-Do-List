@@ -4,24 +4,30 @@ export function createSearchDiv() {
     let searchDiv = document.createElement('div');
     searchDiv.className = 'search-div';
 
-    let searchSpan = document.createElement('SPAN');
-    searchSpan.textContent = "\u2315 Search ";
+    let searchIconDiv = document.createElement('div')
+    let searchIcon = document.createElement('img');
+    searchIcon.setAttribute('src', '../../pictures/icons8-search-30.png');
+    searchIcon.className = "search-icon";
+
+    let searchSpan = document.createElement('div');
+    searchSpan.innerHTML = '<p>Search</p>'
     searchSpan.className = 'search-span';
 
     let searchInput = document.createElement('input');
     searchInput.setAttribute('type', 'text');
     searchInput.className = 'search-input';
 
+    searchIconDiv.appendChild(searchIcon);
+    searchDiv.appendChild(searchIconDiv)
     searchDiv.appendChild(searchSpan);
-    searchDiv.appendChild(searchInput);
+    // searchDiv.appendChild(searchInput);
 
     searchInput.addEventListener('input', filterTasks);
-
     return searchDiv;
 }
 
 
-function filterTasks()
+export function filterTasks(USER)
 {
     let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
 
@@ -42,7 +48,8 @@ function filterTasks()
 
     }).filter(list => list.tasks.length > 0); // Excluded lists with no matching tasks
 
-    displayLists(filteredList);
+    return filteredList;
+    // displayLists(filteredList);
 }
 
 

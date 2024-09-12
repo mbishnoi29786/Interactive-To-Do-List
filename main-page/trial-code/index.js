@@ -15,8 +15,15 @@ window.addEventListener('load', function() {
     }
 });
 
-const sidebar = document.getElementById('sideBar');
+import { createSearchDiv, filterTasks } from "./search.js";
 
+const sidebar = document.getElementById('sideBar');
+const searchDiv = createSearchDiv();
+sidebar.appendChild(searchDiv);
+
+const filteredList = filterTasks(USER);
+
+displayLists(filteredList);
 
 
 // Display user's to-do lists
