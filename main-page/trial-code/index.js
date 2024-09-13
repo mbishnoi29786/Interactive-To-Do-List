@@ -15,7 +15,7 @@ window.addEventListener('load', function() {
     }
 });
 
-import { createSearchDiv, filterTasks } from "./search.js";
+import { createSearchDiv, filterTasks } from "./Search_functionality/search.js";
 
 const sidebar = document.getElementById('sideBar');
 const searchDiv = createSearchDiv();

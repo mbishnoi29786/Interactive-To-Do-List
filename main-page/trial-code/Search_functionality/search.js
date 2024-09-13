@@ -24,7 +24,7 @@ export function createSearchDiv() {
 
 export function filterTasks(USER)
 {
-    let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
+    // let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
 
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
 
@@ -49,11 +49,16 @@ export function filterTasks(USER)
 
 function showSearchDialog()
 {
-    const searchDialogDiv = document.createElement('div');
-    searchDialogDiv.className = 'search-dialog-box';
+    const body = document.querySelector('body');
+
+    const overlayDiv = document.createElement('div');
+    overlayDiv.id = 'overlay-div';
+
+    const searchModalDiv = document.createElement('div');
+    searchModalDiv.className = 'search-modal';
     
-    const searchBarDiv = document.createElement('div');
-    searchBarDiv.className = 'search-bar-div';
+    const searchModalHeader = document.createElement('div');
+    searchModalHeader.className = 'search-modal-header';
 
     const searchIconDiv = document.createElement('div');
     searchIconDiv.className = 'search-icon-div';
@@ -62,11 +67,30 @@ function showSearchDialog()
     searchIcon.setAttribute('src', '../../pictures/icons8-search-30.png');
     searchIcon.className = 'search-icon';
 
-    let searchInput = document.createElement('input');
+    const searchInputDiv = document.createElement('div');
+    searchInputDiv.className = 'search-input-div';
+
+    const searchInput = document.createElement('input');
     searchInput.setAttribute('type', 'text');
     searchInput.placeholder = 'Search or type a Command...';
     searchInput.className = 'search-input';
+
+    const searchModalBody = document.createElement('div');
+    searchModalBody.className = 'search-modal-body';
     
+
+    searchIconDiv.appendChild(searchIcon);
+
+    searchInputDiv.appendChild(searchInput);
+
+    searchModalHeader.appendChild(searchIconDiv);
+    searchModalHeader.appendChild(searchInputDiv);
+
+    searchModalDiv.appendChild(searchModalHeader);
+    searchModalDiv.appendChild(searchModalBody);
+
+    body.appendChild(searchModalDiv);
+    body.appendChild(overlayDiv);
 }
 
 
