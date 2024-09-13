@@ -13,16 +13,11 @@ export function createSearchDiv() {
     searchSpan.innerHTML = '<p>Search</p>'
     searchSpan.className = 'search-span';
 
-    let searchInput = document.createElement('input');
-    searchInput.setAttribute('type', 'text');
-    searchInput.className = 'search-input';
-
     searchIconDiv.appendChild(searchIcon);
     searchDiv.appendChild(searchIconDiv)
     searchDiv.appendChild(searchSpan);
-    // searchDiv.appendChild(searchInput);
 
-    searchInput.addEventListener('input', filterTasks);
+    searchDiv.addEventListener('click', showSearchDialog);
     return searchDiv;
 }
 
@@ -51,5 +46,32 @@ export function filterTasks(USER)
     return filteredList;
     // displayLists(filteredList);
 }
+
+function showSearchDialog()
+{
+    const searchDialogDiv = document.createElement('div');
+    searchDialogDiv.className = 'search-dialog-box';
+    
+    const searchBarDiv = document.createElement('div');
+    searchBarDiv.className = 'search-bar-div';
+
+    const searchIconDiv = document.createElement('div');
+    searchIconDiv.className = 'search-icon-div';
+
+    const searchIcon = document.createElement('img');
+    searchIcon.setAttribute('src', '../../pictures/icons8-search-30.png');
+    searchIcon.className = 'search-icon';
+
+    let searchInput = document.createElement('input');
+    searchInput.setAttribute('type', 'text');
+    searchInput.placeholder = 'Search or type a Command...';
+    searchInput.className = 'search-input';
+    
+}
+
+
+// future implementation
+
+// searchInput.addEventListener('input', filterTasks);
 
 
