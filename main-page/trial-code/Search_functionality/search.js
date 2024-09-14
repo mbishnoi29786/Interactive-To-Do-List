@@ -24,7 +24,7 @@ export function createSearchDiv() {
 
 export function filterTasks(USER)
 {
-    // let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
+    let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
 
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
 
@@ -44,7 +44,6 @@ export function filterTasks(USER)
     }).filter(list => list.tasks.length > 0); // Excluded lists with no matching tasks
 
     return filteredList;
-    // displayLists(filteredList);
 }
 
 function showSearchDialog()
@@ -78,6 +77,8 @@ function showSearchDialog()
     const searchModalBody = document.createElement('div');
     searchModalBody.className = 'search-modal-body';
     
+    const searchResultsDiv = document.createElement('div');
+    searchResultsDiv.className = 'search-results-div';
 
     searchIconDiv.appendChild(searchIcon);
 

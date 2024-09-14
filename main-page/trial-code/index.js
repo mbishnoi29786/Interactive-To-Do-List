@@ -21,13 +21,14 @@ const sidebar = document.getElementById('sideBar');
 const searchDiv = createSearchDiv();
 sidebar.appendChild(searchDiv);
 
+
 const filteredList = filterTasks(USER);
 
 displayLists(filteredList);
 
 
 // Display user's to-do lists
-function displayLists(lists) {
+export function displayLists(lists) {
     const listsContainer = document.getElementById('listsContainer');
 
     listsContainer.innerHTML = '';
