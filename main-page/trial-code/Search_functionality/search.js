@@ -17,36 +17,10 @@ export function createSearchDiv() {
     searchDiv.appendChild(searchIconDiv)
     searchDiv.appendChild(searchSpan);
 
-    searchDiv.addEventListener('click', showSearchDialog);
     return searchDiv;
 }
 
-
-export function filterTasks(USER)
-{
-    let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
-
-    const userLists = JSON.parse(localStorage.getItem(USER)) || [];
-
-    // Filtered lists to include only those with matching tasks
-    let filteredList = userLists.map(list => {
-
-         // Filtered tasks in each list to include only those that match the search keyword
-        let filteredTask = list.tasks.filter(task => 
-            task.taskName.toLowerCase().includes(searchKeyword));
-    
-        // to return the list only if there are matching tasks
-        return {
-            ...list,
-            tasks : filteredTask
-        }
-
-    }).filter(list => list.tasks.length > 0); // Excluded lists with no matching tasks
-
-    return filteredList;
-}
-
-function showSearchDialog()
+export function showSearchDialog(USER)
 {
     const body = document.querySelector('body');
 
@@ -73,6 +47,7 @@ function showSearchDialog()
     searchInput.setAttribute('type', 'text');
     searchInput.placeholder = 'Search or type a Command...';
     searchInput.className = 'search-input';
+    searchInput.addEventListener('input', () => filterTasks(USER));
 
     const searchModalBody = document.createElement('div');
     searchModalBody.className = 'search-modal-body';
@@ -95,8 +70,89 @@ function showSearchDialog()
 }
 
 
-// future implementation
 
-// searchInput.addEventListener('input', filterTasks);
+function filterTasks(USER)
+{
+    let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
+
+    const userLists = JSON.parse(localStorage.getItem(USER)) || [];
+
+    // Filtered lists to include only those with matching tasks
+    let filteredList = userLists.map(list => {
+
+         // Filtered tasks in each list to include only those that match the search keyword
+        let filteredTask = list.tasks.filter(task => 
+            task.taskName.toLowerCase().includes(searchKeyword));
+    
+        // to return the list only if there are matching tasks
+        return {
+            ...list,
+            tasks : filteredTask
+        }
+
+    }).filter(list => list.tasks.length > 0); // Excluded lists with no matching tasks
+    
+    displayResult(filteredList)
+}
+
+function displayResult(filteredList) 
+{
+    
+    const searchModalBody = document.querySelector('.search-modal-body');
+
+    searchModalBody.innerHTML = '';
+
+    if (filteredList == [])
+    {
+        searchModalBody.innerHTML = '';
+    }
+
+    const modalList = document.createElement('ul');
+    modalList.className = 'modal-list';
+
+    filteredList.forEach(list => {
+        const searchList = document.createElement('li');
+        searchList.className = 'search-list';
+
+        const listNameDiv = document.createElement('div');
+        listNameDiv.className = 'search-list-name-div';
+        listNameDiv.textContent = `LIST: ${list.name}`
+
+        const allTasksDiv = document.createElement('div');
+        allTasksDiv.className = 'search-all-tasks-div';
+
+        const taskLists = document.createElement('ul');
+        taskLists.className = 'search-lists-tasks-list'
+
+
+        list.tasks.forEach(task =>
+        {   
+            const taskListItem = document.createElement('li');
+            taskListItem.className = 'search-lists-tasks-list-item';
+    
+            const taskNameDiv = document.createElement('div');
+            taskNameDiv.className = 'search-task-name';
+            taskNameDiv.textContent = `TASK: ${task.taskName}`
+
+            const taskDeadlineDiv = document.createElement('div');
+            taskDeadlineDiv.className = 'search-task-deadline';
+            taskDeadlineDiv.textContent = `DEADLINE: ${task.deadline}`;
+
+            taskListItem.appendChild(taskNameDiv);
+            taskListItem.appendChild(taskDeadlineDiv);
+
+            taskLists.appendChild(taskListItem);
+        })
+        
+        allTasksDiv.appendChild(taskLists);
+
+        searchList.appendChild(listNameDiv);
+        searchList.appendChild(allTasksDiv);
+
+        modalList.appendChild(searchList);
+    });
+
+    searchModalBody.appendChild(modalList);
+}
 
 

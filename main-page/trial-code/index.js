@@ -15,20 +15,21 @@ window.addEventListener('load', function() {
     }
 });
 
-import { createSearchDiv, filterTasks } from "./Search_functionality/search.js";
+import { createSearchDiv, showSearchDialog } from "./Search_functionality/search.js";
 
 const sidebar = document.getElementById('sideBar');
 const searchDiv = createSearchDiv();
 sidebar.appendChild(searchDiv);
+searchDiv.addEventListener('click', () =>  showSearchDialog(USER));
 
 
-const filteredList = filterTasks(USER);
+// const filteredList = filterTasks(USER);
 
-displayLists(filteredList);
+// displayLists(filteredList);
 
 
 // Display user's to-do lists
-export function displayLists(lists) {
+function displayLists(lists) {
     const listsContainer = document.getElementById('listsContainer');
 
     listsContainer.innerHTML = '';
@@ -48,7 +49,7 @@ function createListCard(list) {
     let createTaskDiv = document.createElement('div');
     createTaskDiv.className = 'create-task-div';
 
-    // Close button
+    // Close button for list
     let spanClose = document.createElement('SPAN');
     spanClose.className = 'closeList';
     spanClose.textContent = '\u00D7';
@@ -138,7 +139,7 @@ function displayTasks(tasks, ul, listName) {
         dragIconSpan.className = 'drag-icon-span';
 
         let dragIcon = document.createElement('img');
-        dragIcon.src = '../../pictures/draggable-dots-icon.png';
+        dragIcon.src = '../../pictures/drag-icon.png';
         dragIcon.setAttribute('draggable', false);
         dragIcon.setAttribute('alt', 'drag' );
         dragIcon.className = 'drag-icon';
@@ -302,11 +303,11 @@ function removeList(listToRemove) {
     displayLists(allLists); // Re-display the updated lists
 }
 
-// Logout functionality
-const logOutButton = document.getElementById('logOutBtn');
-logOutButton.addEventListener('click', function() {
-    sessionStorage.setItem('loggedInUser', JSON.stringify(null));
-    window.location.href = "../../login-page/user_login.html";
-});
+// // Logout functionality
+// const logOutButton = document.getElementById('logOutBtn');
+// logOutButton.addEventListener('click', function() {
+//     sessionStorage.setItem('loggedInUser', JSON.stringify(null));
+//     window.location.href = "../../login-page/user_login.html";
+// });
 
 

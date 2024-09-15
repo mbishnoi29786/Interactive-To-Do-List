@@ -28,6 +28,11 @@
     filter: invert();
 }
 
+.search-icon-div img
+{
+    height: 30px;
+}
+
 .search-input-div
 {
     flex: 1;
@@ -50,6 +55,56 @@
 {
     padding: 10px 15px;
 }
+
+.modal-list
+{
+    list-style-type: url(../../../pictures/list-icon.png);
+}
+
+.search-list
+{
+    list-style: none;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.search-list-name-div
+{
+
+}
+
+.search-all-tasks-div
+{
+
+}
+
+.search-lists-tasks-list
+{
+
+}
+
+.search-lists-tasks-list-item
+{
+    display: flex;
+    gap: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.search-task-name
+{
+
+}
+
+.search-task-deadline
+{
+
+}
+
 
 #overlay-div
 {
