@@ -8,7 +8,7 @@
     border-radius: 10px;
     z-index: 10;
     background-color: rgba(030, 030, 030);
-    width: 500px;
+    width: 700px;
     max-width: 80%;
     color: white;
 }
@@ -51,23 +51,37 @@
     color: white;
 }
 
+.search-input::placeholder
+{
+    color: white;
+    opacity: 0.8;
+}
+
 .search-modal-body
 {
-    padding: 10px 15px;
+    width: 100%;
 }
 
 .modal-list
 {
-    list-style-type: url(../../../pictures/list-icon.png);
+    padding: 0;
+    /* list-style-type: url(../../../pictures/list-icon.png); */
 }
 
 .search-list
 {
+
     list-style: none;
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
+    padding: 10px 0px 10px 10px;
+
+}
+
+.modal-list .search-list:hover
+{
+    padding: 10px 0px 10px 8px;
+    border-left: 2px solid;
+    border-color: #f44336;
+    background-color: rgba(040, 040, 040, 0.8);
 }
 
 .search-list-name-div
@@ -89,10 +103,7 @@
 {
     display: flex;
     gap: 10px;
-    border: 2px solid black;
-    border-radius: 10px;
     padding: 10px;
-    margin: 10px;
 }
 
 .search-task-name
