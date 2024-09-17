@@ -3,7 +3,8 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
     border: 1px solid black;
     border-radius: 10px;
     z-index: 10;
@@ -11,6 +12,11 @@
     width: 700px;
     max-width: 80%;
     color: white;
+}
+
+.search-modal.active 
+{
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .search-modal-header
@@ -72,14 +78,14 @@
 {
 
     list-style: none;
-    padding: 10px 0px 10px 10px;
+    padding: 10px 0px 10px 12px;
 
 }
 
 .modal-list .search-list:hover
 {
     padding: 10px 0px 10px 8px;
-    border-left: 2px solid;
+    border-left: 4px solid;
     border-color: #f44336;
     background-color: rgba(040, 040, 040, 0.8);
 }
@@ -120,16 +126,19 @@
 #overlay-div
 {
     position: fixed;
-    background-color: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    background-color: rgba(0, 0, 0, 0.5);
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    pointer-events: all;
+    pointer-events: none;
 }
 
 #overlay-div.active
 {
+    transition: 200ms ease-in-out;
     opacity: 1;
     pointer-events: all;
 }

@@ -5,7 +5,6 @@ html, body
     width: 100vw;
     display: flex;
     overflow: hidden;
-    color: rgba(255, 255, 255);
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -13,7 +12,7 @@ html, body
 {
     width: 15%;
     height: 100vh;
-    background-color: rgba(038, 038, 038);
+    background-color: rgba(252, 250, 248);
     display: flex;
     flex-direction: column;
 }
@@ -47,7 +46,6 @@ html, body
 {   
     padding-top: 2px;
     height: 20px;
-    filter: invert();
 }
 
 #content
@@ -56,7 +54,7 @@ html, body
     height: 100vh;
     margin: 0;
     overflow: scroll;
-    background-color: rgba(030, 030, 030);
+    background-color: #FFF;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,13 +110,13 @@ html, body
 .search-div
 {
     display: block;
-    padding-left: 20px;
+    padding-left: 40px;
     display: flex;
     align-items: center;
     justify-content: left;
 }
 
-.search-div .search-input
+/* .search-div .search-input
 {
     width: 30%;
     text-align: center;
@@ -127,15 +125,15 @@ html, body
     background-color: transparent;
     outline: none;
     cursor: auto;
-    color: white;
+    color: black;
     font-size: large;
     transition: width 0.4s ease-in-out;
-}
+} */
 
-.search-div .search-input:focus
+/* .search-div .search-input:focus
 {
     width: 70%;
-}
+} */
 
 
 .todo-card 
@@ -175,7 +173,8 @@ html, body
   /* Style the input for tasks */
 .task-input 
 {
-    color: #fff;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    outline: none;
     font-size: medium;
     padding: 10px;
     border-right: none;

@@ -1,9 +1,10 @@
 // search functionality
 
-export function createSearchDiv() {
+export function createSearchDiv(USER) {
     let searchDiv = document.createElement('div');
     searchDiv.className = 'search-div';
-
+    searchDiv.setAttribute('data-modal-target', '.search-modal')
+    
     let searchIconDiv = document.createElement('div')
     let searchIcon = document.createElement('img');
     searchIcon.setAttribute('src', '../../pictures/icons8-search-30.png');
@@ -17,19 +18,24 @@ export function createSearchDiv() {
     searchDiv.appendChild(searchIconDiv)
     searchDiv.appendChild(searchSpan);
 
+    searchDiv.addEventListener('click', () =>  showSearchDialog(USER));
+
     return searchDiv;
 }
 
 export function showSearchDialog(USER)
-{
+{   
     const body = document.querySelector('body');
 
     const overlayDiv = document.createElement('div');
     overlayDiv.id = 'overlay-div';
+    overlayDiv.classList.add('active');
 
     const searchModalDiv = document.createElement('div');
     searchModalDiv.className = 'search-modal';
+    searchModalDiv.classList.add('active');
     
+
     const searchModalHeader = document.createElement('div');
     searchModalHeader.className = 'search-modal-header';
 
@@ -54,6 +60,15 @@ export function showSearchDialog(USER)
     
     const searchResultsDiv = document.createElement('div');
     searchResultsDiv.className = 'search-results-div';
+
+
+    overlayDiv.addEventListener('click', ()=>
+        {
+            const modal = document.querySelector('.search-modal.active');
+            const overlay = document.querySelector('#overlay-div.active');
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        })
 
     searchIconDiv.appendChild(searchIcon);
 
