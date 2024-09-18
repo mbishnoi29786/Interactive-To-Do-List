@@ -15,11 +15,12 @@ window.addEventListener('load', function() {
     }
 });
 
-import { createSearchDiv} from "./Search_functionality/search.js";
+import { createSearchDiv, showSearchDialog} from "./Search_functionality/search.js";
 
 USER = JSON.parse(sessionStorage.getItem('loggedInUser'));
 const sidebar = document.getElementById('sideBar');
 const searchDiv = createSearchDiv(USER);
+searchDiv.addEventListener('click', () =>  showSearchDialog(USER))
 sidebar.appendChild(searchDiv);
 
 

@@ -18,8 +18,6 @@ export function createSearchDiv(USER) {
     searchDiv.appendChild(searchIconDiv)
     searchDiv.appendChild(searchSpan);
 
-    searchDiv.addEventListener('click', () =>  showSearchDialog(USER));
-
     return searchDiv;
 }
 
