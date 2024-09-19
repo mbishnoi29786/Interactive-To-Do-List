@@ -17,6 +17,8 @@
 .search-modal.active 
 {
     transform: translate(-50%, -50%) scale(1);
+
+    
 }
 
 .search-modal-header
@@ -65,6 +67,7 @@
 
 .search-modal-body
 {
+    flex: 1;
     width: 100%;
 }
 

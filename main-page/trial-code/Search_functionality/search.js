@@ -23,6 +23,8 @@ export function createSearchDiv(USER) {
 
 export function showSearchDialog(USER)
 {   
+    console.log(USER);
+    
     const body = document.querySelector('body');
 
     const overlayDiv = document.createElement('div');
@@ -64,8 +66,8 @@ export function showSearchDialog(USER)
         {
             const modal = document.querySelector('.search-modal.active');
             const overlay = document.querySelector('#overlay-div.active');
-            modal.classList.remove('active');
-            overlay.classList.remove('active');
+            modal.remove();
+            overlay.remove();
         })
 
     searchIconDiv.appendChild(searchIcon);
@@ -86,6 +88,8 @@ export function showSearchDialog(USER)
 
 function filterTasks(USER)
 {
+    console.log(USER);
+    
     let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
 
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
@@ -115,9 +119,10 @@ function displayResult(filteredList)
 
     searchModalBody.innerHTML = '';
 
-    if (filteredList == [])
+    if (filteredList.length == 0)
     {
-        searchModalBody.innerHTML = '';
+        searchModalBody.innerHTML = 'NO Data Found!';
+        return;
     }
 
     const modalList = document.createElement('ul');
@@ -166,6 +171,9 @@ function displayResult(filteredList)
     });
 
     searchModalBody.appendChild(modalList);
+
+    console.log(searchModalBody);
+    
 }
 
 
