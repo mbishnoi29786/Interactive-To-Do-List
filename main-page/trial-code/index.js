@@ -15,6 +15,7 @@ window.addEventListener('load', function() {
     }
 });
 
+import {dragFunctionality} from './drag.js'
 import { createSearchDiv, showSearchDialog} from "./Search_functionality/search.js";
 
 USER = JSON.parse(sessionStorage.getItem('loggedInUser'));
@@ -186,6 +187,7 @@ function displayTasks(tasks, ul, listName) {
         li.appendChild(spanTimeLeft);
         li.appendChild(spanClose);
         ul.appendChild(li);
+        dragFunctionality();
     });
 }
 

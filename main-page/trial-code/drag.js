@@ -1,5 +1,5 @@
 
-setTimeout(()=>
+export function dragFunctionality ()
 {
     const taskLists = document.querySelectorAll('.task');
     const todoContainers = document.querySelectorAll('.task-list');
@@ -27,4 +27,4 @@ setTimeout(()=>
             todoContainer.appendChild(draggable);
         })
     })
-}, 2000)
+}
