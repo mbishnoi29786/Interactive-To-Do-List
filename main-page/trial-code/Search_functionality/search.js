@@ -66,6 +66,9 @@ export function showSearchDialog(USER)
         {
             const modal = document.querySelector('.search-modal.active');
             const overlay = document.querySelector('#overlay-div.active');
+
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
             modal.remove();
             overlay.remove();
         })

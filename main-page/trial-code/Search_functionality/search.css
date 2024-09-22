@@ -11,6 +11,9 @@
     background-color: rgba(030, 030, 030);
     width: 700px;
     max-width: 80%;
+    min-height: 40vh;
+    max-height: 60vh;
+    overflow-y: scroll;
     color: white;
 }
 
