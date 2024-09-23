@@ -23,7 +23,6 @@ export function createSearchDiv(USER) {
 
 export function showSearchDialog(USER)
 {   
-    console.log(USER);
     
     const body = document.querySelector('body');
 

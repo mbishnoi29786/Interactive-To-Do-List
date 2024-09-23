@@ -1,4 +1,8 @@
 
+import {dragFunctionality} from './drag.js'
+import { createSearchDiv, showSearchDialog} from "./Search_functionality/search.js";
+import { sideBarContents} from './sidebar/sidebar.js';
+
 let USER;
 
 window.addEventListener('load', function() {
@@ -8,6 +12,9 @@ window.addEventListener('load', function() {
     } else {
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const user = users.find(user => user.email === USER);
+        const sideBar = document.getElementById('sideBar');
+        const sideBarContentsDiv = sideBarContents(USER);
+        sideBar.appendChild(sideBarContentsDiv);
         document.getElementById('displayUsername').textContent = `Hello, ${user.username}!`;
         const userLists = JSON.parse(localStorage.getItem(USER)) || [];
         displayLists(userLists); // Function to display user's to-do lists
@@ -15,15 +22,11 @@ window.addEventListener('load', function() {
     }
 });
 
-import {dragFunctionality} from './drag.js'
-import { createSearchDiv, showSearchDialog} from "./Search_functionality/search.js";
+
 
 USER = JSON.parse(sessionStorage.getItem('loggedInUser'));
 
-const sidebar = document.getElementById('sideBar');
-const searchDiv = createSearchDiv(USER);
-searchDiv.addEventListener('click', () =>  showSearchDialog(USER))
-sidebar.appendChild(searchDiv);
+
 
 
 
