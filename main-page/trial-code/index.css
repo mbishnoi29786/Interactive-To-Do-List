@@ -1,3 +1,5 @@
+@import url('./sidebar/sidebar.css');
+
 html, body
 {
     margin: 0;
@@ -16,6 +18,7 @@ html, body
     background-color: rgba(252, 250, 248);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .sideBar h2
@@ -26,9 +29,7 @@ html, body
     padding: 10px;
 }
 
-.sideBar, #content {
-    border: 1px solid red; /* Temporary for debugging */
-}
+
 
 #displayUsername
 {
