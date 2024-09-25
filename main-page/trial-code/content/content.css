@@ -145,3 +145,117 @@
 {
     background-color: #bbb;
 }
+
+/* Style for the tasks */
+
+.tasks-div
+{
+    display: grid;
+    grid-template-columns: 0.1fr 3fr;
+}
+
+.task-list 
+{
+    list-style-type: none;
+    padding: 20px;
+}
+
+.task-list .drag-icon 
+{
+    height: 18px;
+    width: 18px;
+    padding-left: 5px;
+    cursor: move;
+    -webkit-filter: invert(.90);
+    filter: invert(.90);
+}
+
+.task-list li 
+{
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    /* background: #eee; */
+    transition: 0.2s;
+    /* margin: 5px; */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.task-list li:hover 
+{
+    border-radius: 5px;
+    background: #fff;
+    color: #000;
+
+    .drag-icon
+    {
+        filter: invert(.00);
+    }
+}
+
+.task-list li.checked 
+{
+    background: #14A76C;
+    color: #FFFDF2;
+    text-decoration: line-through;
+    border-radius: 5px;
+}
+
+.task-text
+{
+    flex: 5;
+    padding: 11px 16px 11px 16px;
+}
+
+.time-left
+{
+    flex: 1;
+    margin-right: 5px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 3px 5px 3px 5px;
+}
+
+.close 
+{
+    text-align: center;
+    flex: 0.4;
+    cursor: pointer;
+    padding: 12px 16px 12px 16px;
+    font-weight: bold;
+    font-size: 20px;  
+    transition: 0.3s;
+    opacity: 50%;
+    height: 100%;
+    width: 100%;
+}
+
+.close:hover 
+{
+    color: #f44336;
+    font-size: x-large;
+    opacity: 100%;
+    /* flex-grow: 0.8; */
+}
+
+.closeList
+{
+    cursor: pointer;
+    padding: 11px 16px 11px 16px;
+    font-weight: bold;
+    font-size: 20px;  
+    transition: 0.3s;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 50%;;
+}
+
+.closeList:hover
+{
+    color: #f44336;
+    font-size: xx-large;
+    opacity: 100%;
+}
+
