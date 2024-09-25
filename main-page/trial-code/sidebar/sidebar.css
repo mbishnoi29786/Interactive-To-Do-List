@@ -1,9 +1,59 @@
+.sideBar
+{
+    width: 15%;
+    height: 100vh;
+    background-color: rgba(252, 250, 248);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sideBar h2
+{
+    margin: 0;
+    color: #000;
+    background-color: #f44336;
+    padding: 10px;
+}
+
+
+
+#displayUsername
+{
+    padding: 20px;
+    font-size: 1.5rem;
+}
+
+.sideBar .search-div
+{
+    display: flex;
+    gap: 2px;
+}
+
+.sideBar .search-span 
+{
+    font-size: 1.2rem;
+}
+
+.sideBar .search-icon
+{   
+    padding-top: 2px;
+    height: 20px;
+}
+
 .sideBar-ul
 {
     list-style: none;
+    padding-left: 0;
+}
+
+.sideBar-ul.active
+{
+
 }
 
 .sideBar-li
 {
-    padding: 10px 8px;
+    padding: 8px 20px;
+    font-weight: 550;
 }

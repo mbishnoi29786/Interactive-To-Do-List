@@ -1,5 +1,6 @@
 @import url('./sidebar/sidebar.css');
-
+@import url('./Search_functionality/search_modal.css');
+@import url('./content/content.css');
 html, body
 {
     margin: 0;
@@ -11,119 +12,6 @@ html, body
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.sideBar
-{
-    width: 15%;
-    height: 100vh;
-    background-color: rgba(252, 250, 248);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.sideBar h2
-{
-    margin: 0;
-    color: #000;
-    background-color: #f44336;
-    padding: 10px;
-}
-
-
-
-#displayUsername
-{
-    padding: 20px;
-    font-size: 1.5rem;
-}
-
-.sideBar .search-div
-{
-    display: flex;
-    gap: 2px;
-}
-
-.sideBar .search-span 
-{
-    font-size: 1.2rem;
-}
-
-.sideBar .search-icon
-{   
-    padding-top: 2px;
-    height: 20px;
-}
-
-#content
-{
-
-    width: 85%;
-    height: 100vh;
-    margin: 0;
-    overflow-y: scroll;
-    background-color: #FFF;
-    display: block;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 40px;
-}
-
-  /* Add List Container */
-#addListContainer 
-{
-
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-    margin-bottom: 20px;
-    width: 90%;
-    
-}
-
-#listNameInput 
-{
-    padding: 10px;
-    font-size: 16px;
-    border-right: none;
-    border-top: none;
-    border-left: none;
-    border-bottom: 2px solid black;
-    background-color: transparent;
-
-}
-
-#addListBtn 
-{
-    padding: 10px;
-    background: #d9d9d9;
-    color: #555;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#addListBtn:hover 
-{
-    background-color: #bbb;
-}
-
-  /* Lists Container */
-#listsContainer 
-{
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-.search-div
-{
-    display: block;
-    padding-left: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-}
 
 /* .search-div .search-input
 {
@@ -145,80 +33,6 @@ html, body
 } */
 
 
-.todo-card 
-{
-    padding: 30px;
-    border-bottom: 2px solid rgba(000, 000, 000, 1);
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
-    position: relative;
-    opacity: 0.8;
-    padding: 50px;
-    transition: opacity 0.8s ease;
-}
-
-.todo-card:hover
-{
-    opacity: 1;
-}
-
-.todo-card h3 
-{
-    margin-bottom: 20px;
-    padding-bottom: 3px;
-    padding-left: 10px;
-    border-bottom: 2px solid rgba(000, 000, 000, 0.6);
-    font-size: x-large;
-}
-
-  /* Card Style for To-Do Lists */
-.create-task-div
-{
-    display: grid;
-    grid-template-columns: 3fr 1fr 0.5fr;
-    padding-bottom: 10px;
-    border-bottom: 2px solid rgba(000, 000, 000, 0.1);
-}
-
-  /* Style the input for tasks */
-.task-input 
-{
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    outline: none;
-    font-size: medium;
-    padding: 10px;
-    border-right: none;
-    border-top: none;
-    border-left: none;
-    border-bottom: 2px solid black;
-    background-color: transparent;
-}
-
-.deadline-input
-{
-    border: none;
-    border-bottom: 2px solid black;
-    padding: 10px;
-    color-scheme: dark;
-}
-
-.addTaskBtn 
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #d9d9d9;
-    color: #555;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    /* height: 40px; */
-}
-
-.addTaskBtn:hover 
-{
-    background-color: #bbb;
-}
 
 /* Style for the tasks */
 
