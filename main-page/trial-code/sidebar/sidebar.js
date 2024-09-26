@@ -9,15 +9,34 @@ export function sideBarContents (USER)
     const div = document.createElement('div');
     div.id = 'displayUsername';
 
+    const addTaskDiv = document.createElement('div');
+    addTaskDiv.className = 'add-tasks-sideBar-div';
+
+    const addTaskImgDiv = document.createElement('div');
+    addTaskImgDiv.className = 'add-task-img-div';
+
+    const addTaskImg = document.createElement('img');
+    addTaskImg.className = 'add-task-img';
+    addTaskImgDiv.appendChild(addTaskImg);
+
+    const addTaskContentDiv = document.createElement('div');
+    addTaskContentDiv.className = 'add-task-content-div';
+    addTaskContentDiv.textContent = 'Add Task';
+
+    addTaskDiv.appendChild(addTaskImgDiv);
+    addTaskDiv.appendChild(addTaskContentDiv);
+
     const searchDiv = createSearchDiv(USER);
     searchDiv.addEventListener('click', () =>  showSearchDialog(USER));
 
     const listNameDiv = showListsNameOnSidebar(USER);
 
     sideBarMainDiv.appendChild(h2);
+    sideBarMainDiv.appendChild(addTaskDiv);
     sideBarMainDiv.appendChild(div);
     sideBarMainDiv.appendChild(searchDiv);
     sideBarMainDiv.appendChild(listNameDiv);
+    
 
     return sideBarMainDiv;
 }

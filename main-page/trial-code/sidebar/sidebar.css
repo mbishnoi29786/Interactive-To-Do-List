@@ -48,7 +48,7 @@
 .sideBar-ul
 {
     list-style: none;
-    padding-left: 0;
+    padding: 0 10px;
 }
 
 .sideBar-ul.active
@@ -61,6 +61,7 @@
     padding: 8px 20px;
     /* font-weight: 550; */
     font-size: 1.2rem;
+
 }
 
 .sideBar-li:hover
