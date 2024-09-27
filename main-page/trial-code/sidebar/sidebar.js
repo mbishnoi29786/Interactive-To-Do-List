@@ -17,6 +17,7 @@ export function sideBarContents (USER)
 
     const addTaskImg = document.createElement('img');
     addTaskImg.className = 'add-task-img';
+    addTaskImg.setAttribute('src', '../../../pictures/icons8-add-button-100.png');
     addTaskImgDiv.appendChild(addTaskImg);
 
     const addTaskContentDiv = document.createElement('div');
