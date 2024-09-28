@@ -9,24 +9,7 @@ export function sideBarContents (USER)
     const div = document.createElement('div');
     div.id = 'displayUsername';
 
-    const addTaskDiv = document.createElement('div');
-    addTaskDiv.className = 'add-tasks-sideBar-div';
-
-    const addTaskImgDiv = document.createElement('div');
-    addTaskImgDiv.className = 'add-task-img-div';
-
-    const addTaskImg = document.createElement('img');
-    addTaskImg.className = 'add-task-img';
-    addTaskImg.setAttribute('src', '../../../pictures/icons8-add-button-100.png');
-    addTaskImgDiv.appendChild(addTaskImg);
-
-    const addTaskContentDiv = document.createElement('div');
-    addTaskContentDiv.className = 'add-task-content-div';
-    addTaskContentDiv.textContent = 'Add Task';
-
-    addTaskDiv.appendChild(addTaskImgDiv);
-    addTaskDiv.appendChild(addTaskContentDiv);
-
+    const addTaskDiv = addTaskDivFun();
     const searchDiv = createSearchDiv(USER);
     searchDiv.addEventListener('click', () =>  showSearchDialog(USER));
 
@@ -42,6 +25,28 @@ export function sideBarContents (USER)
     return sideBarMainDiv;
 }
 
+function addTaskDivFun()
+{
+    const addTaskDiv = document.createElement('div');
+    addTaskDiv.className = 'add-tasks-sideBar-div';
+
+    const addTaskImgDiv = document.createElement('div');
+    addTaskImgDiv.className = 'add-task-img-div';
+
+    const addTaskImg = document.createElement('img');
+    addTaskImg.className = 'add-task-img';
+    addTaskImg.setAttribute('src', './add_button.png');
+    addTaskImgDiv.appendChild(addTaskImg);
+
+    const addTaskContentDiv = document.createElement('div');
+    addTaskContentDiv.className = 'add-task-content-div';
+    addTaskContentDiv.textContent = 'Add Task';
+
+    addTaskDiv.appendChild(addTaskImgDiv);
+    addTaskDiv.appendChild(addTaskContentDiv);
+
+    return addTaskDiv;
+}
 
 function showListsNameOnSidebar (USER)
 {
