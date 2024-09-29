@@ -281,5 +281,5 @@ function removeList(listToRemove) {
 const logOutButton = document.getElementById('logOutBtn');
 logOutButton.addEventListener('click', function() {
     sessionStorage.setItem('loggedInUser', JSON.stringify(null));
-    window.location.href = "../../login-page/user_login.html";
+    window.location.href = "../login-page/user_login.html";
 });

@@ -16,7 +16,38 @@
     padding: 10px;
 }
 
+.add-tasks-sideBar-div
+{
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+}
 
+.add-tasks-sideBar-div:hover
+{
+    .add-task-symbol-span
+    {
+        color: #f44336
+    };
+
+    .add-task-content-div
+    {
+        color: #f44336;
+    }
+}
+
+.add-task-symbol-span
+{
+    font-size: 2rem;
+}
+
+.add-task-content-div
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
 
 #displayUsername
 {

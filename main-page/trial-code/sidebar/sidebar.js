@@ -16,8 +16,8 @@ export function sideBarContents (USER)
     const listNameDiv = showListsNameOnSidebar(USER);
 
     sideBarMainDiv.appendChild(h2);
-    sideBarMainDiv.appendChild(addTaskDiv);
     sideBarMainDiv.appendChild(div);
+    sideBarMainDiv.appendChild(addTaskDiv);
     sideBarMainDiv.appendChild(searchDiv);
     sideBarMainDiv.appendChild(listNameDiv);
     
@@ -30,19 +30,19 @@ function addTaskDivFun()
     const addTaskDiv = document.createElement('div');
     addTaskDiv.className = 'add-tasks-sideBar-div';
 
-    const addTaskImgDiv = document.createElement('div');
-    addTaskImgDiv.className = 'add-task-img-div';
+    const addTaskSymbolDiv = document.createElement('div');
+    addTaskSymbolDiv.className = 'add-task-symbol-div';
 
-    const addTaskImg = document.createElement('img');
-    addTaskImg.className = 'add-task-img';
-    addTaskImg.setAttribute('src', './add_button.png');
-    addTaskImgDiv.appendChild(addTaskImg);
+    const addTaskSymbolSpan = document.createElement('span');
+    addTaskSymbolSpan.textContent = '\u2295'
+    addTaskSymbolSpan.className = 'add-task-symbol-span';
+    addTaskSymbolDiv.appendChild(addTaskSymbolSpan);
 
     const addTaskContentDiv = document.createElement('div');
     addTaskContentDiv.className = 'add-task-content-div';
     addTaskContentDiv.textContent = 'Add Task';
 
-    addTaskDiv.appendChild(addTaskImgDiv);
+    addTaskDiv.appendChild(addTaskSymbolDiv);
     addTaskDiv.appendChild(addTaskContentDiv);
 
     return addTaskDiv;
