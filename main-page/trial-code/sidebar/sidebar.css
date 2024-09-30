@@ -25,20 +25,15 @@
 
 .add-tasks-sideBar-div:hover
 {
-    .add-task-symbol-span
-    {
-        color: #f44336
-    };
-
-    .add-task-content-div
-    {
-        color: #f44336;
-    }
+    background-color: rgba(40, 40, 40, 0.4);
+    margin: 3px 10px;
+    border-radius: 5px;
 }
 
 .add-task-symbol-span
 {
     font-size: 2rem;
+    color: #f44336
 }
 
 .add-task-content-div
@@ -47,6 +42,7 @@
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
+    color: #f44336
 }
 
 #displayUsername

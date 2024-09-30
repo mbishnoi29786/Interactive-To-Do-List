@@ -1,5 +1,5 @@
 @import url('./sidebar/sidebar.css');
-@import url('./Search_functionality/search_modal.css');
+@import url('./Dialogue_boxes/search_dialogBox.css');
 @import url('./content/content.css');
 html, body
 {

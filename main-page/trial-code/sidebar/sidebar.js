@@ -1,4 +1,4 @@
-import { createSearchDiv, showSearchDialog } from "../Search_functionality/search.js";
+import { createSearchDiv, showSearchDialog } from "../Dialogue_boxes/search_dialogBox.js";
 
 
 export function sideBarContents (USER)

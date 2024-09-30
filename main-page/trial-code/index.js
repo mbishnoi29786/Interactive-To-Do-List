@@ -1,6 +1,6 @@
 
 import {dragFunctionality} from './drag.js'
-import { createSearchDiv, showSearchDialog} from "./Search_functionality/search.js";
+import { createSearchDiv, showSearchDialog} from "./Dialogue_boxes/search_dialogBox.js";
 import { sideBarContents} from './sidebar/sidebar.js';
 
 let USER;
