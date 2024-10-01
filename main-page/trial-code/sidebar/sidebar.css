@@ -20,14 +20,14 @@
 {
     display: flex;
     gap: 3px;
-    justify-content: center;
+    padding-left: 3px;
+    margin: 3px 10px;
+    border-radius: 5px;
 }
 
 .add-tasks-sideBar-div:hover
 {
     background-color: rgba(40, 40, 40, 0.4);
-    margin: 3px 10px;
-    border-radius: 5px;
 }
 
 .add-task-symbol-span
@@ -58,6 +58,7 @@
     height: 35px;
     align-items: center;
     cursor: pointer;
+    margin: 3px 10px;
 }
 
 .sideBar .search-span 
@@ -68,8 +69,8 @@
 
 .sideBar .search-icon
 {   
-    padding-left: 10px;
-    height: 20px;
+    padding-left: 3px;
+    height: 23px;
 }
 
 .sideBar-ul
