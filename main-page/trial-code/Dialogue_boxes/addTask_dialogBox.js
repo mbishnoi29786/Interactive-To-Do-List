@@ -8,17 +8,72 @@ export function createAddTaskDialog(USER) {
     let addTaskInput = document.createElement('input')
     addTaskInput.className = "addTask-input";
 
-    let searchSpan = document.createElement('div');
-    searchSpan.innerHTML = '<p>Add</p>'
-    searchSpan.className = 'search-span';
+    let Span = document.createElement('div');
+    Span.innerHTML = '<p>Add</p>'
+    Span.className = 'addTask-span';
 
-    searchSpan.addEventListener('click', ()=> addTask(USER));
+    searchSpan.addEventListener('click', ()=> showAddTaskDialog(USER));
 
     searchIconDiv.appendChild(searchIcon);
     searchDiv.appendChild(searchIconDiv)
     searchDiv.appendChild(searchSpan);
 
     return addTaskDiv;
+}
+
+export function showAddTaskDialog(USER)
+{
+    const body = document.querySelector('body');
+
+    const overlayDiv = document.createElement('div');
+    overlayDiv.id = 'overlay-div';
+    overlayDiv.classList.add('active');
+
+    const addTaskModalDiv = document.createElement('div');
+    addTaskModalDiv.className = 'add-task-modal';
+    addTaskModalDiv.classList.add('active');
+
+    const addTaskDiv = document.createElement('div');
+    addTaskDiv.className = 'modal-addTask-div';
+
+    const addTaskInput = document.createElement('input');
+    addTaskInput.setAttribute('type', 'text');
+    addTaskInput.placeholder = 'Add Task....';
+    addTaskInput.className = 'modal-addTask-dialog-input';
+    addTaskDiv.appendChild(addTaskInput);
+
+    const addTaskDescriptionDiv = document.createElement('div');
+    addTaskDescriptionDiv.className = 'modal-addTask-description-div';
+    
+    const addTaskDescriptionInput = document.createElement('input');
+    addTaskDescriptionInput.className = 'modal-add-task-description-input';
+    addTaskDescriptionDiv.appendChild(addTaskDescriptionInput);
+
+    const taskDeadlineDiv = document.createElement('div');
+    taskDeadlineDiv.className = 'modal-task-deadline-div';
+
+    const deadlinePicker = document.createElement('input');
+    deadlinePicker.setAttribute('type', 'datetime-local');
+    deadlinePicker.className = 'modal-deadline-input';
+    taskDeadlineDiv.appendChild(deadlinePicker);
+
+    overlayDiv.addEventListener('click', ()=>
+        {
+            const modal = document.querySelector('.add-task-modal.active');
+            const overlay = document.querySelector('#overlay-div.active');
+
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+            modal.remove();
+            overlay.remove();
+        })
+
+    addTaskModalDiv.appendChild(addTaskDiv);
+    addTaskModalDiv.appendChild(addTaskDescriptionDiv);
+    addTaskModalDiv.appendChild(taskDeadlineDiv);
+
+    body.appendChild(addTaskModalDiv);
+    body.appendChild(overlayDiv);
 }
 
 function addTask(USER)

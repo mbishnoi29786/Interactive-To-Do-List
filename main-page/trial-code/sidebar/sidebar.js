@@ -1,3 +1,4 @@
+import { showAddTaskDialog } from "../Dialogue_boxes/addTask_dialogBox.js";
 import { createSearchDiv, showSearchDialog } from "../Dialogue_boxes/search_dialogBox.js";
 
 
@@ -9,7 +10,7 @@ export function sideBarContents (USER)
     const div = document.createElement('div');
     div.id = 'displayUsername';
 
-    const addTaskDiv = addTaskDivFun();
+    const addTaskDiv = addTaskDivFun(USER);
     const searchDiv = createSearchDiv(USER);
     searchDiv.addEventListener('click', () =>  showSearchDialog(USER));
 
@@ -25,7 +26,7 @@ export function sideBarContents (USER)
     return sideBarMainDiv;
 }
 
-function addTaskDivFun()
+function addTaskDivFun(USER)
 {
     const addTaskDiv = document.createElement('div');
     addTaskDiv.className = 'add-tasks-sideBar-div';
@@ -42,6 +43,7 @@ function addTaskDivFun()
     addTaskContentDiv.className = 'add-task-content-div';
     addTaskContentDiv.textContent = 'Add Task';
 
+    addTaskDiv.addEventListener('click', ()=> showAddTaskDialog(USER));
     addTaskDiv.appendChild(addTaskSymbolDiv);
     addTaskDiv.appendChild(addTaskContentDiv);
 
