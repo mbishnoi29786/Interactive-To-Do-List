@@ -47,6 +47,7 @@ export function showAddTaskDialog(USER)
     
     const addTaskDescriptionInput = document.createElement('input');
     addTaskDescriptionInput.className = 'modal-add-task-description-input';
+    addTaskDescriptionInput.placeholder = 'Add Description...';
     addTaskDescriptionDiv.appendChild(addTaskDescriptionInput);
 
     const taskDeadlineDiv = document.createElement('div');

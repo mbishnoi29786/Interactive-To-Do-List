@@ -1,6 +1,7 @@
 @import url('./sidebar/sidebar.css');
 @import url('./Dialogue_boxes/search_dialogBox.css');
 @import url('./content/content.css');
+@import url('./Dialogue_boxes/addTask_dialogBox.css');
 html, body
 {
     margin: 0;
