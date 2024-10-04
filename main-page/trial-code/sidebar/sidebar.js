@@ -57,6 +57,12 @@ function showListsNameOnSidebar (USER)
     const listNameDiv = document.createElement('div');
     const UL = document.createElement('ul');
     UL.className = 'sideBar-ul';
+
+    const listHeading = document.createElement('lh');
+    listHeading.textContent = 'MY LISTS';
+    listHeading.className = 'sidebar-list-heading';
+    UL.appendChild(listHeading);
+
     userLists.forEach(list => 
     {
         const li = document.createElement('li');

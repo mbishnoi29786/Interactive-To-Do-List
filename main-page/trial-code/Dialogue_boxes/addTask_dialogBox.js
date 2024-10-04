@@ -58,6 +58,15 @@ export function showAddTaskDialog(USER)
     deadlinePicker.className = 'modal-deadline-input';
     taskDeadlineDiv.appendChild(deadlinePicker);
 
+    const addTaskButtonDiv = document.createElement('div');
+    addTaskButtonDiv.className = 'modal-add-task-button-div';
+
+    const addTaskButton = document.createElement('button');
+    addTaskButton.className = 'modal-add-task-button';
+    addTaskButton.innerHTML = 'Add Task';
+    addTaskButton.addEventListener('click', () => addTask(USER));
+    addTaskButtonDiv.appendChild(addTaskButton);
+
     overlayDiv.addEventListener('click', ()=>
         {
             const modal = document.querySelector('.add-task-modal.active');
@@ -72,6 +81,7 @@ export function showAddTaskDialog(USER)
     addTaskModalDiv.appendChild(addTaskDiv);
     addTaskModalDiv.appendChild(addTaskDescriptionDiv);
     addTaskModalDiv.appendChild(taskDeadlineDiv);
+    addTaskModalDiv.appendChild(addTaskButtonDiv);
 
     body.appendChild(addTaskModalDiv);
     body.appendChild(overlayDiv);
