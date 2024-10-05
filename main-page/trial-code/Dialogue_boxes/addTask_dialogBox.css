@@ -9,6 +9,7 @@
     border-radius: 10px;
     z-index: 10;
     background-color: #fff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.70), 0 1px 4px rgba(0, 0, 0, 0.80);
     width: 700px;
     max-width: 80%;
     min-height: 40vh;
@@ -57,4 +58,29 @@
     outline: none;
     border: none;
     padding-left: 0 ;
+}
+
+.modal-task-deadline-div
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.modal-deadline-input
+{
+    color-scheme: dark;
+    height: 30px;
+
+}
+
+.modal-add-task-button-div
+{
+    flex: 1;
+    border-top: 2px solid rgba(30, 30, 30, 0.3);
+}
+
+.modal-add-task-button
+{
+    margin-top: 10px;
+    
 }

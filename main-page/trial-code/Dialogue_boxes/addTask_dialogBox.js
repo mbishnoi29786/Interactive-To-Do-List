@@ -90,6 +90,8 @@ export function showAddTaskDialog(USER)
 function addTask(USER)
 {
     let userLists = JSON.parse(localStorage.getItem(USER)) || []
+
+    
     let taskExist = list.tasks.find(tasks => tasks.taskName === input.value.trim());
         let deadlineValue = new Date(deadlineInput.value);
         let now = new Date();
