@@ -38,7 +38,7 @@ export function showAddTaskDialog(USER)
 
     const addTaskInput = document.createElement('input');
     addTaskInput.setAttribute('type', 'text');
-    addTaskInput.placeholder = 'Add Task....';
+    addTaskInput.placeholder = 'Add Task';
     addTaskInput.className = 'modal-addTask-dialog-input';
     addTaskDiv.appendChild(addTaskInput);
 
@@ -47,7 +47,7 @@ export function showAddTaskDialog(USER)
     
     const addTaskDescriptionInput = document.createElement('input');
     addTaskDescriptionInput.className = 'modal-add-task-description-input';
-    addTaskDescriptionInput.placeholder = 'Add Description...';
+    addTaskDescriptionInput.placeholder = 'Add Description';
     addTaskDescriptionDiv.appendChild(addTaskDescriptionInput);
 
     const taskDeadlineDiv = document.createElement('div');
@@ -56,7 +56,16 @@ export function showAddTaskDialog(USER)
     const deadlinePicker = document.createElement('input');
     deadlinePicker.setAttribute('type', 'datetime-local');
     deadlinePicker.className = 'modal-deadline-input';
+
+    const deadlineSpan = document.createElement('span');
+    deadlineSpan.className = 'modal-deadline-span';
+    deadlineSpan.textContent = 'Due Date';
+
     taskDeadlineDiv.appendChild(deadlinePicker);
+    taskDeadlineDiv.appendChild(deadlineSpan);
+    taskDeadlineDiv.addEventListener('click', ()=> {
+        deadlinePicker.focus();
+    });
 
     const addTaskButtonDiv = document.createElement('div');
     addTaskButtonDiv.className = 'modal-add-task-button-div';
@@ -67,6 +76,41 @@ export function showAddTaskDialog(USER)
     addTaskButton.addEventListener('click', () => addTask(USER));
     addTaskButtonDiv.appendChild(addTaskButton);
 
+
+    // Focus trap implementation
+    const focusableElements = addTaskModalDiv.querySelectorAll(
+        'input, button, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstFocusableElement = focusableElements[0];
+    const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+    // Function to handle focus trap
+    function trapFocus(event) {
+        if (event.key === 'Tab') {
+            if (event.shiftKey) { // Shift + Tab
+                // If the first element is focused and user presses Shift + Tab
+                if (document.activeElement === firstFocusableElement) {
+                    event.preventDefault();
+                    lastFocusableElement.focus(); // Focus the last element
+                }
+            } else { // Tab
+                // If the last element is focused and user presses Tab
+                if (document.activeElement === lastFocusableElement) {
+                    event.preventDefault();
+                    firstFocusableElement.focus(); // Focus the first element
+                }
+            }
+        }
+    }
+
+    // Add event listeners to trap focus
+    addTaskModalDiv.addEventListener('keydown', trapFocus);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            overlayDiv.click(); // to trigger the overlay click event to close the modal
+        }
+    });
     overlayDiv.addEventListener('click', ()=>
         {
             const modal = document.querySelector('.add-task-modal.active');
@@ -83,8 +127,12 @@ export function showAddTaskDialog(USER)
     addTaskModalDiv.appendChild(taskDeadlineDiv);
     addTaskModalDiv.appendChild(addTaskButtonDiv);
 
+    // Automatically focus the first input when the modal opens
+    firstFocusableElement.focus();
+
     body.appendChild(addTaskModalDiv);
     body.appendChild(overlayDiv);
+    console.log("Modal and overlay appended.");
 }
 
 function addTask(USER)

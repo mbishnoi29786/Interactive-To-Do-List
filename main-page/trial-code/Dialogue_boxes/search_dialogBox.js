@@ -60,6 +60,40 @@ export function showSearchDialog(USER)
     const searchResultsDiv = document.createElement('div');
     searchResultsDiv.className = 'search-results-div';
 
+    // Focus trap implementation
+    const focusableElements = addTaskModalDiv.querySelectorAll(
+        'input, button, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstFocusableElement = focusableElements[0];
+    const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+    // Function to handle focus trap
+    function trapFocus(event) {
+        if (event.key === 'Tab') {
+            if (event.shiftKey) { // Shift + Tab
+                // If the first element is focused and user presses Shift + Tab
+                if (document.activeElement === firstFocusableElement) {
+                    event.preventDefault();
+                    lastFocusableElement.focus(); // Focus the last element
+                }
+            } else { // Tab
+                // If the last element is focused and user presses Tab
+                if (document.activeElement === lastFocusableElement) {
+                    event.preventDefault();
+                    firstFocusableElement.focus(); // Focus the first element
+                }
+            }
+        }
+    }
+
+    // event listener to trap focus
+    addTaskModalDiv.addEventListener('keydown', trapFocus);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            overlayDiv.click(); // to trigger the overlay click event to close the modal
+        }
+    });
 
     overlayDiv.addEventListener('click', ()=>
         {
@@ -81,7 +115,10 @@ export function showSearchDialog(USER)
 
     searchModalDiv.appendChild(searchModalHeader);
     searchModalDiv.appendChild(searchModalBody);
-
+    
+    // Automatically focus the first input when the modal opens
+    firstFocusableElement.focus();
+    
     body.appendChild(searchModalDiv);
     body.appendChild(overlayDiv);
 }
