@@ -21,9 +21,7 @@ export function createSearchDiv(USER) {
     return searchDiv;
 }
 
-export function showSearchDialog(USER)
-{   
-    
+export function showSearchDialog(USER) {   
     const body = document.querySelector('body');
 
     const overlayDiv = document.createElement('div');
@@ -33,7 +31,6 @@ export function showSearchDialog(USER)
     const searchModalDiv = document.createElement('div');
     searchModalDiv.className = 'search-modal';
     searchModalDiv.classList.add('active');
-    
 
     const searchModalHeader = document.createElement('div');
     searchModalHeader.className = 'search-modal-header';
@@ -60,8 +57,20 @@ export function showSearchDialog(USER)
     const searchResultsDiv = document.createElement('div');
     searchResultsDiv.className = 'search-results-div';
 
+    searchModalBody.appendChild(searchResultsDiv);
+
+    searchIconDiv.appendChild(searchIcon);
+    searchInputDiv.appendChild(searchInput);
+    searchModalHeader.appendChild(searchIconDiv);
+    searchModalHeader.appendChild(searchInputDiv);
+    searchModalDiv.appendChild(searchModalHeader);
+    searchModalDiv.appendChild(searchModalBody);
+    
+    body.appendChild(overlayDiv);
+    body.appendChild(searchModalDiv);
+
     // Focus trap implementation
-    const focusableElements = addTaskModalDiv.querySelectorAll(
+    const focusableElements = searchModalDiv.querySelectorAll(
         'input, button, [tabindex]:not([tabindex="-1"])'
     );
     const firstFocusableElement = focusableElements[0];
@@ -86,41 +95,26 @@ export function showSearchDialog(USER)
         }
     }
 
-    // event listener to trap focus
-    addTaskModalDiv.addEventListener('keydown', trapFocus);
+    // Event listener to trap focus
+    searchModalDiv.addEventListener('keydown', trapFocus);
 
+    // Close modal on escape
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            overlayDiv.click(); // to trigger the overlay click event to close the modal
+            overlayDiv.click(); // Trigger the overlay click event to close the modal
         }
     });
 
-    overlayDiv.addEventListener('click', ()=>
-        {
-            const modal = document.querySelector('.search-modal.active');
-            const overlay = document.querySelector('#overlay-div.active');
+    // Close modal on overlay click
+    overlayDiv.addEventListener('click', () => {
+        searchModalDiv.classList.remove('active');
+        overlayDiv.classList.remove('active');
+        searchModalDiv.remove();
+        overlayDiv.remove();
+    });
 
-            modal.classList.remove('active');
-            overlay.classList.remove('active');
-            modal.remove();
-            overlay.remove();
-        })
-
-    searchIconDiv.appendChild(searchIcon);
-
-    searchInputDiv.appendChild(searchInput);
-
-    searchModalHeader.appendChild(searchIconDiv);
-    searchModalHeader.appendChild(searchInputDiv);
-
-    searchModalDiv.appendChild(searchModalHeader);
-    searchModalDiv.appendChild(searchModalBody);
-    
-    // Automatically focus the first input when the modal opens
+    // Automatically focus the first input in the modal
     firstFocusableElement.focus();
-    
-    body.appendChild(searchModalDiv);
-    body.appendChild(overlayDiv);
 }
 
 

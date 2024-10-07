@@ -21,8 +21,7 @@ export function createAddTaskDialog(USER) {
     return addTaskDiv;
 }
 
-export function showAddTaskDialog(USER)
-{
+export function showAddTaskDialog(USER) {
     const body = document.querySelector('body');
 
     const overlayDiv = document.createElement('div');
@@ -63,8 +62,16 @@ export function showAddTaskDialog(USER)
 
     taskDeadlineDiv.appendChild(deadlinePicker);
     taskDeadlineDiv.appendChild(deadlineSpan);
-    taskDeadlineDiv.addEventListener('click', ()=> {
-        deadlinePicker.focus();
+
+    // Set up the click listener for the deadline picker
+    deadlinePicker.addEventListener('click', (event) => 
+    {
+        event.stopPropagation(); // Prevent the click from bubbling up
+    });
+
+    // Click event for the taskDeadlineDiv
+    taskDeadlineDiv.addEventListener('click', () => {
+        deadlinePicker.showPicker();
     });
 
     const addTaskButtonDiv = document.createElement('div');
@@ -76,6 +83,15 @@ export function showAddTaskDialog(USER)
     addTaskButton.addEventListener('click', () => addTask(USER));
     addTaskButtonDiv.appendChild(addTaskButton);
 
+    // Append all modal content before calculating focusable elements
+    addTaskModalDiv.appendChild(addTaskDiv);
+    addTaskModalDiv.appendChild(addTaskDescriptionDiv);
+    addTaskModalDiv.appendChild(taskDeadlineDiv);
+    addTaskModalDiv.appendChild(addTaskButtonDiv);
+
+    body.appendChild(overlayDiv);
+    body.appendChild(addTaskModalDiv);
+    console.log("Modal and overlay appended.");
 
     // Focus trap implementation
     const focusableElements = addTaskModalDiv.querySelectorAll(
@@ -106,33 +122,23 @@ export function showAddTaskDialog(USER)
     // Add event listeners to trap focus
     addTaskModalDiv.addEventListener('keydown', trapFocus);
 
+    // Close modal on escape
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            overlayDiv.click(); // to trigger the overlay click event to close the modal
+            overlayDiv.click(); // Trigger the overlay click event to close the modal
         }
     });
-    overlayDiv.addEventListener('click', ()=>
-        {
-            const modal = document.querySelector('.add-task-modal.active');
-            const overlay = document.querySelector('#overlay-div.active');
 
-            modal.classList.remove('active');
-            overlay.classList.remove('active');
-            modal.remove();
-            overlay.remove();
-        })
+    // Close modal on overlay click
+    overlayDiv.addEventListener('click', () => {
+        addTaskModalDiv.classList.remove('active');
+        overlayDiv.classList.remove('active');
+        addTaskModalDiv.remove();
+        overlayDiv.remove();
+    });
 
-    addTaskModalDiv.appendChild(addTaskDiv);
-    addTaskModalDiv.appendChild(addTaskDescriptionDiv);
-    addTaskModalDiv.appendChild(taskDeadlineDiv);
-    addTaskModalDiv.appendChild(addTaskButtonDiv);
-
-    // Automatically focus the first input when the modal opens
+    // Automatically focus the first input in the modal
     firstFocusableElement.focus();
-
-    body.appendChild(addTaskModalDiv);
-    body.appendChild(overlayDiv);
-    console.log("Modal and overlay appended.");
 }
 
 function addTask(USER)
