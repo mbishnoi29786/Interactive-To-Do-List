@@ -163,13 +163,6 @@ function displayTasks(tasks, ul, listName) {
             li.classList.add('checked');
         }
 
-        // Mark task as completed
-        li.addEventListener('click', function() {
-            task.completed = !task.completed;
-            li.classList.toggle('checked');
-            updateTaskStatus(listName, task.taskName, task.completed);
-        });
-
         // Time left display
         let spanTimeLeft = document.createElement('SPAN');
         spanTimeLeft.className = 'time-left';
@@ -177,6 +170,20 @@ function displayTasks(tasks, ul, listName) {
         // Calculate time left
         let deadline = new Date(task.deadline);
         startTimer(spanTimeLeft, deadline);
+
+        // Mark task as completed
+        li.addEventListener('click', function() {
+            let now = new Date();
+            let timeLeft = task.deadline - now;
+
+            if (timeLeft <= 0)
+            {
+                task.completed = !task.completed;
+                li.classList.toggle('checked');
+                updateTaskStatus(listName, task.taskName, task.completed);
+            }
+            
+        });
 
         // Close button
         let spanClose = document.createElement('SPAN');
