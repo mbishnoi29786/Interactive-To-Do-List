@@ -174,9 +174,11 @@ function displayTasks(tasks, ul, listName) {
         // Mark task as completed
         li.addEventListener('click', function() {
             let now = new Date();
-            let timeLeft = task.deadline - now;
+            let deadlineString = task.deadline;
+            let deadline = new Date(deadlineString);
+            let timeLeft = deadline - now;
 
-            if (timeLeft <= 0)
+            if (timeLeft >= 0)
             {
                 task.completed = !task.completed;
                 li.classList.toggle('checked');
