@@ -18,17 +18,10 @@ window.addEventListener('load', function() {
         document.getElementById('displayUsername').textContent = `Hello, ${user.username}!`;
         const userLists = JSON.parse(localStorage.getItem(USER)) || [];
         displayLists(userLists); // Function to display user's to-do lists
-        console.log(userLists);
     }
 });
 
-
-
 USER = JSON.parse(sessionStorage.getItem('loggedInUser'));
-
-
-
-
 
 // const filteredList = filterTasks(USER);
 
@@ -109,7 +102,8 @@ function createListCard(list) {
             list.tasks.push({
                 taskName: input.value.trim(),
                 deadline: deadlineInput.value,
-                completed: false
+                completed: false,
+                completionTime: null
             });
             updateListsInStorage(list.name, list.tasks);
             displayTasks(list.tasks, ul, list.name);
@@ -178,13 +172,16 @@ function displayTasks(tasks, ul, listName) {
             let deadline = new Date(deadlineString);
             let timeLeft = deadline - now;
 
-            if (timeLeft >= 0)
+            if (timeLeft >= 0 && !task.completed)
             {
-                task.completed = !task.completed;
-                li.classList.toggle('checked');
-                updateTaskStatus(listName, task.taskName, task.completed);
+                let statusConfirmation = confirm("Mark the task as completed?");
+                if (statusConfirmation)
+                {
+                    task.completed = true;
+                    li.classList.toggle('checked');
+                    updateTaskStatus(listName, task.taskName, task.completed, now);
+                }
             }
-            
         });
 
         // Close button
@@ -282,7 +279,7 @@ function updateListsInStorage(listName, listTasks) {
 }
 
 // Update task status in localstorage
-function updateTaskStatus (listName, taskName, taskStatus)
+function updateTaskStatus (listName, taskName, taskStatus, now)
 {
     
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
@@ -290,6 +287,7 @@ function updateTaskStatus (listName, taskName, taskStatus)
     if (taskExists)
     {
         userLists.find(lists => lists.name === listName).tasks.find(task => task.taskName === taskName).completed = taskStatus;
+        userLists.find(lists => lists.name === listName).tasks.find(task => task.taskName === taskName).completionTime = now;
         localStorage.setItem(USER, JSON.stringify(userLists));
     }
 }
