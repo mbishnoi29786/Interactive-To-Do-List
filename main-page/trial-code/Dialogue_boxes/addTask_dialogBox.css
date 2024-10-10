@@ -121,7 +121,7 @@
     margin-right: 10px;
 }
 
-.modal-add-task-button:hover
+.modal-add-task-button.active
 {
     opacity: 1;
 }

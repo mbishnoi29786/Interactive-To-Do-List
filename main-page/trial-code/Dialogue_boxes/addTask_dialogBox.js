@@ -39,6 +39,18 @@ export function showAddTaskDialog(USER) {
     addTaskInput.setAttribute('type', 'text');
     addTaskInput.placeholder = 'Add Task';
     addTaskInput.className = 'modal-addTask-dialog-input';
+    addTaskInput.addEventListener('input', ()=>{
+        if (addTaskInput.value == '')
+        {
+            console.log('running');
+            document.querySelector('.modal-add-task-button').classList.remove('active');
+        }
+        else
+        {
+            console.log('running');
+            document.querySelector('.modal-add-task-button').classList.add('active');
+        }
+    })
     addTaskDiv.appendChild(addTaskInput);
 
     const addTaskDescriptionDiv = document.createElement('div');
