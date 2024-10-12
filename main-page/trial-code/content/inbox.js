@@ -4,6 +4,6 @@ export function createInbox(USER)
     heading.className = 'inbox-heading';
     heading.textContent = 'Inbox';
 
+    const userLists = localStorage.getItem(USER) || [];
     
-
 }

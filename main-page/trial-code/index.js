@@ -69,6 +69,11 @@ function createListCard(list) {
     input.placeholder = 'Add a new task...';
     input.className = 'task-input';
 
+    let taskDescription = document.createElement('input');
+    taskDescription.type = 'text';
+    taskDescription.placeholder = 'Add description';
+    taskDescription.className = 'task-description';
+
     let deadlineInput = document.createElement('input');
     deadlineInput.type = 'datetime-local';
     deadlineInput.className = 'deadline-input';
@@ -101,6 +106,7 @@ function createListCard(list) {
         {
             list.tasks.push({
                 taskName: input.value.trim(),
+                taskDescription: input.value.trim(),
                 deadline: deadlineInput.value,
                 completed: false,
                 completionTime: null
@@ -113,6 +119,7 @@ function createListCard(list) {
     });
 
     createTaskDiv.appendChild(input);
+    createTaskDiv.appendChild(taskDescription);
     createTaskDiv.appendChild(deadlineInput);
     createTaskDiv.appendChild(addTaskBtn);
     card.appendChild(createTaskDiv);
