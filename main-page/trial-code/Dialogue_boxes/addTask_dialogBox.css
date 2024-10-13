@@ -91,6 +91,33 @@
     scale: 1.5;
 }
 
+.modal-list-select
+{
+    opacity: 0.3;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    border: 2px solid rgba(200, 200, 200, 0.8);
+    transition: 500ms all;
+    overflow: hidden;
+    width: fit-content;
+    padding: 0px 5px;
+    border-radius: 5px;
+    outline: none;
+    height: 30px;
+    font-size: 1rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.modal-list-select:hover
+{
+    opacity: 1;
+    border: 2px solid rgba(0, 0, 0, 1);
+}
+
 .modal-deadline-span
 {
     color: black;

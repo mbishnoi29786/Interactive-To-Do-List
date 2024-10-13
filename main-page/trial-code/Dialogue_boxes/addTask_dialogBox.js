@@ -42,12 +42,10 @@ export function showAddTaskDialog(USER) {
     addTaskInput.addEventListener('input', ()=>{
         if (addTaskInput.value == '')
         {
-            console.log('running');
             document.querySelector('.modal-add-task-button').classList.remove('active');
         }
         else
         {
-            console.log('running');
             document.querySelector('.modal-add-task-button').classList.add('active');
         }
     })
@@ -86,19 +84,34 @@ export function showAddTaskDialog(USER) {
         deadlinePicker.showPicker();
     });
 
+    
+    const listSelect = document.createElement('select');
+    listSelect.className = 'modal-list-select';
+
+    const userLists = JSON.parse(localStorage.getItem(USER)) || [];
+
+    console.log(userLists);
+    
+    userLists.forEach(list => {
+        const option = document.createElement("option");
+        option.textContent = list.name;
+        listSelect.appendChild(option);
+    })
+
     const addTaskButtonDiv = document.createElement('div');
     addTaskButtonDiv.className = 'modal-add-task-button-div';
 
     const addTaskButton = document.createElement('button');
     addTaskButton.className = 'modal-add-task-button';
     addTaskButton.innerHTML = 'Add Task';
-    addTaskButton.addEventListener('click', () => addTask(USER));
+    addTaskButton.addEventListener('click', () => addTask(USER, listSelect.value, addTaskInput.value));
     addTaskButtonDiv.appendChild(addTaskButton);
 
     // Append all modal content before calculating focusable elements
     addTaskModalDiv.appendChild(addTaskDiv);
     addTaskModalDiv.appendChild(addTaskDescriptionDiv);
     addTaskModalDiv.appendChild(taskDeadlineDiv);
+    addTaskModalDiv.appendChild(listSelect);
     addTaskModalDiv.appendChild(addTaskButtonDiv);
 
     body.appendChild(overlayDiv);
@@ -153,12 +166,17 @@ export function showAddTaskDialog(USER) {
     firstFocusableElement.focus();
 }
 
-function addTask(USER)
+function addTask(USER, listChosen, input)
 {
     let userLists = JSON.parse(localStorage.getItem(USER)) || []
 
+    console.log(listChosen);
+
+    const list = userLists.find(list => list.name === listChosen)
     
-    let taskExist = list.tasks.find(tasks => tasks.taskName === input.value.trim());
+    console.log(list);
+    
+    let taskExist = list.tasks.find(tasks => tasks.taskName === input.trim());
         let deadlineValue = new Date(deadlineInput.value);
         let now = new Date();
 
@@ -190,4 +208,11 @@ function addTask(USER)
             input.value = '';
             deadlineInput.value = '';
         }
+}
+
+function fetchLists(USER)
+{
+    
+
+
 }

@@ -106,7 +106,7 @@ function createListCard(list) {
         {
             list.tasks.push({
                 taskName: input.value.trim(),
-                taskDescription: input.value.trim(),
+                taskDescription: taskDescription.value.trim(),
                 deadline: deadlineInput.value,
                 completed: false,
                 completionTime: null
@@ -159,6 +159,11 @@ function displayTasks(tasks, ul, listName) {
         taskText.className = 'task-text';
         taskText.textContent = `${task.taskName}`;
         li.appendChild(taskText);
+
+        let taskTextDescription = document.createElement('SPAN');
+        taskTextDescription.className = 'task-text-description';
+        taskTextDescription.textContent = `${task.taskDescription}`;
+        li.appendChild(taskTextDescription);
 
         if (task.completed) {
             li.classList.add('checked');
