@@ -134,7 +134,7 @@ function createListCard(list) {
 }
 
 
-function displayTasks(tasks, ul, listName) {
+export function displayTasks(tasks, ul, listName) {
     ul.innerHTML = '';
 
     tasks.forEach(task => {
@@ -284,7 +284,7 @@ addListBtn.addEventListener('click', function() {
 });
 
 // Update lists in localStorage
-function updateListsInStorage(listName, listTasks) {
+export function updateListsInStorage(listName, listTasks) {
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
     userLists.find(lists => lists.name === listName).tasks = listTasks;
     localStorage.setItem(USER, JSON.stringify(userLists));

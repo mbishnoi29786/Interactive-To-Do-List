@@ -1,3 +1,5 @@
+import {updateListsInStorage, displayTasks} from '../index.js'
+
 export function createAddTaskDialog(USER) {
     let addTaskDiv = document.createElement('div');
     addTaskDiv.className = 'addTask-dialog-div';
@@ -104,7 +106,7 @@ export function showAddTaskDialog(USER) {
     const addTaskButton = document.createElement('button');
     addTaskButton.className = 'modal-add-task-button';
     addTaskButton.innerHTML = 'Add Task';
-    addTaskButton.addEventListener('click', () => addTask(USER, listSelect.value, addTaskInput.value));
+    addTaskButton.addEventListener('click', () => addTask(USER, listSelect.value, addTaskInput.value, deadlinePicker.value, addTaskDescriptionInput.value));
     addTaskButtonDiv.appendChild(addTaskButton);
 
     // Append all modal content before calculating focusable elements
@@ -166,7 +168,7 @@ export function showAddTaskDialog(USER) {
     firstFocusableElement.focus();
 }
 
-function addTask(USER, listChosen, input)
+function addTask(USER, listChosen, input, deadlineInput, taskDescription)
 {
     let userLists = JSON.parse(localStorage.getItem(USER)) || []
 
@@ -177,10 +179,10 @@ function addTask(USER, listChosen, input)
     console.log(list);
     
     let taskExist = list.tasks.find(tasks => tasks.taskName === input.trim());
-        let deadlineValue = new Date(deadlineInput.value);
+        let deadlineValue = new Date(deadlineInput);
         let now = new Date();
 
-        if (input.value.trim() === '') 
+        if (input.trim() === '') 
         {
             alert("Write a task!");
         } 
@@ -199,20 +201,15 @@ function addTask(USER, listChosen, input)
         else 
         {
             list.tasks.push({
-                taskName: input.value.trim(),
-                deadline: deadlineInput.value,
+                taskName: input.trim(),
+                taskDescription: taskDescription,
+                deadline: deadlineInput,
                 completed: false
             });
             updateListsInStorage(list.name, list.tasks);
-            displayTasks(list.tasks, ul, list.name);
-            input.value = '';
-            deadlineInput.value = '';
+            // displayTasks(list.tasks, ul, list.name);
+            input = '';
+            deadlineInput= '';
         }
 }
 
-function fetchLists(USER)
-{
-    
-
-
-}
