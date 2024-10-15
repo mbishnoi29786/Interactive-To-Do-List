@@ -81,6 +81,14 @@ export function showAddTaskDialog(USER) {
         event.stopPropagation(); // Prevent the click from bubbling up
     });
 
+    // Event listener for when the deadline is selected
+    deadlinePicker.addEventListener('input', () => 
+    {
+        const selectedDate = new Date(deadlinePicker.value);
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+        deadlineSpan.textContent = selectedDate.toLocaleString('en-US', options);
+    });
+
     // Click event for the taskDeadlineDiv
     taskDeadlineDiv.addEventListener('click', () => {
         deadlinePicker.showPicker();
@@ -106,7 +114,17 @@ export function showAddTaskDialog(USER) {
     const addTaskButton = document.createElement('button');
     addTaskButton.className = 'modal-add-task-button';
     addTaskButton.innerHTML = 'Add Task';
-    addTaskButton.addEventListener('click', () => addTask(USER, listSelect.value, addTaskInput.value, deadlinePicker.value, addTaskDescriptionInput.value));
+    addTaskButton.addEventListener('click', () => {
+        let value = addTask(USER, listSelect.value, addTaskInput.value, deadlinePicker.value, addTaskDescriptionInput.value)
+        if (value)
+        {
+            addTaskInput.value = '';
+            deadlinePicker.value = '';
+            deadlineSpan.textContent = "Due Date"
+            addTaskDescriptionInput.value = '';
+        }
+        
+    });
     addTaskButtonDiv.appendChild(addTaskButton);
 
     // Append all modal content before calculating focusable elements
@@ -185,18 +203,22 @@ function addTask(USER, listChosen, input, deadlineInput, taskDescription)
         if (input.trim() === '') 
         {
             alert("Write a task!");
+            return false;
         } 
         else if (taskExist) 
         {
             alert("Task Already Exists!!");
+            return false;
         }
         else if (isNaN(deadlineValue))
         {
             alert("Enter a dealine!!");
+            return false;
         } 
         else if (deadlineValue <= now) 
         {
             alert("Deadline must be in the future!");
+            return false;
         } 
         else 
         {
@@ -208,8 +230,7 @@ function addTask(USER, listChosen, input, deadlineInput, taskDescription)
             });
             updateListsInStorage(list.name, list.tasks);
             // displayTasks(list.tasks, ul, list.name);
-            input = '';
-            deadlineInput= '';
+            return true
         }
 }
 
