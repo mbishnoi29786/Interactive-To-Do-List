@@ -5,5 +5,16 @@ export function createInbox(USER)
     heading.textContent = 'Inbox';
 
     const userLists = localStorage.getItem(USER) || [];
+    const filtered_list = userLists.find(list=> list.listname == 'inbox');
+
     
+}
+
+function displayLists(lists) {
+    const listsContainer = document.getElementById('listsContainer');
+
+    listsContainer.innerHTML = '';
+    lists.forEach(list => {
+        createListCard(list);
+    });
 }
