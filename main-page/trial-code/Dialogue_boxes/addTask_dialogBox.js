@@ -1,4 +1,4 @@
-import {updateListsInStorage, displayTasks} from '../index.js'
+import {updateListsInStorage} from '../content/content.js'
 
 export function createAddTaskDialog(USER) {
     let addTaskDiv = document.createElement('div');
