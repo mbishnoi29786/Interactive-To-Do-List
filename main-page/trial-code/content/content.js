@@ -3,23 +3,24 @@ import {dragFunctionality} from '../drag.js';
 export function showContents(USER)
 {
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
-    displayLists(userLists); // Function to display user's to-do lists
+    addNewList(USER,userLists);
+    displayLists(userLists, USER); // Function to display user's to-do lists
 }
 
 
 
 
-function displayLists(lists) {
+function displayLists(lists, USER) {
     const listsContainer = document.getElementById('listsContainer');
 
     listsContainer.innerHTML = '';
     lists.forEach(list => {
-        createListCard(list);
+        createListCard(list, USER);
     });
 }
 
 // Create a new to-do list card
-function createListCard(list) {
+function createListCard(list, USER) {
     const listsContainer = document.getElementById('listsContainer');
 
     // Create card element
@@ -34,7 +35,7 @@ function createListCard(list) {
     spanClose.className = 'closeList';
     spanClose.textContent = '\u00D7';
     spanClose.addEventListener('click', function() {
-        removeList(list); // Remove list from storage
+        removeList(list, USER); // Remove list from storage
     });
     card.appendChild(spanClose);
 
@@ -91,8 +92,8 @@ function createListCard(list) {
                 completed: false,
                 completionTime: null
             });
-            updateListsInStorage(list.name, list.tasks);
-            displayTasks(list.tasks, ul, list.name);
+            updateListsInStorage(list.name, list.tasks, USER);
+            displayTasks(list.tasks, ul, list.name, USER);
             input.value = '';
             deadlineInput.value = '';
         }
@@ -107,14 +108,14 @@ function createListCard(list) {
     // Task list
     let ul = document.createElement('ul');
     ul.className = 'task-list';
-    displayTasks(list.tasks, ul, list.name);
+    displayTasks(list.tasks, ul, list.name, USER);
     card.appendChild(ul);
 
     listsContainer.appendChild(card);
 }
 
 
-export function displayTasks(tasks, ul, listName) {
+export function displayTasks(tasks, ul, listName, USER) {
     ul.innerHTML = '';
 
     tasks.forEach(task => {
@@ -171,7 +172,7 @@ export function displayTasks(tasks, ul, listName) {
                 {
                     task.completed = true;
                     li.classList.toggle('checked');
-                    updateTaskStatus(listName, task.taskName, task.completed, now);
+                    updateTaskStatus(listName, task.taskName, task.completed, now, USER);
                 }
             }
         });
@@ -181,7 +182,7 @@ export function displayTasks(tasks, ul, listName) {
         spanClose.className = 'close';
         spanClose.textContent = '\u00D7';
         spanClose.addEventListener('click', function() {
-            removeTask(task.taskName, listName);
+            removeTask(task.taskName, listName, USER);
             li.remove();
         });
 
@@ -239,43 +240,45 @@ function startTimer(spanTimeLeft, deadline) {
 
 
 // Handle adding a new to-do list
-function addList(USER)
+function addNewList(USER, userLists)
 {
     const addListBtn = document.getElementById('addListBtn');
-    addListBtn.addEventListener('click', function() {
-    let listNameInput = document.getElementById('listNameInput');
-    let listName = listNameInput.value.trim();
-    let userLists = JSON.parse(localStorage.getItem(USER)) || [];
-    let listExist = userLists.find(lists => lists.name === listName);
+    addListBtn.addEventListener('click', function() 
+    {
+        let listNameInput = document.getElementById('listNameInput');
+        let listName = listNameInput.value.trim();
+        let listExist = userLists.find(lists => lists.name === listName);
 
-    if (listName === '') 
-    {
-        alert("Please enter a name for the to-do list!");
-    } 
-    else if (listExist) 
-    {
-        alert("Two Lists cannot have the same name!");
-    } 
-    else 
-    {
-        userLists.push({ name: listName, tasks: [] });
-        localStorage.setItem(USER, JSON.stringify(userLists));
-        displayLists(userLists);
-        listNameInput.value = '';
-    }
-});
+        if (listName === '') 
+        {
+            alert("Please enter a name for the to-do list!");
+        } 
+        else if (listExist) 
+        {
+            alert("Two Lists cannot have the same name!");
+        } 
+        else 
+        {
+            userLists.push({ name: listName, tasks: [] });
+            localStorage.setItem(USER, JSON.stringify(userLists));
+            displayLists(userLists);
+            listNameInput.value = '';
+        }
+    });
 }
 
 
+
+
 // Update lists in localStorage
-export function updateListsInStorage(listName, listTasks) {
+export function updateListsInStorage(listName, listTasks, USER) {
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
     userLists.find(lists => lists.name === listName).tasks = listTasks;
     localStorage.setItem(USER, JSON.stringify(userLists));
 }
 
 // Update task status in localstorage
-function updateTaskStatus (listName, taskName, taskStatus, now)
+function updateTaskStatus (listName, taskName, taskStatus, now, USER)
 {
     
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
@@ -289,7 +292,7 @@ function updateTaskStatus (listName, taskName, taskStatus, now)
 }
 
 // Remove task from a list
-function removeTask(taskToRemove, listName) {
+function removeTask(taskToRemove, listName, USER) {
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
 
     let updatedLists = userLists.map(list => {
@@ -300,12 +303,12 @@ function removeTask(taskToRemove, listName) {
     });
 
     localStorage.setItem(USER, JSON.stringify(updatedLists));
-    displayLists(updatedLists); // Re-display the updated lists
+    displayLists(updatedLists, USER); // Re-display the updated lists
 }
 
 
 // Remove a list
-function removeList(listToRemove) {
+function removeList(listToRemove, USER) {
     let allLists = JSON.parse(localStorage.getItem(USER)) || [];
 
     allLists = allLists.filter(list => list.name !== listToRemove.name);
