@@ -146,8 +146,36 @@ export function displayTasks(tasks, ul, listName, USER) {
         taskTextDescription.textContent = `${task.taskDescription}`;
         li.appendChild(taskTextDescription);
 
-        if (task.completed) {
+        if (task.completed) 
+        {
             li.classList.add('checked');
+        }
+        else
+        {
+            // to create a checkbox for incomplete tasks
+            let checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'task-checkbox';
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    let statusConfirmation = confirm("Mark the task as completed?");
+                    if (statusConfirmation) {
+                        // Mark as completed
+                        task.completed = true;
+                        li.classList.toggle('checked');
+                        updateTaskStatus(listName, task.taskName, task.completed, new Date(), USER);
+                        
+                        // Play sound
+                        let audio = new Audio(''); 
+                        
+                        audio.play();
+                    } else {
+                        // Uncheck if the user cancels
+                        this.checked = false;
+                    }
+                }
+            });
+            li.appendChild(checkbox);
         }
 
         // Time left display
