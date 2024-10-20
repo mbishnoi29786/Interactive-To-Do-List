@@ -118,11 +118,60 @@ function createListCard(list, USER) {
 export function displayTasks(tasks, ul, listName, USER) {
     ul.innerHTML = '';
 
-    tasks.forEach(task => {
+    tasks.forEach(task => 
+    {
 
         let li = document.createElement('li');
         li.setAttribute('draggable', true);
         li.className = 'task';
+
+        
+
+        // to create a checkbox for incomplete tasks
+        let checkbox = document.createElement('input');
+        checkbox.type = 'radio';
+        checkbox.className = 'task-checkbox';
+        checkbox.addEventListener('click', function() {
+            if (this.checked) {
+                let now = new Date();
+                let deadlineString = task.deadline;
+                let deadline = new Date(deadlineString);
+                let timeLeft = deadline - now;
+
+                if (timeLeft >= 0 && !task.completed)
+                {
+                    let statusConfirmation = confirm("Mark the task as completed?");
+                    if (statusConfirmation) 
+                    {
+                        // Mark as completed
+                        task.completed = true;
+                        li.classList.toggle('checked');
+                        updateTaskStatus(listName, task.taskName, task.completed, new Date(), USER);
+                    
+                        // Play sound
+                        let audio = new Audio('./completion-sound.mp3'); 
+                    
+                        audio.play();
+                    } 
+                    else 
+                    {
+                        // Uncheck if the user cancels
+                        this.checked = false;
+                    }
+                }
+                else
+                {
+                    alert("You can chnage status of a task once it's completed!");
+                }
+            }
+        });
+        li.appendChild(checkbox);
+
+        if (task.completed) 
+        {
+            li.classList.add('checked');
+            checkbox.checked = true;
+        }
 
         let dragIconSpan = document.createElement('SPAN');
         dragIconSpan.className = 'drag-icon-span';
@@ -146,38 +195,6 @@ export function displayTasks(tasks, ul, listName, USER) {
         taskTextDescription.textContent = `${task.taskDescription}`;
         li.appendChild(taskTextDescription);
 
-        if (task.completed) 
-        {
-            li.classList.add('checked');
-        }
-        else
-        {
-            // to create a checkbox for incomplete tasks
-            let checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'task-checkbox';
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    let statusConfirmation = confirm("Mark the task as completed?");
-                    if (statusConfirmation) {
-                        // Mark as completed
-                        task.completed = true;
-                        li.classList.toggle('checked');
-                        updateTaskStatus(listName, task.taskName, task.completed, new Date(), USER);
-                        
-                        // Play sound
-                        let audio = new Audio(''); 
-                        
-                        audio.play();
-                    } else {
-                        // Uncheck if the user cancels
-                        this.checked = false;
-                    }
-                }
-            });
-            li.appendChild(checkbox);
-        }
-
         // Time left display
         let spanTimeLeft = document.createElement('SPAN');
         spanTimeLeft.className = 'time-left';
@@ -186,24 +203,24 @@ export function displayTasks(tasks, ul, listName, USER) {
         let deadline = new Date(task.deadline);
         startTimer(spanTimeLeft, deadline);
 
-        // Mark task as completed
-        li.addEventListener('click', function() {
-            let now = new Date();
-            let deadlineString = task.deadline;
-            let deadline = new Date(deadlineString);
-            let timeLeft = deadline - now;
+        // // Mark task as completed
+        // li.addEventListener('click', function() {
+        //     let now = new Date();
+        //     let deadlineString = task.deadline;
+        //     let deadline = new Date(deadlineString);
+        //     let timeLeft = deadline - now;
 
-            if (timeLeft >= 0 && !task.completed)
-            {
-                let statusConfirmation = confirm("Mark the task as completed?");
-                if (statusConfirmation)
-                {
-                    task.completed = true;
-                    li.classList.toggle('checked');
-                    updateTaskStatus(listName, task.taskName, task.completed, now, USER);
-                }
-            }
-        });
+        //     if (timeLeft >= 0 && !task.completed)
+        //     {
+        //         let statusConfirmation = confirm("Mark the task as completed?");
+        //         if (statusConfirmation)
+        //         {
+        //             task.completed = true;
+        //             li.classList.toggle('checked');
+        //             updateTaskStatus(listName, task.taskName, task.completed, now, USER);
+        //         }
+        //     }
+        // });
 
         // Close button
         let spanClose = document.createElement('SPAN');
