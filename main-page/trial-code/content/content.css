@@ -148,6 +148,52 @@
 
 /* Style for the tasks */
 
+
+.radio-btn-div {
+    position: relative;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.task-radiobox {
+    appearance: none; /* Remove default styling */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    background-color: transparent;
+    transition: border-color 1s, opacity 1s;
+}
+
+.task-radiobox:checked {
+    border-color: #4CAF50;
+    transition: border-color 1s;
+}
+
+.task-radiobox:checked::after {
+    content: '✔'; /* Check mark */
+    position: absolute;
+    top: -1px;
+    left: 2px;
+    color: green;
+    font-size: 16px;
+    transition: transform 1s;
+}
+
+.task-radiobox:hover {
+    border-color: #4CAF50;
+    opacity: 0.7;
+}
+
+.task-radiobox:focus
+{
+    outline: none;
+}
+
+
 .tasks-div
 {
     display: grid;
@@ -196,8 +242,8 @@
 
 .task-list li.checked 
 {
-    background: #14A76C;
-    color: #FFFDF2;
+    /* background-color: #14A76C; */
+    /* color: #FFFDF2; */
     text-decoration: line-through;
     border-radius: 5px;
 }

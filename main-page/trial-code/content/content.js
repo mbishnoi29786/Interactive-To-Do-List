@@ -125,13 +125,15 @@ export function displayTasks(tasks, ul, listName, USER) {
         li.setAttribute('draggable', true);
         li.className = 'task';
 
-        
-
         // to create a checkbox for incomplete tasks
-        let checkbox = document.createElement('input');
-        checkbox.type = 'radio';
-        checkbox.className = 'task-checkbox';
-        checkbox.addEventListener('click', function() {
+
+        let radioBtnDiv = document.createElement('div');
+        radioBtnDiv.className = 'radio-btn-div';
+
+        let radiobox = document.createElement('input');
+        radiobox.type = 'radio';
+        radiobox.className = 'task-radiobox';
+        radiobox.addEventListener('click', function() {
             if (this.checked) {
                 let now = new Date();
                 let deadlineString = task.deadline;
@@ -149,9 +151,16 @@ export function displayTasks(tasks, ul, listName, USER) {
                         updateTaskStatus(listName, task.taskName, task.completed, new Date(), USER);
                     
                         // Play sound
-                        let audio = new Audio('./completion-sound.mp3'); 
-                    
-                        audio.play();
+                        let audio = document.createElement('audio');
+                        audio.src = './content/google_notification.mp3';
+                        console.log(audio);
+
+                        audio.addEventListener('canplaythrough', function() 
+                        {
+                            audio.play();
+                        });
+
+                        radiobox.appendChild(audio);
                     } 
                     else 
                     {
@@ -162,15 +171,21 @@ export function displayTasks(tasks, ul, listName, USER) {
                 else
                 {
                     alert("You can chnage status of a task once it's completed!");
+                    if (!this.checked)
+                    {
+                        this.checked = false;
+                    }
                 }
             }
         });
-        li.appendChild(checkbox);
+
+        radioBtnDiv.appendChild(radiobox);
+        li.appendChild(radioBtnDiv);
 
         if (task.completed) 
         {
             li.classList.add('checked');
-            checkbox.checked = true;
+            radiobox.checked = true;
         }
 
         let dragIconSpan = document.createElement('SPAN');
