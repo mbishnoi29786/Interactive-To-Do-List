@@ -171,7 +171,7 @@ export function displayTasks(tasks, ul, listName, USER) {
                 else
                 {
                     alert("You can chnage status of a task once it's completed!");
-                    if (!this.checked)
+                    if (!task.completed)
                     {
                         this.checked = false;
                     }
@@ -217,25 +217,6 @@ export function displayTasks(tasks, ul, listName, USER) {
         // Calculate time left
         let deadline = new Date(task.deadline);
         startTimer(spanTimeLeft, deadline);
-
-        // // Mark task as completed
-        // li.addEventListener('click', function() {
-        //     let now = new Date();
-        //     let deadlineString = task.deadline;
-        //     let deadline = new Date(deadlineString);
-        //     let timeLeft = deadline - now;
-
-        //     if (timeLeft >= 0 && !task.completed)
-        //     {
-        //         let statusConfirmation = confirm("Mark the task as completed?");
-        //         if (statusConfirmation)
-        //         {
-        //             task.completed = true;
-        //             li.classList.toggle('checked');
-        //             updateTaskStatus(listName, task.taskName, task.completed, now, USER);
-        //         }
-        //     }
-        // });
 
         // Close button
         let spanClose = document.createElement('SPAN');
