@@ -100,7 +100,7 @@
 .create-task-div
 {
     display: grid;
-    grid-template-columns: 3fr 1fr 0.5fr 0.5fr;
+    grid-template-columns: 3fr 1fr 0.9fr 0.5fr;
     padding-bottom: 10px;
     border-bottom: 2px solid rgba(000, 000, 000, 0.1);
 }
@@ -119,12 +119,31 @@
     background-color: transparent;
 }
 
+.deadline-input-div
+{
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    border: 2px solid rgba(200, 200, 200, 0.8);
+    transition: 500ms all;
+    overflow: hidden;
+    padding: 0px 5px;
+    border-radius: 5px;
+}
+
 .deadline-input
 {
     border: none;
-    border-bottom: 2px solid black;
-    padding: 10px;
-    color-scheme: dark;
+    outline: none;
+    height: 30px;
+    width: 18px;
+    scale: 1.5;
+}
+
+.deadline-span
+{
+    color: black;
 }
 
 .addTaskBtn 

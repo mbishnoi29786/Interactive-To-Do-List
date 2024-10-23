@@ -1,19 +1,15 @@
-// search functionality
+// Search functionality
+
+import { createElement, createTextInput } from "../createElement/createElement.js";
+import { setupModalClose, trapFocus } from "./commonDialogFunctions.js";
 
 export function createSearchDiv(USER) {
-    let searchDiv = document.createElement('div');
-    searchDiv.className = 'search-div';
-    searchDiv.setAttribute('data-modal-target', '.search-modal')
+    let searchDiv = createElement('div', 'search-div', '', {'data-modal-target': '.search-modal'});
     
-    let searchIconDiv = document.createElement('div')
-    let searchIcon = document.createElement('img');
-    searchIcon.setAttribute('src', '../../pictures/icons8-search-30.png');
-    searchIcon.className = "search-icon";
-
-    let searchSpan = document.createElement('div');
-    searchSpan.innerHTML = '<p>Search</p>'
-    searchSpan.className = 'search-span';
-
+    let searchIconDiv = createElement('div')
+    let searchIcon = createElement('img', "search-icon", '', {'src' : '../../pictures/icons8-search-30.png'});
+    
+    let searchSpan = createElement('div', 'search-span', 'search-span', {'innerHTML': '<p>Search</p>'});
     searchIconDiv.appendChild(searchIcon);
     searchDiv.appendChild(searchIconDiv)
     searchDiv.appendChild(searchSpan);
@@ -24,105 +20,60 @@ export function createSearchDiv(USER) {
 export function showSearchDialog(USER) {   
     const body = document.querySelector('body');
 
-    const overlayDiv = document.createElement('div');
-    overlayDiv.id = 'overlay-div';
-    overlayDiv.classList.add('active');
+    const { overlayDiv, searchModalDiv } = createModal();
 
-    const searchModalDiv = document.createElement('div');
-    searchModalDiv.className = 'search-modal';
-    searchModalDiv.classList.add('active');
+    const searchModalHeader = createSearchModalHeader(USER);
 
-    const searchModalHeader = document.createElement('div');
-    searchModalHeader.className = 'search-modal-header';
-
-    const searchIconDiv = document.createElement('div');
-    searchIconDiv.className = 'search-icon-div';
-
-    const searchIcon = document.createElement('img');
-    searchIcon.setAttribute('src', '../../pictures/icons8-search-30.png');
-    searchIcon.className = 'search-icon';
-
-    const searchInputDiv = document.createElement('div');
-    searchInputDiv.className = 'search-input-div';
-
-    const searchInput = document.createElement('input');
-    searchInput.setAttribute('type', 'text');
-    searchInput.placeholder = 'Search or type a Command...';
-    searchInput.className = 'search-input';
-    searchInput.addEventListener('input', () => filterTasks(USER));
-
-    const searchModalBody = document.createElement('div');
-    searchModalBody.className = 'search-modal-body';
+    const searchModalBody = createElement('div', 'search-modal-body');
     
-    const searchResultsDiv = document.createElement('div');
-    searchResultsDiv.className = 'search-results-div';
-
+    const searchResultsDiv = createElement('div', 'search-results-div');
     searchModalBody.appendChild(searchResultsDiv);
 
-    searchIconDiv.appendChild(searchIcon);
-    searchInputDiv.appendChild(searchInput);
-    searchModalHeader.appendChild(searchIconDiv);
-    searchModalHeader.appendChild(searchInputDiv);
     searchModalDiv.appendChild(searchModalHeader);
     searchModalDiv.appendChild(searchModalBody);
     
     body.appendChild(overlayDiv);
     body.appendChild(searchModalDiv);
 
-    // Focus trap implementation
-    const focusableElements = searchModalDiv.querySelectorAll(
-        'input, button, [tabindex]:not([tabindex="-1"])'
-    );
-    const firstFocusableElement = focusableElements[0];
-    const lastFocusableElement = focusableElements[focusableElements.length - 1];
+    // Set up close modal functionality
+    setupModalClose(overlayDiv, searchModalDiv);
 
-    // Function to handle focus trap
-    function trapFocus(event) {
-        if (event.key === 'Tab') {
-            if (event.shiftKey) { // Shift + Tab
-                // If the first element is focused and user presses Shift + Tab
-                if (document.activeElement === firstFocusableElement) {
-                    event.preventDefault();
-                    lastFocusableElement.focus(); // Focus the last element
-                }
-            } else { // Tab
-                // If the last element is focused and user presses Tab
-                if (document.activeElement === lastFocusableElement) {
-                    event.preventDefault();
-                    firstFocusableElement.focus(); // Focus the first element
-                }
-            }
-        }
-    }
-
-    // Event listener to trap focus
-    searchModalDiv.addEventListener('keydown', trapFocus);
-
-    // Close modal on escape
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            overlayDiv.click(); // Trigger the overlay click event to close the modal
-        }
-    });
-
-    // Close modal on overlay click
-    overlayDiv.addEventListener('click', () => {
-        searchModalDiv.classList.remove('active');
-        overlayDiv.classList.remove('active');
-        searchModalDiv.remove();
-        overlayDiv.remove();
-    });
-
-    // Automatically focus the first input in the modal
-    firstFocusableElement.focus();
+    let {firstFocusableElement} = trapFocus(searchModalDiv);
+    firstFocusableElement.focus(); // Automatically focus the first input in the modal
 }
 
+// Function to create modal elements
+function createModal() {
+    const overlayDiv = createElement('div', 'overlay-div', 'overlay-div');
+    overlayDiv.classList.add('active');
 
+    const searchModalDiv = createElement('div', 'search-modal');
+    searchModalDiv.classList.add('active');
+
+    return { overlayDiv, searchModalDiv };
+}
+
+// Function to create the header of the search modal
+function createSearchModalHeader(USER) {
+    const headerDiv = createElement('div', 'search-modal-header');
+
+    const searchIconDiv = createElement('div', 'search-icon-div');
+    const searchIcon = createElement('img', 'search-icon', '', { 'src': '../../pictures/icons8-search-30.png' });
+    searchIconDiv.appendChild(searchIcon);
+
+    const searchInputDiv = createElement('div', 'search-input-div');
+    const searchInput = createTextInput('Search or type a Command...', 'search-input');
+    searchInput.addEventListener('input', () => filterTasks(USER));
+
+    searchInputDiv.appendChild(searchInput);
+    headerDiv.appendChild(searchIconDiv);
+    headerDiv.appendChild(searchInputDiv);
+
+    return headerDiv;
+}
 
 function filterTasks(USER)
-{
-    console.log(USER);
-    
+{    
     let searchKeyword = document.querySelector('.search-input').value.toLowerCase();
 
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
@@ -142,71 +93,50 @@ function filterTasks(USER)
 
     }).filter(list => list.tasks.length > 0); // Excluded lists with no matching tasks
     
-    displayResult(filteredList)
+    displayResults(filteredList)
 }
 
-function displayResult(filteredList) 
-{
-    
+// Function to display the search results
+function displayResults(filteredLists) {
     const searchModalBody = document.querySelector('.search-modal-body');
-
     searchModalBody.innerHTML = '';
 
-    if (filteredList.length == 0)
-    {
+    if (filteredLists.length === 0) {
         searchModalBody.innerHTML = 'NO Data Found!';
         return;
     }
 
-    const modalList = document.createElement('ul');
-    modalList.className = 'modal-list';
-
-    filteredList.forEach(list => {
-        const searchList = document.createElement('li');
-        searchList.className = 'search-list';
-
-        const listNameDiv = document.createElement('div');
-        listNameDiv.className = 'search-list-name-div';
-        listNameDiv.textContent = `LIST: ${list.name}`
-
-        const allTasksDiv = document.createElement('div');
-        allTasksDiv.className = 'search-all-tasks-div';
-
-        const taskLists = document.createElement('ul');
-        taskLists.className = 'search-lists-tasks-list'
-
-
-        list.tasks.forEach(task =>
-        {   
-            const taskListItem = document.createElement('li');
-            taskListItem.className = 'search-lists-tasks-list-item';
+    const modalList = createElement('ul', 'modal-list');
     
-            const taskNameDiv = document.createElement('div');
-            taskNameDiv.className = 'search-task-name';
-            taskNameDiv.textContent = `TASK: ${task.taskName}`
-
-            const taskDeadlineDiv = document.createElement('div');
-            taskDeadlineDiv.className = 'search-task-deadline';
-            taskDeadlineDiv.textContent = `DEADLINE: ${task.deadline}`;
-
-            taskListItem.appendChild(taskNameDiv);
-            taskListItem.appendChild(taskDeadlineDiv);
-
-            taskLists.appendChild(taskListItem);
-        })
-        
-        allTasksDiv.appendChild(taskLists);
-
-        searchList.appendChild(listNameDiv);
-        searchList.appendChild(allTasksDiv);
-
-        modalList.appendChild(searchList);
+    filteredLists.forEach(list => {
+        const searchListItem = createSearchListItem(list);
+        modalList.appendChild(searchListItem);
     });
 
-    searchModalBody.appendChild(modalList);
-
-    console.log(searchModalBody);
-    
+    searchModalBody.appendChild(modalList);    
 }
 
+// Function to create a list item for the search results
+function createSearchListItem(list) {
+    const searchList = createElement('li', 'search-list');
 
+    const listNameDiv = createElement('div', 'search-list-name-div', '', { 'textContent': `LIST: ${list.name}` });
+    const allTasksDiv = createElement('div', 'search-all-tasks-div');
+    const taskList = createElement('ul', 'search-lists-tasks-list');
+
+    list.tasks.forEach(task => {
+        const taskListItem = createElement('li', 'search-lists-tasks-list-item');
+        const taskNameDiv = createElement('div', 'search-task-name', '', { 'textContent': `TASK: ${task.taskName}` });
+        const taskDeadlineDiv = createElement('div', 'search-task-deadline', '', { 'textContent': `DEADLINE: ${task.deadline}` });
+        
+        taskListItem.appendChild(taskNameDiv);
+        taskListItem.appendChild(taskDeadlineDiv);
+        taskList.appendChild(taskListItem);
+    });
+
+    allTasksDiv.appendChild(taskList);
+    searchList.appendChild(listNameDiv);
+    searchList.appendChild(allTasksDiv);
+
+    return searchList;
+}

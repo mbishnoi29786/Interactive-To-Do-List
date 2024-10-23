@@ -1,3 +1,4 @@
+import { createElement, createTextInput } from '../createElement/createElement.js';
 import {dragFunctionality} from '../drag.js';
 
 export function showContents(USER)
@@ -24,47 +25,41 @@ function createListCard(list, USER) {
     const listsContainer = document.getElementById('listsContainer');
 
     // Create card element
-    let card = document.createElement('div');
-    card.className = 'todo-card';
+    let card = createElement('div', 'todo-card');
 
-    let createTaskDiv = document.createElement('div');
-    createTaskDiv.className = 'create-task-div';
+    let createTaskDiv = createElement('div', 'create-task-div');
 
     // Close button for list
-    let spanClose = document.createElement('SPAN');
-    spanClose.className = 'closeList';
-    spanClose.textContent = '\u00D7';
+    let spanClose = createElement('SPAN', 'closeList', '', {'textContent': '\u00D7'});
     spanClose.addEventListener('click', function() {
         removeList(list, USER); // Remove list from storage
     });
     card.appendChild(spanClose);
 
     // List title
-    let h3 = document.createElement('h3');
-    h3.textContent = list.name;
+    let h3 = createElement('h3', '', '', {'textContent': list.name});
     card.appendChild(h3);
 
     // Task input, button, and deadline input
-    let input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = 'Add a new task...';
-    input.className = 'task-input';
+    let input = createTextInput('Add a new task...', 'task-input');
 
-    let taskDescription = document.createElement('input');
-    taskDescription.type = 'text';
-    taskDescription.placeholder = 'Add description';
-    taskDescription.className = 'task-description';
+    let taskDescription = createTextInput('Add description', 'task-description');
 
-    let deadlineInput = document.createElement('input');
-    deadlineInput.type = 'datetime-local';
-    deadlineInput.className = 'deadline-input';
+    const { deadlinePicker, deadlineSpan } = createDeadlineInput();
+
+    let taskDeadlineDiv = createElement('div', 'deadline-input-div');
+    taskDeadlineDiv.appendChild(deadlinePicker);
+    taskDeadlineDiv.appendChild(deadlineSpan);
+
+    // Show the date picker on clicking the deadline div
+    taskDeadlineDiv.addEventListener('click', () => deadlinePicker.showPicker());
 
     let addTaskBtn = document.createElement('span');
     addTaskBtn.className = 'addTaskBtn';
     addTaskBtn.textContent = 'Add';
     addTaskBtn.addEventListener('click', function() {
         let taskExist = list.tasks.find(tasks => tasks.taskName === input.value.trim());
-        let deadlineValue = new Date(deadlineInput.value);
+        let deadlineValue = new Date(deadlinePicker.value);
         let now = new Date();
 
         if (input.value.trim() === '') 
@@ -101,7 +96,7 @@ function createListCard(list, USER) {
 
     createTaskDiv.appendChild(input);
     createTaskDiv.appendChild(taskDescription);
-    createTaskDiv.appendChild(deadlineInput);
+    createTaskDiv.appendChild(taskDeadlineDiv);
     createTaskDiv.appendChild(addTaskBtn);
     card.appendChild(createTaskDiv);
 
@@ -365,3 +360,16 @@ function removeList(listToRemove, USER) {
 // });
 
 
+function createDeadlineInput() {
+    const deadlinePicker = createElement('input', 'deadline-input', '', { type: 'datetime-local' });
+    const deadlineSpan = createElement('span', 'deadline-span', '', { textContent: 'Due Date' });
+    
+    // Event listener to update the deadline span
+    deadlinePicker.addEventListener('input', () => {
+        const selectedDate = new Date(deadlinePicker.value);
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+        deadlineSpan.textContent = selectedDate.toLocaleString('en-US', options);
+    });
+
+    return { deadlinePicker, deadlineSpan };
+}

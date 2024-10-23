@@ -1,9 +1,9 @@
 import {updateListsInStorage} from '../content/content.js'
-import { createElement } from '../createElement/createElement.js';
-import { validateTaskInput, createTextInput } from '../validation/addTaskValidation.js';
+import { createElement, createTextInput  } from '../createElement/createElement.js';
+import { validateTaskInput} from '../validation/addTaskValidation.js';
+import { setupModalClose, trapFocus } from "./commonDialogFunctions.js";
 
 // Main function to show the Add Task dialog
-
 export function showAddTaskDialog(USER) {
 
     const body = document.querySelector('body');
@@ -37,7 +37,7 @@ export function showAddTaskDialog(USER) {
     addTaskButtonDiv.appendChild(addTaskButton);
 
     // Set up input listeners for enabling/disabling the button
-    setupInputListeners(addTaskInput, addTaskButton);
+    setupInputListeners(addTaskInput, deadlinePicker, addTaskButton);
 
     // Append all modal content 
     modalDiv.appendChild(addTaskDiv);
@@ -53,29 +53,12 @@ export function showAddTaskDialog(USER) {
     // Set up close modal functionality
     setupModalClose(overlayDiv, modalDiv);
 
-    // Close modal on escape
-    document.addEventListener('keydown', (event) => 
-    {
-        if (event.key === 'Escape') 
-        {
-            overlayDiv.click(); // Trigger the overlay click event to close the modal
-        }
-    });
-
-    // Close modal on overlay click
-    overlayDiv.addEventListener('click', () => {
-        modalDiv.classList.remove('active');
-        modalDiv.classList.remove('active');
-        modalDiv.remove();
-        modalDiv.remove();
-    });
-
-    let {firstFocusableElement, lastFocusableElement} = trapFocus(modalDiv);
+    let {firstFocusableElement} = trapFocus(modalDiv);
     
     firstFocusableElement.focus(); // Automatically focus the first input in the modal
 }
 
-
+// Function to create modal elements
 function createModal() {
     const overlayDiv = createElement('div', 'overlay-div', 'overlay-div');
     overlayDiv.classList.add('active');
@@ -98,21 +81,24 @@ function handleAddTask(USER, listChosen, addTaskInput, deadlinePicker, addTaskDe
     }
 }
 
+// Function to add a task to the selected list
 function addTask(USER, listChosen, taskData)
 {
     const { input, deadlineInput, taskDescription } = taskData;
-    console.log(input, deadlineInput, taskDescription, taskData);
     
-
     let userLists = JSON.parse(localStorage.getItem(USER)) || [];
     const list = userLists.find(list => list.name === listChosen);
     
-    if (!list) return false; // if list doesn't exist
+    if (!list) {
+        console.error(`List "${listChosen}" does not exist.`);
+        return false; // if list doesn't exist
+    }
 
     const isValid  = validateTaskInput(input, list.tasks, deadlineInput);
 
-    if(!isValid) return false
+    if(!isValid) return false;
 
+    // Add the new task to the list
     list.tasks.push(
     {
         taskName: input.trim(),
@@ -127,48 +113,18 @@ function addTask(USER, listChosen, taskData)
 
 }
 
-function setupInputListeners(addTaskInput, addTaskButton) {
-    addTaskInput.addEventListener('input', () => {
-        if (addTaskInput.value === '') {
-            addTaskButton.classList.remove('active');
-        } else {
-            addTaskButton.classList.add('active');
-        }
-    });
-}
-
-
-
-
-// Function to handle focus trap
-function trapFocus(element) {
-    const focusableElements = element.querySelectorAll(
-        'input, button, [tabindex]:not([tabindex="-1"])'
-    );
-    const firstFocusableElement = focusableElements[0];
-    const lastFocusableElement = focusableElements[focusableElements.length - 1];
-
-    element.addEventListener('keydown', (event)=>
+// Function to set up input listeners for the task input
+function setupInputListeners(addTaskInput, deadlinePicker, addTaskButton) {
+    const checkButtonState = () =>
     {
-        if (event.key === 'Tab') {
-            if (event.shiftKey) { // Shift + Tab
-                // If the first element is focused and user presses Shift + Tab
-                if (document.activeElement === firstFocusableElement) {
-                    event.preventDefault();
-                    lastFocusableElement.focus(); // Focus the last element
-                }
-            } else { // Tab
-                // If the last element is focused and user presses Tab
-                if (document.activeElement === lastFocusableElement) {
-                    event.preventDefault();
-                    firstFocusableElement.focus(); // Focus the first element
-                }
-            }
-        }
-    })
-    
-    return { firstFocusableElement, lastFocusableElement };
+        const isInputValid = addTaskInput.value.trim() !== '';
+        const isDeadlineValid = deadlinePicker.value !== '';
+        addTaskButton.classList.toggle('active', isInputValid && isDeadlineValid);
+    }
+    addTaskInput.addEventListener('input', checkButtonState);
+    deadlinePicker.addEventListener('input', checkButtonState);
 }
+
 
 function createDeadlineInput() {
     const deadlinePicker = createElement('input', 'modal-deadline-input', '', { type: 'datetime-local' });
