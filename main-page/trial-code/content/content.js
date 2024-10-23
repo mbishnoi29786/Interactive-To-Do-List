@@ -153,7 +153,6 @@ export function displayTasks(tasks, ul, listName, USER) {
                         // Play sound
                         let audio = document.createElement('audio');
                         audio.src = './content/google_notification.mp3';
-                        console.log(audio);
 
                         audio.addEventListener('canplaythrough', function() 
                         {

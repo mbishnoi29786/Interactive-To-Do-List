@@ -1,76 +1,32 @@
 import {updateListsInStorage} from '../content/content.js'
-
-export function createAddTaskDialog(USER) {
-    let addTaskDiv = document.createElement('div');
-    addTaskDiv.className = 'addTask-dialog-div';
-    
-    let addTaskInputDiv = document.createElement('div');
-    addTaskInputDiv.className = 'addTask-input-div';
-
-    let addTaskInput = document.createElement('input')
-    addTaskInput.className = "addTask-input";
-
-    let Span = document.createElement('div');
-    Span.innerHTML = '<p>Add</p>'
-    Span.className = 'addTask-span';
-
-    searchSpan.addEventListener('click', ()=> showAddTaskDialog(USER));
-
-    searchIconDiv.appendChild(searchIcon);
-    searchDiv.appendChild(searchIconDiv)
-    searchDiv.appendChild(searchSpan);
-
-    return addTaskDiv;
-}
+import { createElement } from '../createElement/createElement.js';
+import { validateTaskInput } from '../validation/addTaskValidation.js';
 
 export function showAddTaskDialog(USER) {
     const body = document.querySelector('body');
 
-    const overlayDiv = document.createElement('div');
-    overlayDiv.id = 'overlay-div';
+    const overlayDiv = createElement('div', 'overlay-div', 'overlay-div');
     overlayDiv.classList.add('active');
 
-    const addTaskModalDiv = document.createElement('div');
-    addTaskModalDiv.className = 'add-task-modal';
+    const addTaskModalDiv = createElement('div', 'add-task-modal');
     addTaskModalDiv.classList.add('active');
 
-    const addTaskDiv = document.createElement('div');
-    addTaskDiv.className = 'modal-addTask-div';
+    const addTaskDiv = createElement('div', 'modal-addTask-div');
 
-    const addTaskInput = document.createElement('input');
-    addTaskInput.setAttribute('type', 'text');
-    addTaskInput.placeholder = 'Add Task';
-    addTaskInput.className = 'modal-addTask-dialog-input';
-    addTaskInput.addEventListener('input', ()=>{
-        if (addTaskInput.value == '')
-        {
-            document.querySelector('.modal-add-task-button').classList.remove('active');
-        }
-        else
-        {
-            document.querySelector('.modal-add-task-button').classList.add('active');
-        }
-    })
+    const addTaskInput = createElement('input', 'modal-addTask-dialog-input', '', {'type' : 'text', 'placeholder' : 'Add Task'});
+
     addTaskDiv.appendChild(addTaskInput);
 
-    const addTaskDescriptionDiv = document.createElement('div');
-    addTaskDescriptionDiv.className = 'modal-addTask-description-div';
+    const addTaskDescriptionDiv = createElement('div', 'modal-addTask-description-div');
     
-    const addTaskDescriptionInput = document.createElement('input');
-    addTaskDescriptionInput.className = 'modal-add-task-description-input';
-    addTaskDescriptionInput.placeholder = 'Add Description';
+    const addTaskDescriptionInput = createElement('input', 'modal-add-task-description-input', '', {'placeholder' : 'Add Description'});
     addTaskDescriptionDiv.appendChild(addTaskDescriptionInput);
 
-    const taskDeadlineDiv = document.createElement('div');
-    taskDeadlineDiv.className = 'modal-task-deadline-div';
+    const taskDeadlineDiv = createElement('div', 'modal-task-deadline-div');
 
-    const deadlinePicker = document.createElement('input');
-    deadlinePicker.setAttribute('type', 'datetime-local');
-    deadlinePicker.className = 'modal-deadline-input';
+    const deadlinePicker = createElement('input', 'modal-deadline-input', '', {'type' : 'datetime-local'});
 
-    const deadlineSpan = document.createElement('span');
-    deadlineSpan.className = 'modal-deadline-span';
-    deadlineSpan.textContent = 'Due Date';
+    const deadlineSpan = createElement('span', 'modal-deadline-span', '' , {'textContent' : 'Due Date'});
 
     taskDeadlineDiv.appendChild(deadlinePicker);
     taskDeadlineDiv.appendChild(deadlineSpan);
@@ -95,28 +51,31 @@ export function showAddTaskDialog(USER) {
     });
 
     
-    const listSelect = document.createElement('select');
-    listSelect.className = 'modal-list-select';
+    const listSelect = createElement('select', 'modal-list-select');
 
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
-
-    console.log(userLists);
     
-    userLists.forEach(list => {
-        const option = document.createElement("option");
-        option.textContent = list.name;
+    userLists.forEach(list => 
+    {
+        const option = createElement('option', '', '', {'textContent' : list.name});
         listSelect.appendChild(option);
     })
 
-    const addTaskButtonDiv = document.createElement('div');
-    addTaskButtonDiv.className = 'modal-add-task-button-div';
+    const addTaskButtonDiv = createElement('div', 'modal-add-task-button-div');
 
-    const addTaskButton = document.createElement('button');
-    addTaskButton.className = 'modal-add-task-button';
-    addTaskButton.innerHTML = 'Add Task';
-    addTaskButton.addEventListener('click', () => {
-        let value = addTask(USER, listSelect.value, addTaskInput.value, deadlinePicker.value, addTaskDescriptionInput.value)
-        if (value)
+    const addTaskButton = createElement('button', 'modal-add-task-button', '', {'innerHTML': 'Add Task'});
+    
+    addTaskButton.addEventListener('click', () => 
+    {
+        const taskData = 
+        {
+            input: addTaskInput.value,
+            deadlineInput: deadlinePicker.value,
+            taskDescription: addTaskDescriptionInput.value
+        };
+        let taskAdded = addTask(USER, listSelect.value, taskData);
+
+        if (taskAdded)
         {
             addTaskInput.value = '';
             deadlinePicker.value = '';
@@ -127,6 +86,8 @@ export function showAddTaskDialog(USER) {
     });
     addTaskButtonDiv.appendChild(addTaskButton);
 
+    setupInputListeners(addTaskInput, addTaskButton);
+
     // Append all modal content before calculating focusable elements
     addTaskModalDiv.appendChild(addTaskDiv);
     addTaskModalDiv.appendChild(addTaskDescriptionDiv);
@@ -136,17 +97,83 @@ export function showAddTaskDialog(USER) {
 
     body.appendChild(overlayDiv);
     body.appendChild(addTaskModalDiv);
-    console.log("Modal and overlay appended.");
 
-    // Focus trap implementation
-    const focusableElements = addTaskModalDiv.querySelectorAll(
+    // Close modal on escape
+    document.addEventListener('keydown', (event) => 
+    {
+        if (event.key === 'Escape') 
+        {
+            overlayDiv.click(); // Trigger the overlay click event to close the modal
+        }
+    });
+
+    // Close modal on overlay click
+    overlayDiv.addEventListener('click', () => {
+        addTaskModalDiv.classList.remove('active');
+        overlayDiv.classList.remove('active');
+        addTaskModalDiv.remove();
+        overlayDiv.remove();
+    });
+
+    let {firstFocusableElement, lastFocusableElement} = trapFocus(addTaskModalDiv);
+    // Automatically focus the first input in the modal
+    firstFocusableElement.focus();
+}
+
+function addTask(USER, listChosen, taskData)
+{
+    const { input, deadlineInput, taskDescription } = taskData;
+    console.log(input, deadlineInput, taskDescription, taskData);
+    
+
+    let userLists = JSON.parse(localStorage.getItem(USER)) || [];
+    const list = userLists.find(list => list.name === listChosen);
+    
+    if (!list) return false; // if list doesn't exist
+
+    const isValid  = validateTaskInput(input, list.tasks, deadlineInput);
+
+    if(!isValid) return false
+
+    list.tasks.push(
+    {
+        taskName: input.trim(),
+        taskDescription: taskDescription,
+        deadline: deadlineInput,
+        completed: false
+    });
+    updateListsInStorage(list.name, list.tasks, USER);
+    alert("Task Added!!")
+    // displayTasks(list.tasks, ul, list.name);
+    return true;
+
+}
+
+function setupInputListeners(addTaskInput, addTaskButton) {
+    addTaskInput.addEventListener('input', () => {
+        if (addTaskInput.value === '') {
+            addTaskButton.classList.remove('active');
+        } else {
+            addTaskButton.classList.add('active');
+        }
+    });
+}
+
+
+function createInput(placeholder, type = 'text', id) {
+    return createElement('input', '',  `${id}-input`, { type, placeholder });
+}
+
+// Function to handle focus trap
+function trapFocus(element) {
+    const focusableElements = element.querySelectorAll(
         'input, button, [tabindex]:not([tabindex="-1"])'
     );
     const firstFocusableElement = focusableElements[0];
     const lastFocusableElement = focusableElements[focusableElements.length - 1];
 
-    // Function to handle focus trap
-    function trapFocus(event) {
+    element.addEventListener('keydown', (event)=>
+    {
         if (event.key === 'Tab') {
             if (event.shiftKey) { // Shift + Tab
                 // If the first element is focused and user presses Shift + Tab
@@ -162,75 +189,7 @@ export function showAddTaskDialog(USER) {
                 }
             }
         }
-    }
-
-    // Add event listeners to trap focus
-    addTaskModalDiv.addEventListener('keydown', trapFocus);
-
-    // Close modal on escape
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            overlayDiv.click(); // Trigger the overlay click event to close the modal
-        }
-    });
-
-    // Close modal on overlay click
-    overlayDiv.addEventListener('click', () => {
-        addTaskModalDiv.classList.remove('active');
-        overlayDiv.classList.remove('active');
-        addTaskModalDiv.remove();
-        overlayDiv.remove();
-    });
-
-    // Automatically focus the first input in the modal
-    firstFocusableElement.focus();
-}
-
-function addTask(USER, listChosen, input, deadlineInput, taskDescription)
-{
-    let userLists = JSON.parse(localStorage.getItem(USER)) || []
-
-    console.log(listChosen);
-
-    const list = userLists.find(list => list.name === listChosen)
+    })
     
-    console.log(list);
-    
-    let taskExist = list.tasks.find(tasks => tasks.taskName === input.trim());
-        let deadlineValue = new Date(deadlineInput);
-        let now = new Date();
-
-        if (input.trim() === '') 
-        {
-            alert("Write a task!");
-            return false;
-        } 
-        else if (taskExist) 
-        {
-            alert("Task Already Exists!!");
-            return false;
-        }
-        else if (isNaN(deadlineValue))
-        {
-            alert("Enter a dealine!!");
-            return false;
-        } 
-        else if (deadlineValue <= now) 
-        {
-            alert("Deadline must be in the future!");
-            return false;
-        } 
-        else 
-        {
-            list.tasks.push({
-                taskName: input.trim(),
-                taskDescription: taskDescription,
-                deadline: deadlineInput,
-                completed: false
-            });
-            updateListsInStorage(list.name, list.tasks);
-            // displayTasks(list.tasks, ul, list.name);
-            return true
-        }
+    return { firstFocusableElement, lastFocusableElement };
 }
-
