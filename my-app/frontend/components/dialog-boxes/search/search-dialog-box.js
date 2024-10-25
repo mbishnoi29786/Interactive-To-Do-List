@@ -1,7 +1,7 @@
 // Search functionality
 
-import { createElement, createTextInput } from "../../form-elements/elementUtils.js";
-import { setupModalClose, trapFocus } from "../commonDialogFunctions.js";
+import { createElement, createTextInput } from "../../utils/element-utils.js";
+import { setupModalClose, trapFocus } from "../../utils/dialog-utils.js";
 
 export function showSearchDialog(USER) {   
     const body = document.querySelector('body');

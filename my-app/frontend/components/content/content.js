@@ -1,6 +1,6 @@
-import { createElement, createTextInput } from '../form-elements/elementUtils.js';
+import { createElement, createTextInput } from '../utils/element-utils.js';
 import {dragFunctionality} from '../drag-and-drop/drag.js';
-import { validateTaskInput } from '../form-elements/addTaskValidation.js';
+import { validateTaskInput } from '../utils/task-validation-utils.js';
 
 export function showContents(USER)
 {
@@ -160,7 +160,7 @@ export function displayTasks(tasks, ul, listName, USER) {
                     
                         // Play sound
                         let audio = document.createElement('audio');
-                        audio.src = '../../assets/audio/google_notification.mp3';
+                        audio.src = '../../assets/audio/task-completion-sound.mp3';
 
                         audio.addEventListener('canplaythrough', function() 
                         {

@@ -1,7 +1,7 @@
-@import url('./sidebar.css');
-@import url('./search_dialogBox.css');
-@import url('./content.css');
-@import url('./addTask_dialogBox.css');
+@import url('../../components/sidebar/sidebar.css');
+@import url('../../components/dialog-boxes/search/search-dialog-box.css');
+@import url('../../components/content/content.css');
+@import url('../../components/dialog-boxes/add-task/add-task-dialog-box.css');
 html, body
 {
     margin: 0;

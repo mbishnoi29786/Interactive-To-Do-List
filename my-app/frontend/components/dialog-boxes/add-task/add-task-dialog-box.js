@@ -1,7 +1,7 @@
 import {updateListsInStorage} from '../../content/content.js'
-import { createElement, createTextInput  } from '../../form-elements/elementUtils.js';
-import { validateTaskInput} from '../../form-elements/addTaskValidation.js';
-import { setupModalClose, trapFocus } from "../commonDialogFunctions.js";
+import { createElement, createTextInput  } from '../../utils/element-utils.js';
+import { validateTaskInput} from '../../utils/task-validation-utils.js';
+import { setupModalClose, trapFocus } from "../../utils/dialog-utils.js";
 
 // Main function to show the Add Task dialog
 export function showAddTaskDialog(USER) {

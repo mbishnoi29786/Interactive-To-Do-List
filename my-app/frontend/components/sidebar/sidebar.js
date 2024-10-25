@@ -1,6 +1,6 @@
-import { createElement } from "../form-elements/elementUtils.js";
-import { showAddTaskDialog } from "../dialog-boxes/add-task/addTask_dialogBox.js";
-import { showSearchDialog } from "../dialog-boxes/search/search_dialogBox.js";
+import { createElement } from "../utils/element-utils.js";
+import { showAddTaskDialog } from "../dialog-boxes/add-task/add-task-dialog-box.js";
+import { showSearchDialog } from "../dialog-boxes/search/search-dialog-box.js";
 
 export function sideBarContents (USER)
 {

@@ -7,40 +7,45 @@
 /frontend
 │
 ├── /assets
-│   ├── /images           // For images 
-│   ├── /audio           // For audio files (e.g., google_notification.mp3)
-│   └── /styles          // General styles (e.g., global styles)
-│
+│   ├── /images
+│   │    ├── add-button.png
+│   │    ├── drag-icon.svg
+│   │    └── search-icon.png     
+│   ├── /audio
+│   │    └──  task-completion-sound.mp3  
+│   └── /styles      
+│        └── index.css
 ├── /components          
 │   ├── /dialog-boxes
 │   │   ├── /addTask
-│   │   │   ├── addTask_dialogBox.css
-│   │   │   └── addTask_dialogBox.js
+│   │   │   └── add-task-dialog-box.js
+│   │   │   └── add-task-dialog-box.css
 │   │   ├── /search
-│   │   │   ├── search_dialogBox.css
-│   │   │   └── search_dialogBox.js
-│   │   └── commonDialogFunctions.js
+│   │   │   ├── search-dialog-box.js
+│   │   │   └── search-dialog-box.css
 │   ├── /sidebar
 │   │   ├── sidebar.css
 │   │   └── sidebar.js
 │   ├── /content
-│   │   ├── content.css
-│   │   └── content.js
-│   ├── /form-elements
-│   │   ├── createElement.js    
-│   │   └── addTaskValidation.js
+│   │   ├── content.js
+│   │   └── content.css
+│   ├── /utils
+│   │   ├── element-utils.js   
+│   │   ├── dialog-utils.js
+│   │   ├── register-utils.js
+│   │   └── task-validation-utils.js
 │   └── /drag-and-drop
 │       └── drag.js
 │
 ├── /pages
 │   ├── /login
 │   │   ├── login.html
-│   │   ├── user_login.css
-│   │   └── user_login.js
+│   │   ├── login.css
+│   │   └── login.js
 │   ├── /register
 │   │   ├── register.html
-│   │   ├── user_register.css
-│   │   └── user_register.js
+│   │   ├── register.css
+│   │   └── register.js
 │   └── /main
 │       ├── index.html
 │       └── index.js
