@@ -14,7 +14,6 @@ window.addEventListener('load', function() {
         const sideBarContentsDiv = sideBarContents(USER);
         sideBar.appendChild(sideBarContentsDiv);
         document.getElementById('displayUsername').textContent = `Hello, ${user.username}!`;
-
         showContents(USER);
     }
 });

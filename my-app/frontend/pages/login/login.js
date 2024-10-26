@@ -1,3 +1,5 @@
+import { clearError, displayError, validateEmail } from "../../components/utils/login-register-utils.js";
+
 const form = document.querySelector('#form')
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
@@ -21,66 +23,36 @@ function validateInputs()
     if(emailVal==='')
     {
         success = false;
-        setError(email,'Email is required')
+        displayError(email,'Email is required')
     }
     else if(!validateEmail(emailVal))
     {
         success = false;
-        setError(email,'Please enter a valid email')
+        displayError(email,'Please enter a valid email')
     }
     else
     {
-        setSuccess(email)
+        clearError(email)
     }
 
     if(passwordVal === '')
     {
         success= false;
-        setError(password,'Password is required')
+        displayError(password,'Password is required')
     }
     else if(passwordVal.length<8)
     {
         success = false;
-        setError(password,'Password must be atleast 8 characters long')
+        displayError(password,'Password must be atleast 8 characters long')
     }
     else
     {
-        setSuccess(password)
+        clearError(password)
     }
 
     return success;
 
 }
-
-//element - password, msg- pwd is reqd
-function setError(element,message)
-{
-    const inputGroup = element.parentElement;
-    const errorElement = inputGroup.querySelector('.error')
-
-    errorElement.innerText = message;
-    inputGroup.classList.add('error')
-    inputGroup.classList.remove('success')
-}
-
-function setSuccess(element)
-{
-    const inputGroup = element.parentElement;
-    const errorElement = inputGroup.querySelector('.error');
-
-    errorElement.innerText = '';
-    inputGroup.classList.add('success');
-    inputGroup.classList.remove('error');
-}
-
-const validateEmail = (email) => 
-    {
-    return String(email)
-        .toLowerCase()
-        .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-    };
 
 function registerUser()
 {
@@ -94,12 +66,12 @@ function registerUser()
 
     if (!user)
     {
-        setError(inputGroup, 'No user Found!!');
+        displayError(inputGroup, 'No user Found!!');
         return false;
     }
     else if(user.password !== passwordVal)
     {
-        setError(inputGroup, 'Wrong Password!!');
+        displayError(inputGroup, 'Wrong Password!!');
         return false
     }
     else
