@@ -5,14 +5,44 @@ import { validateTaskInput } from '../utils/task-validation-utils.js';
 export function showContents(USER)
 {
     const userLists = JSON.parse(localStorage.getItem(USER)) || [];
-    addNewList(USER,userLists);
-    displayLists(userLists, USER); // Function to display user's to-do lists
+    const body = document.querySelector('body');
+
+    const contentsDiv = createElement("div", "", "content")
+    const addListContainer = createAddListContainer(USER, userLists);
+    const listsContainer = createShowAllListContainer(USER, userLists);
+
+    contentsDiv.appendChild(addListContainer);
+    contentsDiv.appendChild(listsContainer);
+
+    body.appendChild(contentsDiv);
+
+    displayLists(userLists, USER);
 }
 
-function displayLists(lists, USER) {
-    const listsContainer = document.getElementById('listsContainer');
+function createAddListContainer(USER, userLists)
+{
+    const addListContainer = createElement('div', '', 'addListContainer');
+    const listNameInput = createTextInput("New To-Do List Name...", "", "listNameInput");
+    const addListBtn = createElement("SPAN", "", "addListBtn", {"textContent" : "Add To-Do List"});
 
-    listsContainer.innerHTML = '';
+    addListBtn.addEventListener('click', () => addNewList(USER,userLists))
+
+    addListContainer.appendChild(listNameInput);
+    addListContainer.appendChild(addListBtn);
+
+    return addListContainer
+}
+
+function createShowAllListContainer(USER, lists)
+{
+    const listsContainer = createElement("div", "", "listsContainer");
+    return listsContainer
+}
+
+
+function displayLists(lists, USER) {
+    // const listsContainer = document.querySelector("#listsContainer");
+    // listsContainer.innerHTML = '';
     lists.forEach(list => {
         createListCard(list, USER);
     });
@@ -290,29 +320,25 @@ function startTimer(spanTimeLeft, deadline) {
 // Handle adding a new to-do list
 function addNewList(USER, userLists)
 {
-    const addListBtn = document.getElementById('addListBtn');
-    addListBtn.addEventListener('click', function() 
-    {
-        let listNameInput = document.getElementById('listNameInput');
-        let listName = listNameInput.value.trim();
-        let listExist = userLists.find(lists => lists.name === listName);
+    let listNameInput = document.getElementById('listNameInput');
+    let listName = listNameInput.value.trim();
+    let listExist = userLists.find(lists => lists.name === listName);
 
-        if (listName === '') 
-        {
-            alert("Please enter a name for the to-do list!");
-        } 
-        else if (listExist) 
-        {
-            alert("Two Lists cannot have the same name!");
-        } 
-        else 
-        {
-            userLists.push({ name: listName, tasks: [] });
-            localStorage.setItem(USER, JSON.stringify(userLists));
-            displayLists(userLists);
-            listNameInput.value = '';
-        }
-    });
+    if (listName === '') 
+    {
+        alert("Please enter a name for the to-do list!");
+    } 
+    else if (listExist) 
+    {
+        alert("Two Lists cannot have the same name!");
+    } 
+    else 
+    {
+        userLists.push({ name: listName, tasks: [] });
+        localStorage.setItem(USER, JSON.stringify(userLists));
+        displayLists(userLists);
+        listNameInput.value = '';
+    }
 }
 
 

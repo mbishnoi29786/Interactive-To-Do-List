@@ -6,6 +6,6 @@ export function createElement(tag, className, id, options = {}) {
     return element;
 }
 
-export function createTextInput(placeholder, className) {
-    return createElement('input', className, '', { type: 'text', placeholder });
+export function createTextInput(placeholder, className, id) {
+    return createElement('input', className, id, { type: 'text', placeholder });
 }
