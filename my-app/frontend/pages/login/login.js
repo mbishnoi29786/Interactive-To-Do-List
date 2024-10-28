@@ -1,4 +1,5 @@
-import { clearError, displayError, validateEmail } from "../../components/utils/login-register-utils.js";
+import { clearError, displayError, isEmpty, isPasswordValid, validateEmail } from "../../components/utils/login-register-utils.js";
+
 
 const form = document.querySelector('#form')
 const email = document.querySelector('#email');
@@ -8,19 +9,19 @@ form.addEventListener('submit',(e)=>
 {
     e.preventDefault();
 
-    if(validateInputs() && registerUser())
+    if(validateLoginInputs() && authenticateUser())
     {
         window.location.href = '../main/index.html'; 
     }
 })
 
-function validateInputs()
+function validateLoginInputs()
 {
     const emailVal = email.value.trim();
     const passwordVal = password.value.trim();
     let success = true
 
-    if(emailVal==='')
+    if(isEmpty(emailVal))
     {
         success = false;
         displayError(email,'Email is required')
@@ -35,12 +36,12 @@ function validateInputs()
         clearError(email)
     }
 
-    if(passwordVal === '')
+    if(isEmpty(password))
     {
         success= false;
         displayError(password,'Password is required')
     }
-    else if(passwordVal.length<8)
+    else if(isPasswordValid(password))
     {
         success = false;
         displayError(password,'Password must be atleast 8 characters long')
@@ -54,7 +55,7 @@ function validateInputs()
 
 }
 
-function registerUser()
+function authenticateUser()
 {
     const emailVal = email.value.trim();
     const passwordVal = password.value.trim();

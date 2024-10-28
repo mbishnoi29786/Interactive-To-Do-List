@@ -1,4 +1,4 @@
-import { showContents } from '../../components/content/content.js'
+import { contentsMainDiv, showContents } from '../../components/content/content.js'
 import {sideBarContents} from '../../components/sidebar/sidebar.js'
 
 let USER;
@@ -10,11 +10,17 @@ window.addEventListener('load', function() {
     } else {
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const user = users.find(user => user.email === USER);
-        const sideBar = document.getElementById('sideBar');
-        const sideBarContentsDiv = sideBarContents(USER);
-        sideBar.appendChild(sideBarContentsDiv);
-        document.getElementById('displayUsername').textContent = `Hello, ${user.username}!`;
-        showContents(USER);
+        const userLists = JSON.parse(localStorage.getItem(USER)) || [];
+
+        const body = document.querySelector("body");
+
+        const sideBarContentsDiv = sideBarContents(USER, user.username, userLists);
+        const contentsDiv = contentsMainDiv(USER, userLists);
+
+        body.appendChild(sideBarContentsDiv);
+        body.appendChild(contentsDiv);
+
+        showContents(USER, userLists)
     }
 });
 

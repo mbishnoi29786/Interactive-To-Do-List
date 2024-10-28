@@ -19,3 +19,10 @@ export function clearError(inputElement) {
     inputElement.parentElement.classList.add('success');
 }
 
+export function isEmpty(value) {
+    return value.trim() === '';
+}
+
+export function isPasswordValid(password) {
+    return password.length >= 8;
+}

@@ -1,4 +1,4 @@
-.sideBar
+#sideBar
 {
     width: 15%;
     height: 100vh;
@@ -8,7 +8,7 @@
     justify-content: space-between;
 }
 
-.sideBar h2
+#sideBar h2
 {
     margin: 0;
     color: #000;
@@ -52,7 +52,7 @@
     font-size: 1.5rem;
 }
 
-.sideBar .search-div
+#sideBar .search-div
 {
     display: flex;
     padding: 0;
@@ -62,13 +62,13 @@
     margin: 3px 10px;
 }
 
-.sideBar .search-span 
+#sideBar .search-span 
 {
     font-size: 1.2rem;
     padding: 3px;
 }
 
-.sideBar .search-icon
+#sideBar .search-icon
 {   
     padding-left: 3px;
     height: 23px;

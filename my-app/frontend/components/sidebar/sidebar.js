@@ -2,13 +2,13 @@ import { createElement } from "../utils/element-utils.js";
 import { showAddTaskDialog } from "../dialog-boxes/add-task/add-task-dialog-box.js";
 import { showSearchDialog } from "../dialog-boxes/search/search-dialog-box.js";
 
-export function sideBarContents (USER)
+export function sideBarContents (USER, username)
 {
-    const sideBarMainDiv = createElement("div","sideBarMainDiv");
+    const sideBarMainDiv = createElement("div","sideBarMainDiv", "sideBar");
 
     const h2 = createElement("h2", "my-to-do-list", "", {"textContent" : "My To Do List"});
 
-    const usernameDisplyDiv = createElement('div', "", "displayUsername");
+    const usernameDisplyDiv = createElement('div', "", "displayUsername", {"textContent" : `Hello, ${username}`});
 
 
     const addTaskDiv = addTaskDivFun(USER);

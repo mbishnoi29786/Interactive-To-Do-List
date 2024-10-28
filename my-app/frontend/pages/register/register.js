@@ -1,4 +1,5 @@
-import { clearError, displayError, validateEmail } from "../../components/utils/login-register-utils.js";
+import { clearError, displayError, isEmpty, isPasswordValid, validateEmail } from "../../components/utils/login-register-utils.js";
+
 
 const form = document.querySelector('#form')
 const username = document.querySelector('#username');
@@ -10,13 +11,13 @@ form.addEventListener('submit',(e)=>
 {
     e.preventDefault();
 
-    if(validateInputs() && registerUser())
+    if(validateRegistrationInputs() && registerUser())
     {
         window.location.href = '../login/login.html'; 
     }
 })
 
-function validateInputs()
+function validateRegistrationInputs()
 {
     const usernameVal = username.value.trim()
     const emailVal = email.value.trim();
@@ -24,7 +25,7 @@ function validateInputs()
     const cpasswordVal = cpassword.value.trim();
     let success = true
 
-    if(usernameVal==='')
+    if(isEmpty(username))
     {
         success=false;
         displayError(username,'Username is required')
@@ -34,7 +35,7 @@ function validateInputs()
         clearError(username)
     }
 
-    if(emailVal==='')
+    if(isEmpty(emailVal))
     {
         success = false;
         displayError(email,'Email is required')
@@ -49,12 +50,12 @@ function validateInputs()
         clearError(email)
     }
 
-    if(passwordVal === '')
+    if(isEmpty(passwordVal))
     {
         success= false;
         displayError(password,'Password is required')
     }
-    else if(passwordVal.length<8)
+    else if(isPasswordValid(passwordVal))
     {
         success = false;
         displayError(password,'Password must be atleast 8 characters long')
@@ -64,7 +65,7 @@ function validateInputs()
         clearError(password)
     }
 
-    if(cpasswordVal === '')
+    if(isEmpty(cpassword))
     {
         success = false;
         displayError(cpassword,'Confirm password is required')
@@ -91,15 +92,15 @@ function registerUser()
     const passwordVal = password.value.trim();
 
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    const emailExits = users.some(user => user.email === emailVal);
-    const usernameExists = users.some(user => user.username === usernameVal);
-    if (emailExits)
+    const isEmailExists = users.some(user => user.email === emailVal);
+    const isUsernameExists = users.some(user => user.username === usernameVal);
+    if (isEmailExists)
     {
 
         displayError(inputGroup, 'Email already exists!')
         return false;
     }
-    else if(usernameExists)
+    else if(isUsernameExists)
     {
         displayError(inputGroup, 'Username already exists!');
         return false;

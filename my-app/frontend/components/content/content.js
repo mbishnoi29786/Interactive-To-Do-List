@@ -2,9 +2,9 @@ import { createElement, createTextInput } from '../utils/element-utils.js';
 import {dragFunctionality} from '../drag-and-drop/drag.js';
 import { validateTaskInput } from '../utils/task-validation-utils.js';
 
-export function showContents(USER)
+
+export function contentsMainDiv(USER, userLists)
 {
-    const userLists = JSON.parse(localStorage.getItem(USER)) || [];
     const body = document.querySelector('body');
 
     const contentsDiv = createElement("div", "", "content")
@@ -14,8 +14,13 @@ export function showContents(USER)
     contentsDiv.appendChild(addListContainer);
     contentsDiv.appendChild(listsContainer);
 
-    body.appendChild(contentsDiv);
+    return contentsDiv
+}
 
+
+
+export function showContents(USER, userLists)
+{
     displayLists(userLists, USER);
 }
 
