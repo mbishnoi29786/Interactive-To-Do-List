@@ -1,6 +1,5 @@
 import { clearError, displayError, isEmpty, isPasswordValid, validateEmail } from "../../components/utils/login-register-utils.js";
 
-
 const form = document.querySelector('#form')
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
@@ -36,12 +35,12 @@ function validateLoginInputs()
         clearError(email)
     }
 
-    if(isEmpty(password))
+    if(isEmpty(passwordVal))
     {
         success= false;
         displayError(password,'Password is required')
     }
-    else if(isPasswordValid(password))
+    else if(isPasswordValid(passwordVal))
     {
         success = false;
         displayError(password,'Password must be atleast 8 characters long')

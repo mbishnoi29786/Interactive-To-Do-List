@@ -1,4 +1,6 @@
 import { clearError, displayError, isEmpty, isPasswordValid, validateEmail } from "../../components/utils/login-register-utils.js";
+import { isEmailExists, isUsernameExists, saveUserToLocalStorage } from "../../components/utils/storage-utils.js";
+
 
 
 const form = document.querySelector('#form')
@@ -11,77 +13,29 @@ form.addEventListener('submit',(e)=>
 {
     e.preventDefault();
 
-    if(validateRegistrationInputs() && registerUser())
+    if(validateInputs() && registerUser())
     {
         window.location.href = '../login/login.html'; 
     }
 })
 
-function validateRegistrationInputs()
-{
-    const usernameVal = username.value.trim()
-    const emailVal = email.value.trim();
-    const passwordVal = password.value.trim();
-    const cpasswordVal = cpassword.value.trim();
-    let success = true
 
-    if(isEmpty(username))
-    {
-        success=false;
-        displayError(username,'Username is required')
-    }
-    else
-    {
-        clearError(username)
-    }
+function validateInputs() {
+    const formValues = {
+        username: username.value.trim(),
+        email: email.value.trim(),
+        password: password.value.trim(),
+        cpassword: cpassword.value.trim()
+    };
 
-    if(isEmpty(emailVal))
-    {
-        success = false;
-        displayError(email,'Email is required')
-    }
-    else if(!validateEmail(emailVal))
-    {
-        success = false;
-        displayError(email,'Please enter a valid email')
-    }
-    else
-    {
-        clearError(email)
-    }
+    let success = true;
 
-    if(isEmpty(passwordVal))
-    {
-        success= false;
-        displayError(password,'Password is required')
-    }
-    else if(isPasswordValid(passwordVal))
-    {
-        success = false;
-        displayError(password,'Password must be atleast 8 characters long')
-    }
-    else
-    {
-        clearError(password)
-    }
-
-    if(isEmpty(cpassword))
-    {
-        success = false;
-        displayError(cpassword,'Confirm password is required')
-    }
-    else if(cpasswordVal!==passwordVal)
-    {
-        success = false;
-        displayError(cpassword,'Password does not match')
-    }
-    else
-    {
-        clearError(cpassword)
-    }
+    // Now you can pass `formValues` directly
+    if (!validateUsername(formValues.username)) success = false;
+    if (!validateEmailField(formValues.email)) success = false;
+    if (!validatePasswordField(formValues.password, formValues.cpassword)) success = false;
 
     return success;
-
 }
 
 
@@ -91,33 +45,79 @@ function registerUser()
     const emailVal = email.value.trim();
     const passwordVal = password.value.trim();
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const isEmailExists = users.some(user => user.email === emailVal);
-    const isUsernameExists = users.some(user => user.username === usernameVal);
-    if (isEmailExists)
+    if (isEmailExists(emailVal))
     {
-
         displayError(inputGroup, 'Email already exists!')
         return false;
     }
-    else if(isUsernameExists)
+    else if(isUsernameExists(usernameVal))
     {
         displayError(inputGroup, 'Username already exists!');
         return false;
     }
-    else
+    
+    const user =
     {
-        const user =
-        {
-            username : usernameVal,
-            email: emailVal,
-            password: passwordVal,
-            isLogin: true
-        }
-        
-        users.push(user);
-        localStorage.setItem('users', JSON.stringify(users));
-        alert('User Registered Successfully!!');
+        username : usernameVal,
+        email: emailVal,
+        password: passwordVal,
+        isLogin: true
     }
+    
+    // users.push(user);
+    // localStorage.setItem('users', JSON.stringify(users));
+    saveUserToLocalStorage(user)
+    alert('User Registered Successfully!!');
+
     return true;
+}
+
+
+
+
+// Helper functions can now use the `formValues` object
+function validateUsername(usernameVal) {
+    if (usernameVal === '') {
+        displayError(username, 'Username is required');
+        return false;
+    } else {
+        clearError(username);
+        return true;
+    }
+}
+
+function validateEmailField(emailVal) {
+    if (emailVal === '') {
+        displayError(email, 'Email is required');
+        return false;
+    } else if (!validateEmail(emailVal)) {
+        displayError(email, 'Please enter a valid email');
+        return false;
+    } else {
+        clearError(email);
+        return true;
+    }
+}
+
+function validatePasswordField(passwordVal, cpasswordVal) {
+    if (passwordVal === '') {
+        displayError(password, 'Password is required');
+        return false;
+    } else if (passwordVal.length < 8) {
+        displayError(password, 'Password must be at least 8 characters long');
+        return false;
+    } else {
+        clearError(password);
+    }
+
+    if (cpasswordVal === '') {
+        displayError(cpassword, 'Confirm password is required');
+        return false;
+    } else if (cpasswordVal !== passwordVal) {
+        displayError(cpassword, 'Passwords do not match');
+        return false;
+    } else {
+        clearError(cpassword);
+        return true;
+    }
 }
