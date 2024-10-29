@@ -24,5 +24,6 @@ export function isEmpty(value) {
 }
 
 export function isPasswordValid(password) {
+    console.log(password.length);
     return password.length >= 8;
 }

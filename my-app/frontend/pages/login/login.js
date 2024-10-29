@@ -40,7 +40,7 @@ function validateLoginInputs()
         success= false;
         displayError(password,'Password is required')
     }
-    else if(isPasswordValid(passwordVal))
+    else if(!isPasswordValid(passwordVal))
     {
         success = false;
         displayError(password,'Password must be atleast 8 characters long')
