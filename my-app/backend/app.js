@@ -1,14 +1,19 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const cors = require('cors');
+const connectDB = require('./config/db');
 
+dotenv.config();
 const app = express();
+
+connectDB();
+
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/my-to-list');
-
 app.use('/api/auth', authRoutes);
 
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

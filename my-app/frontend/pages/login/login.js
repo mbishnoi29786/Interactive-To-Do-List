@@ -10,7 +10,9 @@ form.addEventListener('submit',(e)=>
 
     if(validateLoginInputs() && authenticateUser())
     {
-        window.location.href = '../main/index.html'; 
+        // window.location.href = '../main/index.html'; 
+        console.log("Working");
+        
     }
 })
 
@@ -54,30 +56,64 @@ function validateLoginInputs()
 
 }
 
-function authenticateUser()
+async function authenticateUser()
 {
-    const emailVal = email.value.trim();
-    const passwordVal = password.value.trim();
+    const loginData = {
+        email: email.value.trim(),
+        password: password.value.trim()
+    }
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    console.log(users);
-    
-    const user = users.find(user => user.email === emailVal)
-
-    if (!user)
+    try 
     {
-        displayError(inputGroup, 'No user Found!!');
+        const response = await fetch('http://localhost:3000/api/auth/login', 
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(loginData),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            sessionStorage.setItem('token', data.token);  // Save JWT token for authentication
+            return true;
+        }
+        else {
+            displayError(inputGroup, data.error);
+            return false;
+        }
+    }
+    catch (error)
+    {
+        console.log(error);
+        displayError(inputGroup, 'Login failed');
         return false;
     }
-    else if(user.password !== passwordVal)
-    {
-        displayError(inputGroup, 'Wrong Password!!');
-        return false
-    }
-    else
-    {
-        sessionStorage.setItem('loggedInUser', JSON.stringify(user.email));
-        return true;
-    }
-
 }
+
+// function authenticateUser()
+// {
+//     const emailVal = email.value.trim();
+//     const passwordVal = password.value.trim();
+
+//     const users = JSON.parse(localStorage.getItem('users')) || [];
+//     console.log(users);
+    
+//     const user = users.find(user => user.email === emailVal)
+
+//     if (!user)
+//     {
+//         displayError(inputGroup, 'No user Found!!');
+//         return false;
+//     }
+//     else if(user.password !== passwordVal)
+//     {
+//         displayError(inputGroup, 'Wrong Password!!');
+//         return false
+//     }
+//     else
+//     {
+//         sessionStorage.setItem('loggedInUser', JSON.stringify(user.email));
+//         return true;
+//     }
+
+// }
