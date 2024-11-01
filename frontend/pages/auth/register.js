@@ -68,11 +68,29 @@ function validateEmailField(emailVal) {
 }
 
 function validatePasswordField(passwordVal, cpasswordVal) {
+    console.log(`Uppercase: ${/[A-Z]/.test(passwordVal)}, Lowercase: ${/[a-z]/.test(passwordVal)}, Number: ${/[0-9]/.test(passwordVal)}, Special Charcter: ${/[^A-Za-z0-9]/.test(passwordVal)}`);
+    
     if (isEmpty(passwordVal)) {
         displayError(password, 'Password is required');
         return false;
     } else if (passwordVal.length < 8) {
         displayError(password, 'Password must be at least 8 characters long');
+        return false;
+    }
+    else if (!(/[A-Z]/.test(passwordVal))) {
+        displayError(password, 'Password must contain atleast one uppercase letter.');
+        return false;
+    }
+    else if (!(/[a-z]/.test(passwordVal))) {
+        displayError(password, 'Password must contain atleast one lowercase letter.');
+        return false;
+    }
+    else if (!(/[0-9]/.test(passwordVal))) {
+        displayError(password, 'Password must contain atleast one number.');
+        return false;
+    }
+    else if (!(/[^A-Za-z0-9]/.test(passwordVal))) {
+        displayError(password, 'Password must contain atleast one special charater.');
         return false;
     }
     clearError(password);
