@@ -7,23 +7,38 @@ const countryCode = document.querySelector('#country-code');
 const password = document.querySelector('#password');
 const cpassword = document.querySelector('#cpassword');
 const registerForm = document.getElementById('form');
+const additionalInfo = document.getElementById('additional-info');
+const emailStep = document.getElementById('email-step');
+const nextStepButton = document.getElementById('next-step');
 
-// Password validation requirements
-const requirements = {
-    minLength: document.querySelector("#minLength"),
-    upperCase: document.querySelector("#upperCase"),
-    lowerCase: document.querySelector("#lowerCase"),
-    number: document.querySelector("#number"),
-    specialChar: document.querySelector("#specialChar")
-};
 
-function validatePassword() {
-    const value = password.value;
-    requirements.minLength.classList.toggle("valid", value.length >= 8);
-    requirements.upperCase.classList.toggle("valid", /[A-Z]/.test(value));
-    requirements.lowerCase.classList.toggle("valid", /[a-z]/.test(value));
-    requirements.number.classList.toggle("valid", /[0-9]/.test(value));
-    requirements.specialChar.classList.toggle("valid", /[^A-Za-z0-9]/.test(value));
+function validateEmailField(emailVal) {
+    if (isEmpty(emailVal)) {
+        displayError(email, 'Email is required');
+        return false;
+    } else if (!validateEmail(emailVal)) {
+        displayError(email, 'Please enter a valid email');
+        return false;
+    }
+    clearError(email);
+    return true;
+}
+
+nextStepButton.addEventListener('click', () => {
+    if (validateEmailField(email.value)) {
+        // i will stimulate email verification here so that the email could be verified online
+        emailStep.style.display = 'none';
+        additionalInfo.style.display = 'block';
+    }
+});
+
+function validateUsername(usernameVal) {
+    if (isEmpty(usernameVal)) {
+        displayError(username, 'Username is required');
+        return false;
+    }
+    clearError(username);
+    return true;
 }
 
 function validateRegistrationInputs() {
@@ -46,25 +61,22 @@ function validateRegistrationInputs() {
     return success;
 }
 
-function validateUsername(usernameVal) {
-    if (isEmpty(usernameVal)) {
-        displayError(username, 'Username is required');
-        return false;
-    }
-    clearError(username);
-    return true;
-}
+// Password validation requirements
+const requirements = {
+    minLength: document.querySelector("#minLength"),
+    upperCase: document.querySelector("#upperCase"),
+    lowerCase: document.querySelector("#lowerCase"),
+    number: document.querySelector("#number"),
+    specialChar: document.querySelector("#specialChar")
+};
 
-function validateEmailField(emailVal) {
-    if (isEmpty(emailVal)) {
-        displayError(email, 'Email is required');
-        return false;
-    } else if (!validateEmail(emailVal)) {
-        displayError(email, 'Please enter a valid email');
-        return false;
-    }
-    clearError(email);
-    return true;
+function validatePassword() {
+    const value = password.value;
+    requirements.minLength.classList.toggle("valid", value.length >= 8);
+    requirements.upperCase.classList.toggle("valid", /[A-Z]/.test(value));
+    requirements.lowerCase.classList.toggle("valid", /[a-z]/.test(value));
+    requirements.number.classList.toggle("valid", /[0-9]/.test(value));
+    requirements.specialChar.classList.toggle("valid", /[^A-Za-z0-9]/.test(value));
 }
 
 function validatePasswordField(passwordVal, cpasswordVal) {
