@@ -24,11 +24,43 @@ function validateEmailField(emailVal) {
     return true;
 }
 
-nextStepButton.addEventListener('click', () => {
+
+// Function to check if email exists by calling the backend
+async function checkEmailExistence(emailVal) {
+    try {
+        const response = await fetch('/api/auth/register', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: emailVal }),
+        });
+
+        const data = await response.json();
+
+        if (data.exists) {
+            displayError(email, 'Email already exists');
+            return false;
+        } else {
+            clearError(email);
+            return true;
+        }
+    } catch (error) {
+        console.error('Error checking email existence:', error);
+        displayError(email, 'There was an error checking email. Please try again.');
+        return false;
+    }
+}
+
+nextStepButton.addEventListener('click', async () => {
     if (validateEmailField(email.value)) {
-        // i will stimulate email verification here so that the email could be verified online
-        emailStep.style.display = 'none';
-        additionalInfo.style.display = 'block';
+        // Backend check if email exists
+        const emailValid = await checkEmailExistence(email.value);
+        console.log(emailValid);
+        if (emailValid) {
+            emailStep.style.display = 'none';
+            additionalInfo.style.display = 'block';
+        }
     }
 });
 
