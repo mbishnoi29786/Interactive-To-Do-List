@@ -16,17 +16,13 @@
             <h1>Register</h1>
             <div class="error errorRegistration" role="alert"></div>
 
-            <!-- Step 1: Email Input -->
             <div class="input-group" id="email-step">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required aria-required="true">
                 <span class="error" role="alert"></span>
             </div>
 
-            <button type="button" id="next-step">Next</button>
-
-            <!-- Step 2: Additional Info (Hidden initially) -->
-            <div id="additional-info" style="display: none;">
+            <div id="additional-info">
                 <div class="input-group" aria-labelledby="username">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required aria-required="true">
@@ -45,19 +41,6 @@
                     <span class="error" role="alert"></span>
                 </div>
 
-                <div class="input-group" aria-labelledby="phone">
-                    <label for="phone">Phone Number</label>
-                    <div class="phone-group">
-                        <select id="country-code" name="country-code" required aria-required="true">
-                            <option value="+1">+1 (USA)</option>
-                            <option value="+91">+91 (India)</option>
-                            <option value="+44">+44 (UK)</option>
-                        </select>
-                        <input type="tel" id="phone" name="phone" pattern="^[0-9]{10}$" placeholder="1234567890" required aria-required="true">
-                    </div>
-                    <span class="error" role="alert"></span>
-                </div>
-
                 <div class="password-requirements">
                     <p id="minLength" class="requirement">At least 8 characters</p>
                     <p id="upperCase" class="requirement">At least one uppercase letter</p>
@@ -66,7 +49,7 @@
                     <p id="specialChar" class="requirement">At least one special character</p>
                 </div>
 
-                <button type="submit">Register</button>
+                <button type="submit" id="register-user">Register</button>
                 <a href="./login.html">Existing User? Login Here...</a>
             </div>
         </form>
