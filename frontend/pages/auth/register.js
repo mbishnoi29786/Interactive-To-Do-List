@@ -1,5 +1,5 @@
 import { displayError } from "../../components/shared/element-utils.js";
-import { checkEmailExists, checkUsernameExistance, debounce, validateEmailField, validateRegistrationInputs } from "../../components/shared/login-register-utils.js";
+import { checkEmailExists, checkUsernameExistance, debounce, registerUser, validateEmailField, validateRegistrationInputs } from "../../components/shared/login-register-utils.js";
 
 const username = document.querySelector('#username');
 const email = document.querySelector('#email');
@@ -7,33 +7,15 @@ const phone = document.querySelector('#phone');
 const password = document.querySelector('#password');
 const cpassword = document.querySelector('#cpassword');
 const registerForm = document.getElementById('form');
-const registerUser = document.getElementById('register-user');
+const registerUserBtn = document.getElementById('register-user');
+const userRegistrationError = document.querySelector('.errorRegistration')
 
 
 // Added event listener to email input field
-email.addEventListener('input', debounce(checkEmailExists, 1000));  // 1 second debounce
+email.addEventListener('input', debounce(() => checkEmailExists(email), 1000));  // 1 second debounce
 
 // Added event listener to username input field
-username.addEventListener('input', debounce(checkUsernameExistance, 1000)) // 1 second debounce
-
-registerUser.addEventListener('click', async (event) => {
-    event.preventDefault();  // Prevent form submission
-
-        // Proceed with the registration logic
-        const formValues = {
-            username: username.value.trim(),
-            email: email.value.trim(),
-            password: password.value.trim(),
-            cpassword: cpassword.value.trim(),
-        };
-
-        // Validate other fields and submit if valid
-        if (validateRegistrationInputs(formValues)) {
-            console.log("Form is valid. Submitting...");
-            // Submit form or handle submission logic here
-        }
-    });
-
+username.addEventListener('input', debounce(() => checkUsernameExistance(username), 1000)) // 1 second debounce
 
 // Password validation requirements
 const requirements = {
@@ -55,19 +37,28 @@ function validatePassword() {
 
 password.addEventListener("input", validatePassword);
 
-registerForm.addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent default form submission
+registerUserBtn.addEventListener('click', async (event) => {
+    event.preventDefault();  // Prevent form submission
 
-    const isValid = validateRegistrationInputs();
+        // Proceed with the registration logic
+        const formValues = {
+            username: username.value.trim(),
+            email: email.value.trim(),
+            password: password.value.trim(),
+            cpassword: cpassword.value.trim(),
+        };
 
-    // Only submit the form if all validations pass
-    if (isValid) {
-        
-        console.log("Form is valid. Submitting...");
-        registerForm.submit(); // or handle your submission logic
-    }
-});
-
+        // Validate other fields and submit if valid
+        if (validateRegistrationInputs(formValues)) {
+            console.log("Form is valid. Submitting...");
+            const userRegistered = registerUser(email, username, password, cpassword,userRegistrationError);
+            if (!userRegistered)
+            {
+                displayError(userRegistrationError, userRegistered.error);
+            }
+            console.log('running');
+        }
+    });
 
 
 

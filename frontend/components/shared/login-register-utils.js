@@ -10,8 +10,8 @@ export function debounce(func, wait) {
 }
 
 // Function to check if the email exists
-export async function checkEmailExists() {
-    const emailValue = email.value.trim();
+export async function checkEmailExists(emailField) {
+    const emailValue = emailField.value.trim();
     
     if (emailValue) {
         try {
@@ -24,10 +24,10 @@ export async function checkEmailExists() {
             const data = await response.json();
             if (response.ok) {
                 // No user with that email exists
-                clearError(email);
+                clearError(emailField);
             } else {
                 // Email already exists
-                displayError(email, data.error);
+                displayError(emailField, data.error);
             }
         } catch (error) {
             console.error('Error checking email existence:', error);
@@ -35,10 +35,10 @@ export async function checkEmailExists() {
     }
 }
 
-export async function checkUsernameExistance(params) {
-    const usernameValue = username.value.trim();
+export async function checkUsernameExistance(usernameField) {
+    const usernameValue = usernameField.value.trim();
 
-    if (username)
+    if (usernameValue)
     {
         try {
             const response = await fetch('http://localhost:5500/api/auth/checkUsernameExistence', {
@@ -50,13 +50,47 @@ export async function checkUsernameExistance(params) {
             const data = await response.json();
             if (response.ok) {
                 // No user with that username exists
-                clearError(username);
+                clearError(usernameField);
             } else {
                 // Username already exists
-                displayError(username, data.error);
+                displayError(usernameField, data.error);
             }
         } catch (error) {
-            
+            displayError(usernameField)
+        }
+    }
+}
+
+export async function registerUser(emailField, usernameField, passwordField, cpasswordField, userRegistrationErrorField) {
+    const email = emailField.value.trim();
+    const username = usernameField.value.trim();
+    const password = passwordField.value.trim();
+    const cpassword = cpasswordField.value.trim();
+
+    if (email && username && password && cpassword)
+    {
+        try {
+            const response = await fetch('http://localhost:5500/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username , email: email, password : password, cpassword : cpassword})
+            });
+
+            const data = await response.json();
+            console.log(data);
+            if (response.ok) {
+                clearError(emailField);
+                clearError(usernameField);
+                clearError(passwordField);
+                clearError(cpasswordField)
+                displayError(userRegistrationErrorField, data.message)
+                return true;
+            } else {
+                // Username already exists
+                displayError(userRegistrationErrorField, data.error);
+            }
+        } catch (error) {
+            displayError(userRegistrationErrorField, error);
         }
     }
 }
@@ -92,7 +126,6 @@ export function validateEmailField(emailVal) {
 }
 
 function validatePasswordField(passwordVal, cpasswordVal) {
-    console.log(`Uppercase: ${/[A-Z]/.test(passwordVal)}, Lowercase: ${/[a-z]/.test(passwordVal)}, Number: ${/[0-9]/.test(passwordVal)}, Special Charcter: ${/[^A-Za-z0-9]/.test(passwordVal)}`);
     
     if (isEmpty(passwordVal)) {
         displayError(password, 'Password is required');
