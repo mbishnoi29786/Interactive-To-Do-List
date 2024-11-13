@@ -49,15 +49,26 @@ registerUserBtn.addEventListener('click', async (event) => {
         };
 
         // Validate other fields and submit if valid
-        if (validateRegistrationInputs(formValues)) {
-            console.log("Form is valid. Submitting...");
-            const userRegistered = registerUser(email, username, password, cpassword,userRegistrationError);
-            if (!userRegistered)
-            {
-                displayError(userRegistrationError, userRegistered.error);
+    if (validateRegistrationInputs(formValues)) {
+        
+        // Await the result of registerUser and handle the promise
+        try {
+            const userRegistered = await registerUser(email, username, password, cpassword, userRegistrationError);
+            console.log(userRegistered);
+            
+            if (userRegistered) {
+                console.log('User registered successfully');
+                console.log("Form is valid. Submitting...");
+            } else {
+                console.log('User registration failed');
             }
-            console.log('running');
+        } catch (error) {
+            console.error('Error during registration:', error);
+            displayError(userRegistrationError, 'Registration failed. Please try again.');
         }
+    } else {
+        console.log("Form validation failed.");
+    }
     });
 
 
